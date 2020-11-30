@@ -9,8 +9,7 @@ const createUser = ({ email, password }) => {
     validationErrors.push(validationError("password", "password is too short"));
   if (!isLength(password, { max: 128 }))
     validationErrors.push(validationError("password", "password is too long"));
-  if (validationErrors.length)
-    throw new UserInputError("Validation Error", { invalidArgs: validationErrors });
+  if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
 module.exports = createUser;
