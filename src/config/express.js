@@ -1,16 +1,19 @@
 const compression = require("compression");
-const cors = require("cors");
-const errorHandler = require("errorhandler");
 const express = require("express");
 const rateLimit = require("express-rate-limit");
+const passport = require("passport");
+const strategies = require("./passport");
+const { authenticate } = require("../middlewares/auth");
 const apolloServer = require("../apollo/server");
+const { windowMs, max } = require("./globals");
 
 const app = express();
 
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
-app.use(cors());
+app.use(rateLimit({ windowMs, max }));
 app.use(compression());
+app.use(passport.initialize());
+passport.use("jwt", strategies.jwt);
+app.use("/graphql", authenticate);
 apolloServer.applyMiddleware({ app });
-app.use(errorHandler());
 
 module.exports = app;

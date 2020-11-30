@@ -1,9 +1,9 @@
 const http = require("http");
 const app = require("../config/express");
 const mongoose = require("../config/mongoose.js");
-const PORT = 4000;
+const { port } = require("../config/globals");
 
-app.set("port", PORT);
+app.set("port", port);
 
 mongoose.connect();
 
@@ -13,7 +13,7 @@ function onError(error) {
   if (error.syscall !== "listen") {
     throw error;
   }
-  const bind = typeof PORT === "string" ? `Pipe ${PORT}` : `Port ${PORT}`;
+  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
   switch (error.code) {
     case "EACCES":
       console.error(`${bind} requires elevated privileges`);
@@ -34,6 +34,6 @@ function onListening() {
   console.info(`Listening on ${bind} in ${app.get("env")} mode`);
 }
 
-server.listen(PORT);
+server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);

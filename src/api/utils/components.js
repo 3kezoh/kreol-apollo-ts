@@ -1,6 +1,8 @@
 const { gql, makeExecutableSchema } = require("apollo-server-express");
 const merge = require("deepmerge");
 
+const directives = require("../../directives");
+
 const globalTypeDefs = gql`
   type Query
   type Mutation
@@ -9,6 +11,12 @@ const globalTypeDefs = gql`
 const makeExecutableSchemaFromComponents = ({ components }) => {
   let typeDefs = [globalTypeDefs];
   let resolvers = {};
+  let schemaDirectives = {};
+
+  directives.forEach((directive) => {
+    typeDefs = [...typeDefs, ...directive.typeDefs];
+    schemaDirectives = Object.assign(schemaDirectives, directive.schema);
+  });
 
   components.forEach((component) => {
     typeDefs = [...typeDefs, ...component.typeDefs];
@@ -18,6 +26,7 @@ const makeExecutableSchemaFromComponents = ({ components }) => {
   return makeExecutableSchema({
     typeDefs,
     resolvers,
+    schemaDirectives,
   });
 };
 

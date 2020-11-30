@@ -4,3 +4,5 @@ node_modules
 # editor
 .vscode
 
+# secrets
+.env

@@ -4,18 +4,17 @@ const typeDefs = gql`
   type User {
     id: ID!
     email: String!
-    password: String!
   }
 
   extend type Query {
     user(id: ID!): User
-    users: [User]
+    users: [User] @isAuthenticated
   }
 
   extend type Mutation {
     createUser(email: String!, password: String!): User
     updateUser(id: ID!, email: String!): User
-    deleteUser(id: ID!): User!
+    deleteUser(id: ID!): User
   }
 `;
 

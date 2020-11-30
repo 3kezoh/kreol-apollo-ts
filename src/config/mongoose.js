@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { mongo } = require("./globals");
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
@@ -13,7 +14,7 @@ mongoose.connection.on("error", (err) => {
 });
 
 exports.connect = async () => {
-  await mongoose.connect("mongodb://localhost:27017/apollo-authentication-test");
+  await mongoose.connect(mongo.uri);
   console.info(`MongoDB connected`);
   return mongoose.connection;
 };
