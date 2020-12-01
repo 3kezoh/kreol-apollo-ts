@@ -13,6 +13,10 @@ if (fs.existsSync(".env")) {
 
 module.exports = {
   env: process.env.NODE_ENV,
+  google: {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
   port: process.env.PORT,
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiration: parseInt(process.env.JWT_EXPIRATION, 10),

@@ -5,9 +5,18 @@ const typeDefs = gql`
     me: User
   }
 
+  input AuthInput {
+    email: String!
+    password: String!
+  }
+
+  type AuthResponse {
+    token: String
+  }
+
   extend type Mutation {
-    login(email: String!, password: String!): String
-    signup(email: String!, password: String!): String
+    login(input: AuthInput): AuthResponse
+    signup(input: AuthInput): AuthResponse
   }
 `;
 

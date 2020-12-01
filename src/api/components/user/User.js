@@ -8,16 +8,20 @@ const userSchema = new Schema(
     email: {
       type: String,
       match: /^\S+@\S+\.\S+$/,
-      required: true,
       unique: true,
       trim: true,
       lowercase: true,
     },
     password: {
       type: String,
-      required: true,
       minlength: 8,
       maxlength: 128,
+    },
+    social: {
+      google: {
+        id: String,
+        token: String,
+      },
     },
   },
   { timestamps: true }
@@ -36,16 +40,15 @@ userSchema.pre("save", async function save(next) {
   }
 });
 
-userSchema.method({
-  token() {
-    const payload = { sub: this._id };
-    const jwtOptions = { expiresIn: jwtExpiration };
-    return sign(payload, jwtSecret, jwtOptions);
-  },
-  async passwordMatches(candidatePassword) {
-    return compare(candidatePassword, this.password);
-  },
-});
+userSchema.methods.token = function () {
+  const payload = { sub: this._id };
+  const jwtOptions = { expiresIn: jwtExpiration };
+  return sign(payload, jwtSecret, jwtOptions);
+};
+
+userSchema.methods.passwordMatches = async function (candidatePassword) {
+  return compare(candidatePassword, this.password);
+};
 
 const User = model("User", userSchema);
 

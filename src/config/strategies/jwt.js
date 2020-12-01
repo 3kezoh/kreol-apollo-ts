@@ -1,8 +1,8 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-const { jwtSecret } = require("./globals");
-const User = require("../api/components/user/User");
+const User = require("../../api/components/user/User");
+const { jwtSecret } = require("../globals");
 
-const jwtOptions = {
+const options = {
   secretOrKey: jwtSecret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
@@ -17,4 +17,6 @@ const verify = async (payload, done) => {
   }
 };
 
-exports.jwt = new JwtStrategy(jwtOptions, verify);
+const jwtStrategy = new JwtStrategy(options, verify);
+
+module.exports = jwtStrategy;
