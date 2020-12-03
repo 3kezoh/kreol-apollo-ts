@@ -9,7 +9,7 @@ const callback = passport.authenticate("google", { session: false });
 
 const success = (req, res) => {
   const token = req.user.token();
-  res.json({ token });
+  res.status(201).cookie("token", token, { expires: 0 }).redirect("http://localhost:3000/login");
 };
 
 module.exports = { authenticate, callback, success };

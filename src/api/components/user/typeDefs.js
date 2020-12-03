@@ -8,7 +8,7 @@ const typeDefs = gql`
 
   extend type Query {
     user(id: ID!): User
-    users: [User] @isAuthenticated
+    users: [User]
   }
 
   extend type Mutation {

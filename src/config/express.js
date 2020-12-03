@@ -1,3 +1,4 @@
+const cors = require("cors");
 const compression = require("compression");
 const express = require("express");
 const errorHandler = require("errorhandler");
@@ -10,6 +11,7 @@ const { windowMs, max } = require("./globals");
 
 const app = express();
 
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
 app.use(rateLimit({ windowMs, max }));
 app.use(compression());
 app.use(passport.initialize());
