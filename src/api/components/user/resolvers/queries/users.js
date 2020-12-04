@@ -1,7 +1,7 @@
 const User = require("../../User");
 
 const users = async () => {
-  return await User.find();
+  return User.find();
 };
 
 module.exports = users;

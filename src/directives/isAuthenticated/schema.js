@@ -1,3 +1,6 @@
+/* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
 const { SchemaDirectiveVisitor, AuthenticationError } = require("apollo-server-express");
 const { defaultFieldResolver } = require("graphql");
 
