@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const { Schema, model } = require("mongoose");
 
 const definitionSchema = new Schema(
@@ -27,21 +28,19 @@ const definitionSchema = new Schema(
       type: Number,
       default: 0,
     },
-    votes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Vote",
-      },
-    ],
   },
   { timestamps: true }
 );
 
 definitionSchema.set("toObject", { versionKey: false });
 
-definitionSchema.methods.token = function () {};
+definitionSchema.methods.upvote = function () {
+  console.log("upvote");
+};
 
-definitionSchema.methods.passwordMatches = async function () {};
+definitionSchema.methods.downvote = function () {
+  console.log("downvote");
+};
 
 const Definition = model("Definition", definitionSchema);
 

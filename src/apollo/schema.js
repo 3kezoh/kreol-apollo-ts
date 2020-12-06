@@ -3,6 +3,7 @@ const merge = require("deepmerge");
 
 const directives = require("../directives");
 const components = require("../api/components");
+const scalars = require("../scalars");
 
 const globalTypeDefs = gql`
   type Query
@@ -16,6 +17,11 @@ let schemaDirectives = {};
 directives.forEach((directive) => {
   typeDefs = [...typeDefs, ...directive.typeDefs];
   schemaDirectives = Object.assign(schemaDirectives, directive.schema);
+});
+
+scalars.forEach((scalar) => {
+  typeDefs = [...typeDefs, ...scalar.typeDefs];
+  resolvers = merge(resolvers, scalar.resolvers);
 });
 
 components.forEach((component) => {

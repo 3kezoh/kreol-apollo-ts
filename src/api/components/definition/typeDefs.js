@@ -12,7 +12,7 @@ const typeDefs = gql`
 
   extend type Query {
     definition(id: ID!): Definition
-    definitions: [Definition]
+    definitions(author: ID): [Definition]
   }
 
   extend type Mutation {
