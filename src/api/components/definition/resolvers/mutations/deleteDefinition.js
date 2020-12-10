@@ -1,6 +1,6 @@
 const { ApolloError } = require("apollo-server-express");
 const Definition = require("../../Definition");
-const { deleteDefinition: validate } = require("../../validations");
+const { deleteDefinition: validate } = require("../../validations/mutations");
 
 const deleteDefinition = async (_, { id }) => {
   validate({ id });

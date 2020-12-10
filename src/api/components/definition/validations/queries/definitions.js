@@ -1,6 +1,6 @@
-import { UserInputError } from "apollo-server-express";
-import { isValidObjectId } from "mongoose";
-import validationError from "../../../../utils/ValidationError";
+const { UserInputError } = require("apollo-server-express");
+const { isValidObjectId } = require("mongoose");
+const validationError = require("../../../../utils/ValidationError");
 
 const definitions = ({ filter }) => {
   const { author } = filter;
@@ -9,4 +9,4 @@ const definitions = ({ filter }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-export default definitions;
+module.exports = definitions;

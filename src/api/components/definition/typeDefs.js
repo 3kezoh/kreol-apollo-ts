@@ -10,9 +10,14 @@ const typeDefs = gql`
     score: Int
   }
 
+  input Filter {
+    author: ID
+    word: String
+  }
+
   extend type Query {
     definition(id: ID!): Definition
-    definitions(author: ID, page: Int): [Definition]
+    definitions(filter: Filter, page: Int): [Definition]
     search(match: String, page: Int): [Definition]
   }
 

@@ -1,6 +1,6 @@
-import { UserInputError } from "apollo-server-express";
-import { isEmpty, isLength } from "validator";
-import validationError from "../../../../utils/ValidationError";
+const { UserInputError } = require("apollo-server-express");
+const { isEmpty, isLength } = require("validator");
+const validationError = require("../../../../utils/ValidationError");
 
 const createDefinition = ({ word, meaning, example }) => {
   const validationErrors = [];
@@ -13,4 +13,4 @@ const createDefinition = ({ word, meaning, example }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-export default createDefinition;
+module.exports = createDefinition;

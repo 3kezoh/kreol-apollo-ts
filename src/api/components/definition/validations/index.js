@@ -1,5 +1,4 @@
-const createDefinition = require("./createDefinition");
-const updateDefinition = require("./updateDefinition");
-const deleteDefinition = require("./deleteDefinition");
+const mutations = require("./mutations");
+const queries = require("./queries");
 
-module.exports = { createDefinition, updateDefinition, deleteDefinition };
+module.exports = { mutations, queries };

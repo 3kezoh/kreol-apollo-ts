@@ -1,5 +1,5 @@
 const Definition = require("../../Definition");
-const { createDefinition: validate } = require("../../validations");
+const { createDefinition: validate } = require("../../validations/mutations");
 
 const createDefinition = async (_, { word, meaning, example }, { user: author }) => {
   validate({ word, meaning, example });

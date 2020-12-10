@@ -1,6 +1,6 @@
-import { UserInputError } from "apollo-server-express";
-import { isValidObjectId } from "mongoose";
-import validationError from "../../../../utils/ValidationError";
+const { UserInputError } = require("apollo-server-express");
+const { isValidObjectId } = require("mongoose");
+const validationError = require("../../../../utils/ValidationError");
 
 const updateDefinition = ({ id }) => {
   const validationErrors = [];
@@ -8,4 +8,4 @@ const updateDefinition = ({ id }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-export default updateDefinition;
+module.exports = updateDefinition;

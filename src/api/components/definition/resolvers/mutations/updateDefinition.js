@@ -1,6 +1,6 @@
 const { ApolloError } = require("apollo-server-express");
 const Definition = require("../../Definition");
-const { updateDefinition: validate } = require("../../validations");
+const { updateDefinition: validate } = require("../../validations/mutations");
 
 const updateDefinition = async (_, { id, word, meaning, example }) => {
   validate({ id, meaning, example });
