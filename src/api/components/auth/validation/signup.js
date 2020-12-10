@@ -1,6 +1,6 @@
 const { UserInputError } = require("apollo-server-express");
 const { isEmail, isLength } = require("validator");
-const validationError = require("../../../utils/ValidationError");
+const { validationError } = require("../../../utils");
 
 const signup = ({ email, password, confirmPassword }) => {
   const validationErrors = [];

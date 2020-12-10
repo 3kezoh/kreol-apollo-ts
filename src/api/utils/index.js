@@ -1,4 +1,6 @@
-const has = require("./has");
+const components = require("./components");
 const escapeRegExp = require("./escapeRegExp");
+const has = require("./has");
+const validationError = require("./validationError");
 
-module.exports = { has, escapeRegExp };
+module.exports = { components, has, escapeRegExp, validationError };

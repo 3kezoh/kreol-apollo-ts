@@ -1,6 +1,6 @@
 const { UserInputError } = require("apollo-server-express");
 const { isEmpty, isLength } = require("validator");
-const validationError = require("../../../../utils/ValidationError");
+const { validationError } = require("../../../../utils");
 
 const createDefinition = ({ word, meaning, example }) => {
   const validationErrors = [];
