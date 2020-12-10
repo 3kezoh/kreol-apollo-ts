@@ -1,6 +1,6 @@
 const { ApolloError } = require("apollo-server-express");
 const Vote = require("../../Vote");
-const Definition = require("../../../definition/Definition");
+const { Definition } = require("../../../definition");
 const { vote: validate } = require("../../validations/mutations");
 
 const vote = async (_, { definition: id, action }, { user: voter }) => {
