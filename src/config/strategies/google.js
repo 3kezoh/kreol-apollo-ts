@@ -1,5 +1,5 @@
 const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
-const User = require("../../api/components/user/User");
+const { User } = require("../../api/components/user");
 const { google } = require("../globals");
 
 const { clientID, clientSecret } = google;

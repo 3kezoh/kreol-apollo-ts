@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const User = require("../../../user/User");
+const { User } = require("../../../user");
 const { signup: validate } = require("../../validation");
 
 const signup = async (_parent, { email, password, confirmPassword }) => {

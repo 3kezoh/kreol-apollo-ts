@@ -1,5 +1,5 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-const User = require("../../api/components/user/User");
+const { User } = require("../../api/components/user");
 const { jwtSecret } = require("../globals");
 
 const options = {
