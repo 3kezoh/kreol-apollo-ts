@@ -9,7 +9,7 @@ const definitions = async (_, { filter, page = 1 }) => {
   const conditions = { ...(filter || {}) };
   if (has(conditions, "word")) conditions.word = escapeRegExp(conditions.word);
   return Definition.find(conditions)
-    .sort("-score createAt")
+    .sort("-score createdAt")
     .skip((page - 1) * DEFINITIONS_PER_PAGE)
     .limit(DEFINITIONS_PER_PAGE)
     .populate("author");

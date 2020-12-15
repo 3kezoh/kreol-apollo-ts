@@ -1,3 +1,6 @@
 {
-  "ignore": [".git", "node_modules", "package.json", "test"]
+  "ignore": [".git", "node_modules", "package.json", "test"],
+  "env": {
+    "NODE_ENV": "development"
+  }
 }
