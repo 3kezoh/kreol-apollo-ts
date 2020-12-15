@@ -17,6 +17,12 @@ const userSchema = new Schema(
       minlength: 8,
       maxlength: 128,
     },
+    name: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 128,
+    },
     social: {
       google: {
         id: String,

@@ -13,7 +13,7 @@ const typeDefs = gql`
 
   extend type Mutation {
     login(email: String!, password: String!): AuthResponse
-    signup(email: String!, password: String!, confirmPassword: String!): AuthResponse
+    signup(email: String!, password: String!, confirmPassword: String!, name: String!): AuthResponse
   }
 `;
 

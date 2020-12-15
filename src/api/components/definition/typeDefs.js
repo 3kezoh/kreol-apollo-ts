@@ -7,7 +7,8 @@ const typeDefs = gql`
     meaning: String!
     example: String
     author: User!
-    score: Int
+    score: Int!
+    createdAt: Date!
   }
 
   input Filter {
