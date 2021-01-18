@@ -24,6 +24,8 @@ const vote = async (_, { definition: id, action }, { user: voter }) => {
 
   if (vote) vote = await vote.populate("voter definition");
 
+  if (!action && hasVoted) vote.action = 0;
+
   return vote;
 };
 
