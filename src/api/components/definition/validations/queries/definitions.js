@@ -1,12 +1,15 @@
 const { UserInputError } = require("apollo-server-express");
-const { isValidObjectId } = require("mongoose");
+const { isLength } = require("validator");
 const { validationError } = require("../../../../utils");
 
 const definitions = ({ filter }) => {
   const { author } = filter;
   const validationErrors = [];
-  if (!isValidObjectId(author)) validationErrors.push(validationError("author", "id is invalid"));
-  // if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
+  if (!isLength(author, { min: 2 }))
+    validationErrors.push(validationError("author", "author name is too short"));
+  if (!isLength(author, { max: 128 }))
+    validationErrors.push(validationError("author", "author name is too long"));
+  if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
 module.exports = definitions;

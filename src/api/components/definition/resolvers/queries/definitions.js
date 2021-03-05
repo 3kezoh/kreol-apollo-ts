@@ -7,7 +7,7 @@ const { has, escapeRegExp } = require("../../../../utils");
 const DEFINITIONS_PER_PAGE = 5;
 
 const definitions = async (_, { filter, page = 1 }) => {
-  // if (filter) validate({ filter });
+  if (has(filter, "author")) validate({ filter });
   const conditions = { ...(filter || {}) };
 
   const hasWord = has(conditions, "word");
@@ -17,7 +17,6 @@ const definitions = async (_, { filter, page = 1 }) => {
   if (hasAuthor) {
     const user = await User.findOne({ name: conditions.author });
     if (!user) throw new ApolloError("User Not Found");
-    console.log(user);
     conditions.author = user.id;
   }
 
