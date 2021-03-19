@@ -19,6 +19,11 @@ const definitionSchema = new Schema(
       trim: true,
       maxlength: 500,
     },
+    language: {
+      type: String,
+      default: "fr",
+      enum: ["fr", "gy"],
+    },
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",

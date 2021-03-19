@@ -6,6 +6,7 @@ const typeDefs = gql`
     word: String!
     meaning: String!
     example: String
+    language: String!
     author: User!
     score: Int!
     createdAt: Date!
@@ -23,9 +24,21 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createDefinition(word: String!, meaning: String!, example: String): Definition @isAuthenticated
-    updateDefinition(id: ID!, word: String, meaning: String, example: String): Definition
-      @isAuthenticated
+    createDefinition(
+      word: String!
+      meaning: String!
+      example: String
+      language: String!
+    ): Definition @isAuthenticated
+
+    updateDefinition(
+      id: ID!
+      word: String
+      meaning: String
+      example: String
+      language: String
+    ): Definition @isAuthenticated
+
     deleteDefinition(id: ID!): Definition @isAuthenticated
   }
 `;
