@@ -22,7 +22,7 @@ const definitionSchema = new Schema(
     language: {
       type: String,
       default: "fr",
-      enum: ["fr", "gy"],
+      enum: ["fr", "gf"],
     },
     author: {
       type: Schema.Types.ObjectId,

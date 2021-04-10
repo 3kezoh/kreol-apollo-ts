@@ -9,6 +9,7 @@ const typeDefs = gql`
   }
 
   extend type Query {
+    report(definition: ID!): Report @isAuthenticated
     reports(definition: ID!): [Report] @isAuthenticated
   }
 
