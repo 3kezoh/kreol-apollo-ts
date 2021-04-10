@@ -11,17 +11,20 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      required: true,
     },
     password: {
       type: String,
       minlength: 8,
       maxlength: 128,
+      required: true,
     },
     name: {
       type: String,
-      required: true,
+      unique: true,
       minlength: 2,
       maxlength: 128,
+      required: true,
     },
     social: {
       google: {
