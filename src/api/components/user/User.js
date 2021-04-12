@@ -50,7 +50,7 @@ userSchema.pre("save", async function save(next) {
 });
 
 userSchema.methods.token = function () {
-  const payload = { sub: this._id };
+  const payload = { sub: this._id, name: this.name };
   const jwtOptions = { expiresIn: jwtExpiration };
   return sign(payload, jwtSecret, jwtOptions);
 };
