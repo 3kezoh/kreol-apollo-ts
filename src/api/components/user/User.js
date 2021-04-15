@@ -49,13 +49,13 @@ userSchema.pre("save", async function save(next) {
   }
 });
 
-userSchema.methods.token = function () {
+userSchema.methods.token = function token() {
   const payload = { sub: this._id, name: this.name };
   const jwtOptions = { expiresIn: jwtExpiration };
   return sign(payload, jwtSecret, jwtOptions);
 };
 
-userSchema.methods.passwordMatches = async function (candidatePassword) {
+userSchema.methods.passwordMatches = async function passwordMatches(candidatePassword) {
   return compare(candidatePassword, this.password);
 };
 
