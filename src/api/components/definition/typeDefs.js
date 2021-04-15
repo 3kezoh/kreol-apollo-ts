@@ -13,7 +13,7 @@ const typeDefs = gql`
   }
 
   input Filter {
-    author: String
+    author: ID
     word: String
   }
 

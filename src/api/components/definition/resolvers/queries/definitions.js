@@ -15,9 +15,8 @@ const definitions = async (_, { filter, page = 1 }) => {
 
   const hasAuthor = has(conditions, "author");
   if (hasAuthor) {
-    const user = await User.findOne({ name: conditions.author });
+    const user = await User.findById(conditions.author);
     if (!user) throw new ApolloError("User Not Found");
-    conditions.author = user.id;
   }
 
   return Definition.find(conditions)
