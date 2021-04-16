@@ -15,6 +15,7 @@ const typeDefs = gql`
   input Filter {
     author: ID
     word: String
+    letter: String
   }
 
   extend type Query {

@@ -3,9 +3,12 @@ const { isValidObjectId } = require("mongoose");
 const { validationError } = require("../../../../utils");
 
 const definitions = ({ filter }) => {
-  const { author } = filter;
+  const { author, letter } = filter;
   const validationErrors = [];
-  if (!isValidObjectId(author)) validationErrors.push(validationError("Author Id is invalid"));
+  if (author && !isValidObjectId(author))
+    validationErrors.push(validationError("Author Id is invalid"));
+  if (letter && ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter))
+    validationErrors.push(validationError("Letter is incorrect"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 

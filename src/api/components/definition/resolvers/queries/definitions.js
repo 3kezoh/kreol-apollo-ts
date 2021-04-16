@@ -6,8 +6,16 @@ const { has, escapeRegExp } = require("../../../../utils");
 
 const DEFINITIONS_PER_PAGE = 5;
 
+const getDefinitionsByLetter = ({ letter, page }) => {
+  return Definition.find({ word: new RegExp(`^${letter}`, "i") })
+    .sort("-score createdAt")
+    .skip((page - 1) * DEFINITIONS_PER_PAGE)
+    .limit(DEFINITIONS_PER_PAGE)
+    .populate("author");
+};
+
 const definitions = async (_, { filter, page = 1 }) => {
-  if (has(filter, "author")) validate({ filter });
+  validate({ filter });
   const conditions = { ...(filter || {}) };
 
   const hasWord = has(conditions, "word");
@@ -18,6 +26,9 @@ const definitions = async (_, { filter, page = 1 }) => {
     const user = await User.findById(conditions.author);
     if (!user) throw new ApolloError("User Not Found");
   }
+
+  const hasLetter = has(conditions, "letter");
+  if (hasLetter) return getDefinitionsByLetter({ letter: conditions.letter, page });
 
   return Definition.find(conditions)
     .sort(hasWord ? "-score createdAt" : "-createdAt")
