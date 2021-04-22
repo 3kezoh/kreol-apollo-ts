@@ -4,21 +4,12 @@ const { User } = require("../../../user");
 const { definitions: validate } = require("../../validations/queries");
 const { has, escapeRegExp } = require("../../../../utils");
 
-const DEFINITIONS_PER_PAGE = 5;
-
-const getDefinitionsByLetter = async ({ letter, page }) => {
+const getCountByLetter = async ({ letter }) => {
   const filter = { word: new RegExp(`^${letter}`, "i") };
-
-  const definitions = await Definition.find(filter)
-    .sort("-score createdAt")
-    .skip((page - 1) * DEFINITIONS_PER_PAGE)
-    .limit(DEFINITIONS_PER_PAGE)
-    .populate("author");
-
-  return definitions;
+  return Definition.countDocuments(filter);
 };
 
-const definitions = async (_, { filter: _filter = {}, page = 1 }) => {
+const count = async (_, { filter: _filter = {} }) => {
   validate({ filter: _filter });
   const filter = { ...(_filter || {}) };
 
@@ -32,15 +23,9 @@ const definitions = async (_, { filter: _filter = {}, page = 1 }) => {
   }
 
   const hasLetter = has(filter, "letter");
-  if (hasLetter) return getDefinitionsByLetter({ letter: filter.letter, page });
+  if (hasLetter) return getCountByLetter({ letter: filter.letter });
 
-  const definitions = await Definition.find(filter)
-    .sort(hasWord ? "-score createdAt" : "-createdAt")
-    .skip((page - 1) * DEFINITIONS_PER_PAGE)
-    .limit(DEFINITIONS_PER_PAGE)
-    .populate("author");
-
-  return definitions;
+  return Definition.countDocuments(filter);
 };
 
-module.exports = definitions;
+module.exports = count;

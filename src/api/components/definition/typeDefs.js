@@ -21,6 +21,7 @@ const typeDefs = gql`
   extend type Query {
     definition(id: ID!): Definition
     definitions(filter: Filter, page: Int): [Definition]
+    count(filter: Filter): Int
     search(match: String, page: Int): [Definition]
   }
 
