@@ -6,19 +6,19 @@ const { has, escapeRegExp } = require("../../../../utils");
 
 const DEFINITIONS_PER_PAGE = 5;
 
-const getDefinitionsByLetter = async ({ letter, page }) => {
+const getDefinitionsByLetter = async ({ letter, page, limit }) => {
   const filter = { word: new RegExp(`^${letter}`, "i") };
 
   const definitions = await Definition.find(filter)
     .sort("-score createdAt")
-    .skip((page - 1) * DEFINITIONS_PER_PAGE)
-    .limit(DEFINITIONS_PER_PAGE)
+    .skip((page - 1) * limit)
+    .limit(limit)
     .populate("author");
 
   return definitions;
 };
 
-const definitions = async (_, { filter: _filter = {}, page = 1 }) => {
+const definitions = async (_, { filter: _filter = {}, page = 1, limit = DEFINITIONS_PER_PAGE }) => {
   validate({ filter: _filter });
   const filter = { ...(_filter || {}) };
 
@@ -36,8 +36,8 @@ const definitions = async (_, { filter: _filter = {}, page = 1 }) => {
 
   const definitions = await Definition.find(filter)
     .sort(hasWord ? "-score createdAt" : "-createdAt")
-    .skip((page - 1) * DEFINITIONS_PER_PAGE)
-    .limit(DEFINITIONS_PER_PAGE)
+    .skip((page - 1) * limit)
+    .limit(limit)
     .populate("author");
 
   return definitions;
