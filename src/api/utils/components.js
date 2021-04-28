@@ -1,7 +1,7 @@
 const { gql, makeExecutableSchema } = require("apollo-server-express");
 const merge = require("deepmerge");
 
-const directives = require("../../directives");
+const directives = require("@directives");
 
 const globalTypeDefs = gql`
   type Query

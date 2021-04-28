@@ -1,5 +1,7 @@
-const User = require("../../User");
-const { createUser: validate } = require("../../validations");
+const { model } = require("mongoose");
+const { createUser: validate } = require("@User/validations/mutations");
+
+const User = model("User");
 
 const createUser = async (_parent, { email, password, name }) => {
   validate({ email, password, name });

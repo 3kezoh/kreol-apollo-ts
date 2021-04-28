@@ -1,6 +1,8 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("@Definition");
-const { deleteDefinition: validate } = require("../../validations/mutations");
+const { model } = require("mongoose");
+const { deleteDefinition: validate } = require("@Definition/validations/mutations");
+
+const Definition = model("Definition");
 
 const deleteDefinition = async (_, { id }, { user: author }) => {
   validate({ id });

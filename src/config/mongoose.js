@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { mongo } = require("./globals");
 
+require("@Definition/Definition");
+require("@Report/Report");
+require("@User/User");
+require("@Vote/Vote");
+
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useNewUrlParser", true);

@@ -1,5 +1,7 @@
+const { model } = require("mongoose");
 const { ApolloError } = require("apollo-server-express");
-const User = require("../../User");
+
+const User = model("User");
 
 const user = async (_parent, { id }) => {
   const user = await User.findById(id);

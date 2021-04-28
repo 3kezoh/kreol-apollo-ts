@@ -1,6 +1,8 @@
+const { model } = require("mongoose");
 const { ApolloError } = require("apollo-server-express");
-const { updateUser: validate } = require("../../validations");
-const User = require("../../User");
+const { updateUser: validate } = require("@User/validations/mutations");
+
+const User = model("User");
 
 const updateUser = async (_parent, { id, email, name }) => {
   validate({ id, email, name });

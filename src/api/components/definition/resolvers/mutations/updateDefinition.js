@@ -1,6 +1,8 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("@Definition");
-const { updateDefinition: validate } = require("../../validations/mutations");
+const { model } = require("mongoose");
+const { updateDefinition: validate } = require("@Definition/validations/mutations");
+
+const Definition = model("Definition");
 
 const updateDefinition = async (_, { id, word, meaning, example, language }) => {
   validate({ id, word, meaning, example, language });

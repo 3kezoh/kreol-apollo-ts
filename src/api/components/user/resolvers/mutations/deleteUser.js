@@ -1,6 +1,8 @@
+const { model } = require("mongoose");
 const { ApolloError } = require("apollo-server-express");
-const { deleteUser: validate } = require("../../validations");
-const User = require("../../User");
+const { deleteUser: validate } = require("@User/validations/mutations");
+
+const User = model("User");
 
 const deleteUser = async (_parent, { id }) => {
   validate({ id });

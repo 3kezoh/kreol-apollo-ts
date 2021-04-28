@@ -1,8 +1,10 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("@Definition");
-const User = require("@User");
-const { definitions: validate } = require("../../validations/queries");
-const { escapeRegExp } = require("../../../../utils");
+const { model } = require("mongoose");
+const { definitions: validate } = require("@Definition/validations/queries");
+const { escapeRegExp } = require("@utils");
+
+const Definition = model("Definition");
+const User = model("User");
 
 const DEFINITIONS_PER_PAGE = 5;
 

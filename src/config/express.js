@@ -4,9 +4,9 @@ const express = require("express");
 const errorHandler = require("errorhandler");
 const rateLimit = require("express-rate-limit");
 const passport = require("passport");
+const { jwt, google } = require("@middlewares/auth");
+const apolloServer = require("@@apollo/server");
 const strategies = require("./strategies");
-const { jwt, google } = require("../middlewares/auth");
-const apolloServer = require("../apollo/server");
 const { windowMs, max } = require("./globals");
 
 const app = express();

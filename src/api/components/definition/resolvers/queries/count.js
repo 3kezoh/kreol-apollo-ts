@@ -1,8 +1,10 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("@Definition");
-const { User } = require("../../../user");
-const { definitions: validate } = require("../../validations/queries");
-const { has, escapeRegExp } = require("../../../../utils");
+const { model } = require("mongoose");
+const { definitions: validate } = require("@Definition/validations/queries");
+const { has, escapeRegExp } = require("@utils");
+
+const Definition = model("Definition");
+const User = model("User");
 
 const count = async (_, { filter: _filter = {} }) => {
   validate({ filter: _filter });

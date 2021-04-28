@@ -1,7 +1,7 @@
 const { hash, compare } = require("bcryptjs");
 const { Schema, model } = require("mongoose");
 const { sign } = require("jsonwebtoken");
-const { jwtSecret, jwtExpiration } = require("../../../config/globals");
+const { jwtSecret, jwtExpiration } = require("@config/globals");
 
 const userSchema = new Schema(
   {

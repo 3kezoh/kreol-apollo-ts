@@ -1,5 +1,7 @@
-const Definition = require("../../Definition");
-const { search: validate } = require("../../validations/queries");
+const { model } = require("mongoose");
+const { search: validate } = require("@Definition/validations/queries");
+
+const Definition = model("Definition");
 
 const DEFINITIONS_PER_PAGE = 5;
 

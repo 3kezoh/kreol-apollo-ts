@@ -1,5 +1,7 @@
-const Vote = require("../../Vote");
-const { vote: validate } = require("../../validations/queries");
+const { model } = require("mongoose");
+const { vote: validate } = require("@Vote/validations/queries");
+
+const Vote = model("Vote");
 
 const vote = async (_, { definition }, { user: voter }) => {
   validate({ definition });

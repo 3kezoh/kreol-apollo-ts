@@ -1,7 +1,7 @@
 const { UserInputError } = require("apollo-server-express");
 const { isEmail, isLength } = require("validator");
 const { isValidObjectId } = require("mongoose");
-const { validationError } = require("../../../utils");
+const { validationError } = require("@utils");
 
 const updateUser = ({ id, email, name }) => {
   const validationErrors = [];

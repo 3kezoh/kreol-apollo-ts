@@ -1,5 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
-const { validationError } = require("../../../../utils");
+const { validationError } = require("@utils");
 
 const popular = ({ letter, limit }) => {
   const validationErrors = [];

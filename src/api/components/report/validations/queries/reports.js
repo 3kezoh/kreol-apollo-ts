@@ -1,6 +1,6 @@
 const { UserInputError } = require("apollo-server-express");
 const { isValidObjectId } = require("mongoose");
-const { validationError } = require("../../../../utils");
+const { validationError } = require("@utils");
 
 const reports = ({ definition }) => {
   const validationErrors = [];

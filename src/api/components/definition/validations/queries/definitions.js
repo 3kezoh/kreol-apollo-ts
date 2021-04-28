@@ -1,6 +1,6 @@
 const { UserInputError } = require("apollo-server-express");
 const { isValidObjectId } = require("mongoose");
-const { validationError } = require("../../../../utils");
+const { validationError } = require("@utils");
 
 const definitions = ({ filter, limit, page = 1 }) => {
   const { author, letter } = filter;

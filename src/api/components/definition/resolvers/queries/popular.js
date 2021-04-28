@@ -1,5 +1,7 @@
-const Definition = require("../../Definition");
-const { popular: validate } = require("../../validations/queries");
+const { model } = require("mongoose");
+const { popular: validate } = require("@Definition/validations/queries");
+
+const Definition = model("Definition");
 
 const DEFINITIONS_LIMIT = 50;
 

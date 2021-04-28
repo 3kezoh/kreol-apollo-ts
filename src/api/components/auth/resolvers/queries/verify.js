@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../../../../config/globals");
+const { jwtSecret } = require("@config/globals");
 
 const verify = (_parent, { token }) => {
   try {

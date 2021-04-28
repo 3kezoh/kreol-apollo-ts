@@ -1,6 +1,8 @@
+const { model } = require("mongoose");
 const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
-const { User } = require("../../api/components/user");
-const { google } = require("../globals");
+const { google } = require("@config/globals");
+
+const User = model("User");
 
 const { clientID, clientSecret } = google;
 

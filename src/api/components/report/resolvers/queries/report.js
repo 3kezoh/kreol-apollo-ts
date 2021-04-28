@@ -1,5 +1,7 @@
-const Report = require("../../Report");
-const { report: validate } = require("../../validations/queries");
+const { model } = require("mongoose");
+const { report: validate } = require("@Report/validations/queries");
+
+const Report = model("Report");
 
 const report = async (_, { definition }, { user: reporter }) => {
   validate({ definition });

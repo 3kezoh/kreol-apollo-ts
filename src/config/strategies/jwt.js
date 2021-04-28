@@ -1,6 +1,8 @@
+const { model } = require("mongoose");
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-const { User } = require("../../api/components/user");
-const { jwtSecret } = require("../globals");
+const { jwtSecret } = require("@config/globals");
+
+const User = model("User");
 
 const options = {
   secretOrKey: jwtSecret,

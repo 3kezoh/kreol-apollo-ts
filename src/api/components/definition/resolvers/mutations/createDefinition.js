@@ -1,5 +1,7 @@
-const Definition = require("@Definition");
-const { createDefinition: validate } = require("../../validations/mutations");
+const { model } = require("mongoose");
+const { createDefinition: validate } = require("@Definition/validations/mutations");
+
+const Definition = model("Definition");
 
 const createDefinition = async (_, { word, meaning, example, language }, { user: author }) => {
   validate({ word, meaning, example, language });

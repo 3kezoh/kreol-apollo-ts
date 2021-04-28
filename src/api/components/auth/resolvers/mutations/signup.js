@@ -1,6 +1,8 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User } = require("../../../user");
-const { signup: validate } = require("../../validation");
+const { model } = require("mongoose");
+const { signup: validate } = require("@Auth/validations/mutations");
+
+const User = model("User");
 
 const signup = async (_parent, { email, password, confirmPassword, name }) => {
   validate({ email, password, confirmPassword, name });

@@ -1,7 +1,9 @@
+const { model } = require("mongoose");
 const { ApolloError } = require("apollo-server-express");
-const Vote = require("../../Vote");
-const { Definition } = require("../../../definition");
-const { vote: validate } = require("../../validations/mutations");
+const { vote: validate } = require("@Vote/validations/mutations");
+
+const Vote = model("Vote");
+const Definition = model("Definition");
 
 const vote = async (_, { definition: id, action }, { user: voter }) => {
   validate({ definition: id, action });

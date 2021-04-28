@@ -41,7 +41,19 @@
     "nodemon": "^2.0.6"
   },
   "_moduleAliases": {
-    "@Definition": "./src/api/components/definition/Definition.js",
-    "@User": "./src/api/components/user/User.js"
+    "@api": "src/api",
+    "@components": "src/api/components",
+    "@utils": "src/api/utils",
+    "@Auth": "src/api/components/auth",
+    "@Definition": "src/api/components/definition",
+    "@Report": "src/api/components/report",
+    "@User": "src/api/components/user",
+    "@Vote": "src/api/components/vote",
+    "@@apollo": "src/apollo",
+    "@bin": "src/bin",
+    "@config": "src/config",
+    "@directives": "src/directives",
+    "@middlewares": "src/middlewares",
+    "@scalars": "src/scalars"
   }
 }
