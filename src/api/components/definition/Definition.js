@@ -39,14 +39,6 @@ const definitionSchema = new Schema(
 
 definitionSchema.set("toObject", { versionKey: false });
 
-definitionSchema.methods.upvote = function () {
-  console.log("upvote");
-};
-
-definitionSchema.methods.downvote = function () {
-  console.log("downvote");
-};
-
 const Definition = model("Definition", definitionSchema);
 
 module.exports = Definition;

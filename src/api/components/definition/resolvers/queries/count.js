@@ -1,13 +1,8 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("../../Definition");
+const Definition = require("@Definition");
 const { User } = require("../../../user");
 const { definitions: validate } = require("../../validations/queries");
 const { has, escapeRegExp } = require("../../../../utils");
-
-const getCountByLetter = async ({ letter }) => {
-  const filter = { word: new RegExp(`^${letter}`, "i") };
-  return Definition.countDocuments(filter);
-};
 
 const count = async (_, { filter: _filter = {} }) => {
   validate({ filter: _filter });
@@ -21,9 +16,6 @@ const count = async (_, { filter: _filter = {} }) => {
     const user = await User.findById(filter.author);
     if (!user) throw new ApolloError("User Not Found");
   }
-
-  const hasLetter = has(filter, "letter");
-  if (hasLetter) return getCountByLetter({ letter: filter.letter });
 
   return Definition.countDocuments(filter);
 };

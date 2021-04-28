@@ -1,4 +1,4 @@
-const Definition = require("../../Definition");
+const Definition = require("@Definition");
 const { createDefinition: validate } = require("../../validations/mutations");
 
 const createDefinition = async (_, { word, meaning, example, language }, { user: author }) => {

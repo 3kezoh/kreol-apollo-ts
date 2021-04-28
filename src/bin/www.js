@@ -1,3 +1,4 @@
+require("module-alias/register");
 const http = require("http");
 const app = require("../config/express");
 const mongoose = require("../config/mongoose.js");

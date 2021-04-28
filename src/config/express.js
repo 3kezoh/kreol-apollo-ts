@@ -11,7 +11,14 @@ const { windowMs, max } = require("./globals");
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
+const whitelist = ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: (origin, cb) => cb(null, whitelist.indexOf(origin) !== -1),
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(rateLimit({ windowMs, max }));
 app.use(compression());
 app.use(passport.initialize());

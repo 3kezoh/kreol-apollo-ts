@@ -10,12 +10,12 @@ const typeDefs = gql`
     author: User!
     score: Int!
     createdAt: Date!
+    action: Int
   }
 
   input Filter {
     author: ID
     word: String
-    letter: String
   }
 
   extend type Query {
@@ -23,7 +23,7 @@ const typeDefs = gql`
     definitions(filter: Filter, page: Int, limit: Int): [Definition]
     count(filter: Filter): Int
     search(match: String, page: Int, limit: Int): [Definition]
-    popular(letter: String): [Definition]
+    popular(letter: String, limit: Int): [Definition]
   }
 
   extend type Mutation {

@@ -1,5 +1,5 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("../../Definition");
+const Definition = require("@Definition");
 const { updateDefinition: validate } = require("../../validations/mutations");
 
 const updateDefinition = async (_, { id, word, meaning, example, language }) => {

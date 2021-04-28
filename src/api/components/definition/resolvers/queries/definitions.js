@@ -1,41 +1,54 @@
 const { ApolloError } = require("apollo-server-express");
-const Definition = require("../../Definition");
-const { User } = require("../../../user");
+const Definition = require("@Definition");
+const User = require("@User");
 const { definitions: validate } = require("../../validations/queries");
-const { has, escapeRegExp } = require("../../../../utils");
+const { escapeRegExp } = require("../../../../utils");
 
 const DEFINITIONS_PER_PAGE = 5;
 
-const getDefinitionsByLetter = async ({ letter, page, limit }) => {
-  const filter = { word: new RegExp(`^${letter}`, "i") };
+const definitions = async (_, { filter, page = 1, limit = DEFINITIONS_PER_PAGE }, { user }) => {
+  validate({ filter, page });
+  const conditions = { ...(filter || {}) };
 
-  const definitions = await Definition.find(filter)
-    .sort("-score createdAt")
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate("author");
+  if (conditions?.word) conditions.word = escapeRegExp(conditions.word);
 
-  return definitions;
-};
-
-const definitions = async (_, { filter: _filter = {}, page = 1, limit = DEFINITIONS_PER_PAGE }) => {
-  validate({ filter: _filter });
-  const filter = { ...(_filter || {}) };
-
-  const hasWord = has(filter, "word");
-  if (hasWord) filter.word = escapeRegExp(filter.word);
-
-  const hasAuthor = has(filter, "author");
-  if (hasAuthor) {
-    const user = await User.findById(filter.author);
+  if (conditions?.author) {
+    const user = await User.findById(conditions.author);
     if (!user) throw new ApolloError("User Not Found");
   }
 
-  const hasLetter = has(filter, "letter");
-  if (hasLetter) return getDefinitionsByLetter({ letter: filter.letter, page });
+  if (user && conditions?.author) {
+    const definitions = await Definition.aggregate([
+      { $sort: conditions?.word ? { score: -1, createdAt: 1 } : { createdAt: -1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
+      { $match: conditions },
+      {
+        $lookup: {
+          from: "votes",
+          let: { definitionId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [{ $eq: ["$definition", "$$definitionId"] }, { $eq: ["$voter", user._id] }],
+                },
+              },
+            },
+          ],
+          as: "vote",
+        },
+      },
+      { $set: { vote: { $first: "$vote" } } },
+      { $set: { id: "$_id", action: { $ifNull: ["$vote.action", 0] } } },
+      { $project: { vote: 0 } },
+    ]);
 
-  const definitions = await Definition.find(filter)
-    .sort(hasWord ? "-score createdAt" : "-createdAt")
+    return Definition.populate(definitions, { path: "author" });
+  }
+
+  const definitions = await Definition.find(conditions)
+    .sort(conditions?.word ? "-score createdAt" : "-createdAt")
     .skip((page - 1) * limit)
     .limit(limit)
     .populate("author");
