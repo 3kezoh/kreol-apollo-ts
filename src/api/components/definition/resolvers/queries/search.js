@@ -5,7 +5,9 @@ const Definition = model("Definition");
 
 const DEFINITIONS_PER_PAGE = 5;
 
-const search = async (_, { match, page = 1, limit = DEFINITIONS_PER_PAGE }) => {
+const search = async (_, { match, page, limit }) => {
+  page = page ?? 1;
+  limit = limit ?? DEFINITIONS_PER_PAGE;
   validate({ limit });
 
   const result = await Definition.aggregate([

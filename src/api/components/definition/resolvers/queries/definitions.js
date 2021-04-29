@@ -8,27 +8,29 @@ const User = model("User");
 
 const DEFINITIONS_PER_PAGE = 5;
 
-const definitions = async (_, { filter, page = 1, limit = DEFINITIONS_PER_PAGE }, { user }) => {
-  validate({ filter, page });
-  const conditions = { ...(filter ?? {}) };
+const definitions = async (_, { filter, page, limit }, { user }) => {
+  filter = filter ?? {};
+  page = page ?? 1;
+  limit = limit ?? DEFINITIONS_PER_PAGE;
+  validate({ filter, page, limit });
 
-  if (conditions?.word) conditions.word = escapeRegExp(conditions.word);
+  if (filter?.word) filter.word = escapeRegExp(filter.word);
 
-  if (conditions?.author) {
-    const user = await User.findById(conditions.author);
+  if (filter?.author) {
+    const user = await User.findById(filter.author);
     if (!user) throw new ApolloError("User Not Found");
-    conditions.author = user._id;
+    filter.author = user._id;
   }
 
   const aggregate = Definition.aggregate([
-    { $match: conditions },
-    { $sort: conditions?.word ? { score: -1, createdAt: 1 } : { createdAt: -1 } },
+    { $match: filter },
+    { $sort: filter?.word ? { score: -1, createdAt: 1 } : { createdAt: -1 } },
     { $skip: (page - 1) * limit },
     { $limit: limit },
     { $set: { id: "$_id" } },
   ]);
 
-  if (user && !conditions?.author) {
+  if (user && !filter?.author) {
     aggregate.append([
       {
         $lookup: {

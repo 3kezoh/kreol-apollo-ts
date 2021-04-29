@@ -5,7 +5,9 @@ const Definition = model("Definition");
 
 const DEFINITIONS_LIMIT = 50;
 
-const popular = async (_, { letter = "a", limit = DEFINITIONS_LIMIT }) => {
+const popular = async (_, { letter, limit }) => {
+  letter = letter ?? "a";
+  limit = limit ?? DEFINITIONS_LIMIT;
   validate({ letter, limit });
 
   const result = await Definition.aggregate([
