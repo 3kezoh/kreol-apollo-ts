@@ -1,25 +1,23 @@
 const { ApolloError } = require("apollo-server-express");
 const { model } = require("mongoose");
 const { definitions: validate } = require("@Definition/validations/queries");
-const { has, escapeRegExp } = require("@utils");
+const { escapeRegExp } = require("@utils");
 
 const Definition = model("Definition");
 const User = model("User");
 
-const count = async (_, { filter: _filter = {} }) => {
-  validate({ filter: _filter });
-  const filter = { ...(_filter || {}) };
+const count = async (_, { filter }) => {
+  validate({ filter });
+  const conditions = filter ?? {};
 
-  const hasWord = has(filter, "word");
-  if (hasWord) filter.word = escapeRegExp(filter.word);
+  if (conditions?.word) conditions.word = escapeRegExp(conditions.word);
 
-  const hasAuthor = has(filter, "author");
-  if (hasAuthor) {
-    const user = await User.findById(filter.author);
+  if (conditions?.author) {
+    const user = await User.findById(conditions.author);
     if (!user) throw new ApolloError("User Not Found");
   }
 
-  return Definition.countDocuments(filter);
+  return Definition.countDocuments(conditions);
 };
 
 module.exports = count;

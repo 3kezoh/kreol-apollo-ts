@@ -10,21 +10,26 @@ const DEFINITIONS_PER_PAGE = 5;
 
 const definitions = async (_, { filter, page = 1, limit = DEFINITIONS_PER_PAGE }, { user }) => {
   validate({ filter, page });
-  const conditions = { ...(filter || {}) };
+  const conditions = { ...(filter ?? {}) };
 
   if (conditions?.word) conditions.word = escapeRegExp(conditions.word);
 
   if (conditions?.author) {
     const user = await User.findById(conditions.author);
     if (!user) throw new ApolloError("User Not Found");
+    conditions.author = user._id;
   }
 
-  if (user && conditions?.author) {
-    const definitions = await Definition.aggregate([
-      { $sort: conditions?.word ? { score: -1, createdAt: 1 } : { createdAt: -1 } },
-      { $skip: (page - 1) * limit },
-      { $limit: limit },
-      { $match: conditions },
+  const aggregate = Definition.aggregate([
+    { $match: conditions },
+    { $sort: conditions?.word ? { score: -1, createdAt: 1 } : { createdAt: -1 } },
+    { $skip: (page - 1) * limit },
+    { $limit: limit },
+    { $set: { id: "$_id" } },
+  ]);
+
+  if (user && !conditions?.author) {
+    aggregate.append([
       {
         $lookup: {
           from: "votes",
@@ -42,20 +47,14 @@ const definitions = async (_, { filter, page = 1, limit = DEFINITIONS_PER_PAGE }
         },
       },
       { $set: { vote: { $first: "$vote" } } },
-      { $set: { id: "$_id", action: { $ifNull: ["$vote.action", 0] } } },
+      { $set: { action: { $ifNull: ["$vote.action", 0] } } },
       { $project: { vote: 0 } },
     ]);
-
-    return Definition.populate(definitions, { path: "author" });
   }
 
-  const definitions = await Definition.find(conditions)
-    .sort(conditions?.word ? "-score createdAt" : "-createdAt")
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate("author");
+  const definitions = await aggregate.exec();
 
-  return definitions;
+  return Definition.populate(definitions, { path: "author" });
 };
 
 module.exports = definitions;

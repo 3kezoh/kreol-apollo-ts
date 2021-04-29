@@ -7,6 +7,7 @@ const definitionSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      maxlength: 50,
     },
     meaning: {
       type: String,
