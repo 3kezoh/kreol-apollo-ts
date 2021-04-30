@@ -12,21 +12,20 @@ if (fs.existsSync(".env")) {
   logger.error(".env or .env.example missing");
 }
 
+const { env } = process;
+
 module.exports = {
-  env: process.env.NODE_ENV,
+  env: env.NODE_ENV,
   google: {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: env.GOOGLE_CLIENT_ID,
+    clientSecret: env.GOOGLE_CLIENT_SECRET,
   },
-  port: process.env.PORT,
-  jwtSecret: process.env.JWT_SECRET,
-  jwtExpiration: parseInt(process.env.JWT_EXPIRATION, 10),
+  port: env.PORT,
+  jwtSecret: env.JWT_SECRET,
+  jwtExpiration: parseInt(env.JWT_EXPIRATION, 10),
   mongo: {
-    uri:
-      process.env.NODE_ENV === "production"
-        ? process.env.MONGODB_URI
-        : process.env.MONGODB_URI_LOCAL,
+    uri: env.NODE_ENV === "production" ? env.MONGODB_URI : env.MONGODB_URI_LOCAL,
   },
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10),
-  max: parseInt(process.env.RATE_LIMIT_MAX, 10),
+  windowMs: parseInt(env.RATE_LIMIT_WINDOW_MS, 10),
+  max: parseInt(env.RATE_LIMIT_MAX, 10),
 };
