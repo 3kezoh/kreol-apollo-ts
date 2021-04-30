@@ -2,6 +2,7 @@
 require("module-alias/register");
 const { model } = require("mongoose");
 const mongoose = require("@config/mongoose");
+const logger = require("@config/winston");
 const { randomUsers, randomDefinitions } = require("./data");
 const sleep = require("./sleep");
 
@@ -57,7 +58,7 @@ const populate = async () => {
     );
     process.exit(1);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };
 

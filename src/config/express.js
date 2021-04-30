@@ -6,8 +6,9 @@ const rateLimit = require("express-rate-limit");
 const passport = require("passport");
 const { jwt, google } = require("@middlewares/auth");
 const apolloServer = require("@@apollo/server");
-const strategies = require("./strategies");
-const { windowMs, max } = require("./globals");
+const logger = require("@config/winston");
+const strategies = require("@config/strategies");
+const { windowMs, max } = require("@config/globals");
 
 const app = express();
 
@@ -27,7 +28,7 @@ passport.use(strategies.google);
 app.get("/auth/google", google.authenticate);
 app.get("/auth/google/callback", google.callback, google.success);
 app.use("/graphql", jwt.authenticate);
-app.use(errorHandler({ log: (err) => console.error(err) }));
+app.use(errorHandler({ log: (err) => logger.error(err) }));
 apolloServer.applyMiddleware({ app });
 
 module.exports = app;

@@ -1,14 +1,15 @@
 const dotenv = require("dotenv");
 const fs = require("fs");
+const logger = require("@config/winston");
 
 if (fs.existsSync(".env")) {
   dotenv.config({ path: ".env" });
-  console.info("Using .env file to supply environment variables");
+  logger.info("Using .env file to supply environment variables");
 } else if (fs.existsSync(".env.example")) {
   dotenv.config({ path: ".env.example" });
-  console.info("Using .env.example file to supply environment variables");
+  logger.info("Using .env.example file to supply environment variables");
 } else {
-  console.error(".env or .env.example missing");
+  logger.error(".env or .env.example missing");
 }
 
 module.exports = {
