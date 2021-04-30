@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const logger = require("@config/winston");
 const { mongo } = require("@config/globals");
+const chalk = require("chalk");
 
 require("@Definition/Definition");
 require("@Report/Report");
@@ -21,6 +22,6 @@ mongoose.connection.on("error", (err) => {
 
 exports.connect = async () => {
   await mongoose.connect(mongo.uri);
-  logger.info("MongoDB connected");
+  logger.info(`${chalk.hex("#13AA52")("MongoDB")} connected`);
   return mongoose.connection;
 };

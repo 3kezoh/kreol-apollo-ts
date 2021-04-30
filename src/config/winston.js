@@ -9,7 +9,7 @@ const options = {
     level: "debug",
     format: combine(
       colorize(),
-      timestamp({ format: "D MMM YYYY, HH:mm" }),
+      timestamp({ format: "HH:mm" }),
       printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
     ),
   },

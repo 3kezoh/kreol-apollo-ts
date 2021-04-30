@@ -1,8 +1,9 @@
 const logger = require("@config/winston");
+const chalk = require("chalk");
 
 const log = {
   serverWillStart() {
-    logger.info("Server starting");
+    logger.info(`${chalk.hex("#3F20BA")("Apollo")} server starting`);
   },
   requestDidStart() {
     return {

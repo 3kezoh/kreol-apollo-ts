@@ -4,6 +4,7 @@ const logger = require("@config/winston");
 const mongoose = require("@config/mongoose");
 const app = require("@config/express");
 const { port } = require("@config/globals");
+const chalk = require("chalk");
 
 app.set("port", port);
 
@@ -33,7 +34,7 @@ function onError(error) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-  logger.info(`Listening on ${bind} in ${app.get("env")} mode`);
+  logger.info(`Listening on ${bind} in ${chalk.magenta(app.get("env"))} mode`);
 }
 
 server.listen(port);
