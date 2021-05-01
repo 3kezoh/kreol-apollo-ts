@@ -12,7 +12,7 @@ const { windowMs, max } = require("@config/globals");
 
 const app = express();
 
-const whitelist = ["http://localhost:3000"];
+const whitelist = ["http://localhost:3000, https://studio.apollographql.com"];
 
 const corsOptions = {
   origin: (origin, cb) => cb(null, whitelist.indexOf(origin) !== -1),

@@ -5,6 +5,12 @@ const formatError = require("./formatError");
 const playground = require("./playground");
 const plugins = require("./plugins");
 
-const server = new ApolloServer({ schema, context, formatError, playground, plugins });
+const server = new ApolloServer({
+  schema,
+  context,
+  formatError,
+  playground,
+  plugins,
+});
 
 module.exports = server;

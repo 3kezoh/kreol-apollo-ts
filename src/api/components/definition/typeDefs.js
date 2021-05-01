@@ -13,9 +13,18 @@ const typeDefs = gql`
     action: Int
   }
 
+  type DefinitionSubscription {
+    id: ID!
+    score: Int!
+  }
+
   input Filter {
     author: ID
     word: String
+  }
+
+  extend type Subscription {
+    definition(ids: [ID!]!): DefinitionSubscription!
   }
 
   extend type Query {

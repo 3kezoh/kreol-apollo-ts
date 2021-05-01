@@ -1,6 +1,7 @@
 const { model } = require("mongoose");
 const { ApolloError } = require("apollo-server-express");
 const { vote: validate } = require("@Vote/validations/mutations");
+const pubsub = require("@config/pubsub");
 
 const Vote = model("Vote");
 const Definition = model("Definition");
@@ -11,10 +12,16 @@ const vote = async (_, { definition: id, action }, { user: voter }) => {
   if (!definition) throw new ApolloError("Definition Not Found");
   const hasVoted = await Vote.findOne({ definition, voter });
 
-  if (action || hasVoted)
-    await Definition.findByIdAndUpdate(definition, {
-      $inc: { score: hasVoted ? action - hasVoted.action : action },
-    });
+  if (action || hasVoted) {
+    const { score, _id: id } = await Definition.findByIdAndUpdate(
+      definition,
+      {
+        $inc: { score: hasVoted ? action - hasVoted.action : action },
+      },
+      { new: true }
+    );
+    pubsub.publish("SCORE", { definition: { score, id } });
+  }
 
   let vote = null;
 
