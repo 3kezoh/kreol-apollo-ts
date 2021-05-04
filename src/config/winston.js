@@ -20,4 +20,6 @@ const logger = createLogger({
   exitOnError: false,
 });
 
+logger.error = (error) => console.error(error);
+
 module.exports = logger;
