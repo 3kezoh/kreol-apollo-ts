@@ -28,7 +28,7 @@ const populate = async () => {
     await User.deleteMany();
     await Vote.deleteMany();
 
-    const _users = await User.insertMany(users, options);
+    const _users = await Promise.all(users.map((user) => User.create(user)));
 
     const _definitions = definitions.map((definition) => ({
       ...definition,
