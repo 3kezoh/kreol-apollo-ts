@@ -30,7 +30,7 @@ const definitions = async (_, { filter, page, limit }, { user }) => {
     { $set: { id: "$_id" } },
   ]);
 
-  if (user && !filter?.author) {
+  if (user) {
     aggregate.append([
       {
         $lookup: {
