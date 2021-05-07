@@ -39,6 +39,10 @@ const definitionSchema = new Schema(
 );
 
 definitionSchema.set("toObject", { versionKey: false });
+definitionSchema.index({ word: 1 });
+definitionSchema.index({ score: -1, createdAt: 1 });
+definitionSchema.index({ score: 1 });
+definitionSchema.index({ createdAt: 1 });
 
 const Definition = model("Definition", definitionSchema);
 

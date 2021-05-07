@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type User {
+  type User @cacheControl(maxAge: 3600) {
     id: ID!
     email: String!
     name: String!

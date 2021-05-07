@@ -10,6 +10,7 @@ const voteSchema = new Schema(
 );
 
 voteSchema.set("toObject", { versionKey: false });
+voteSchema.index({ definition: 1, voter: 1 });
 
 const Vote = model("Vote", voteSchema);
 
