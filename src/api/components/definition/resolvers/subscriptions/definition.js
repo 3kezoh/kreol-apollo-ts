@@ -8,4 +8,4 @@ const definition = {
   subscribe: withFilter(asyncIterator, filter),
 };
 
-module.exports = definition;
+export default definition;

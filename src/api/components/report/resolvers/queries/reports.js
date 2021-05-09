@@ -9,4 +9,4 @@ const reports = async (_, { definition }) => {
   return reports;
 };
 
-module.exports = reports;
+export default reports;

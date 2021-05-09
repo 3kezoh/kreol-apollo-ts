@@ -1,3 +1,3 @@
 const report = require("./report");
 
-module.exports = { report };
+export default { report };

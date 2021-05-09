@@ -18,4 +18,4 @@ const signup = ({ email, password, confirmPassword, name }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = signup;
+export default signup;

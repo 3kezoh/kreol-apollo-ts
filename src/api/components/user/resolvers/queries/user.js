@@ -9,4 +9,4 @@ const user = async (_parent, { id }) => {
   return user;
 };
 
-module.exports = user;
+export default user;

@@ -6,3 +6,6 @@ node_modules
 
 # secrets
 .env
+
+# typescript
+dist

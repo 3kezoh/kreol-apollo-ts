@@ -9,4 +9,4 @@ const vote = ({ definition }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = vote;
+export default vote;

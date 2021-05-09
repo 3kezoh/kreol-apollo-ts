@@ -1,4 +1,4 @@
 const mutations = require("./mutations");
 const queries = require("./queries");
 
-module.exports = { mutations, queries };
+export default { mutations, queries };

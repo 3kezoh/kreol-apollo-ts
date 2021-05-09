@@ -15,4 +15,4 @@ const signup = async (_parent, { email, password, confirmPassword, name }) => {
   return { token, user };
 };
 
-module.exports = signup;
+export default signup;

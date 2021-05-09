@@ -9,4 +9,4 @@ const popular = ({ letter, limit }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = popular;
+export default popular;

@@ -1,6 +1,7 @@
 {
-  "ignore": [".git", "node_modules", "package.json", "src/test", "src/database"],
-  "env": {
-    "NODE_ENV": "development"
-  }
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/test", "src/database", "src/**/*.spec.ts"],
+  "exec": "ts-node ./src/bin/www.ts",
+  "env": { "NODE_ENV": "development" }
 }

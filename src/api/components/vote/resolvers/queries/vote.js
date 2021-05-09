@@ -5,8 +5,7 @@ const Vote = model("Vote");
 
 const vote = async (_, { definition }, { user: voter }) => {
   validate({ definition });
-  const vote = Vote.findOne({ voter, definition }).populate("voter definition");
-  return vote;
+  return Vote.findOne({ voter, definition }).populate("voter definition");
 };
 
-module.exports = vote;
+export default vote;

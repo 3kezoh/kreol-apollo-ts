@@ -6,4 +6,4 @@ const users = async () => {
   return User.find();
 };
 
-module.exports = users;
+export default users;

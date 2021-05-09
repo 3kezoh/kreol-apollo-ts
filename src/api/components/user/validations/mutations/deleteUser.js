@@ -8,4 +8,4 @@ const deleteUser = ({ id }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = deleteUser;
+export default deleteUser;

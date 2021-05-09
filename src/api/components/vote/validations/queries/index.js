@@ -1,3 +1,3 @@
 const vote = require("./vote");
 
-module.exports = { vote };
+export default { vote };

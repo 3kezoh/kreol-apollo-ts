@@ -7,4 +7,4 @@ const search = ({ limit }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = search;
+export default search;

@@ -20,4 +20,4 @@ const count = async (_, { filter }) => {
   return Definition.countDocuments(conditions);
 };
 
-module.exports = count;
+export default count;

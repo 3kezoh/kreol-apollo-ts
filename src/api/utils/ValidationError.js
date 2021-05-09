@@ -2,4 +2,4 @@ const validationError = (field, message) => {
   return { field, message };
 };
 
-module.exports = validationError;
+export default validationError;

@@ -23,4 +23,4 @@ const popular = async (_, { letter, limit }) => {
   return Definition.populate(result, { path: "author" });
 };
 
-module.exports = popular;
+export default popular;

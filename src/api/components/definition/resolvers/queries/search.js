@@ -23,4 +23,4 @@ const search = async (_, { match, page, limit }) => {
   return Definition.populate(result, { path: "author" });
 };
 
-module.exports = search;
+export default search;

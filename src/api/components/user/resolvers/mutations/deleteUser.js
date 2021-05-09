@@ -11,4 +11,4 @@ const deleteUser = async (_parent, { id }) => {
   return user;
 };
 
-module.exports = deleteUser;
+export default deleteUser;

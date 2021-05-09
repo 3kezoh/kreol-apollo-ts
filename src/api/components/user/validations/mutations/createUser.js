@@ -16,4 +16,4 @@ const createUser = ({ email, password, name }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = createUser;
+export default createUser;

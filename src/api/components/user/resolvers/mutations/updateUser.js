@@ -11,4 +11,4 @@ const updateUser = async (_parent, { id, email, name }) => {
   return user;
 };
 
-module.exports = updateUser;
+export default updateUser;

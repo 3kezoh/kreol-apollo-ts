@@ -11,4 +11,4 @@ const report = async (_, { definition }, { user: reporter }) => {
   return report;
 };
 
-module.exports = report;
+export default report;

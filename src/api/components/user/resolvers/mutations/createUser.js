@@ -8,4 +8,4 @@ const createUser = async (_parent, { email, password, name }) => {
   return User.create({ email, password, name });
 };
 
-module.exports = createUser;
+export default createUser;

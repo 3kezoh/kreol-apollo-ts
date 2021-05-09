@@ -19,4 +19,4 @@ const updateDefinition = ({ id, word, meaning, example, language }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = updateDefinition;
+export default updateDefinition;

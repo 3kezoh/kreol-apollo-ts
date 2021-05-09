@@ -1,4 +1,4 @@
 const report = require("./report");
 const reports = require("./reports");
 
-module.exports = { reports, report };
+export default { reports, report };

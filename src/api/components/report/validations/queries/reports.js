@@ -9,4 +9,4 @@ const reports = ({ definition }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = reports;
+export default reports;

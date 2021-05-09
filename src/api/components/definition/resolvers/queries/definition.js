@@ -9,4 +9,4 @@ const definition = async (_, { id }) => {
   return definition;
 };
 
-module.exports = definition;
+export default definition;

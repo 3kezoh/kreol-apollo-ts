@@ -18,7 +18,7 @@ const vote = async (_, { definition: id, action }, { user: voter }) => {
       {
         $inc: { score: hasVoted ? action - hasVoted.action : action },
       },
-      { new: true }
+      { new: true },
     );
     pubsub.publish("SCORE", { definition: { score, id } });
   }
@@ -38,4 +38,4 @@ const vote = async (_, { definition: id, action }, { user: voter }) => {
   return vote;
 };
 
-module.exports = vote;
+export default vote;

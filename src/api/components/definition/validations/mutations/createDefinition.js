@@ -16,4 +16,4 @@ const createDefinition = ({ word, meaning, example, language }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = createDefinition;
+export default createDefinition;

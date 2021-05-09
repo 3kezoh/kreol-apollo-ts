@@ -11,4 +11,4 @@ const definitions = ({ filter, page, limit } = {}) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = definitions;
+export default definitions;

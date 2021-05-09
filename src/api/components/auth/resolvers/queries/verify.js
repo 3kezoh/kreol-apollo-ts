@@ -9,4 +9,4 @@ const verify = (_parent, { token }) => {
   }
 };
 
-module.exports = verify;
+export default verify;

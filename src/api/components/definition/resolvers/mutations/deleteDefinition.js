@@ -11,4 +11,4 @@ const deleteDefinition = async (_, { id }, { user: author }) => {
   return definition;
 };
 
-module.exports = deleteDefinition;
+export default deleteDefinition;

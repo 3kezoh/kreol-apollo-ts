@@ -9,4 +9,4 @@ const login = ({ email, password }) => {
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-module.exports = login;
+export default login;

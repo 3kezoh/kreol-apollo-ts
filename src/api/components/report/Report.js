@@ -7,11 +7,11 @@ const reportSchema = new Schema(
     reason: { type: Number, enum: [0, 1, 2, 3], required: true },
     message: { type: String, maxlength: 500 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 reportSchema.set("toObject", { versionKey: false });
 
 const Report = model("Report", reportSchema);
 
-module.exports = Report;
+export default Report;

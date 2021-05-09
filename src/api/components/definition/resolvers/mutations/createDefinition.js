@@ -8,4 +8,4 @@ const createDefinition = async (_, { word, meaning, example, language }, { user:
   return Definition.create({ word, meaning, example, author, language });
 };
 
-module.exports = createDefinition;
+export default createDefinition;

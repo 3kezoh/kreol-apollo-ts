@@ -6,7 +6,7 @@ const voteSchema = new Schema(
     definition: { type: Schema.Types.ObjectId, ref: "Definition", required: true },
     action: { type: Number, enum: [-1, 0, 1], required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 voteSchema.set("toObject", { versionKey: false });
@@ -14,4 +14,4 @@ voteSchema.index({ definition: 1, voter: 1 });
 
 const Vote = model("Vote", voteSchema);
 
-module.exports = Vote;
+export default Vote;

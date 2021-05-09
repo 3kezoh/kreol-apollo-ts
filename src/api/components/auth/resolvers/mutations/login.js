@@ -14,4 +14,4 @@ const login = async (_parent, { email, password }) => {
   return { token, user };
 };
 
-module.exports = login;
+export default login;
