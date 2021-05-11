@@ -1,11 +1,10 @@
 import { ApolloError } from "apollo-server-express";
 import { FilterQuery } from "mongoose";
-import { definitions as validate } from "@Definition/validations/queries";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { User } from "@User";
+import { definitions as validate } from "@Definition/validations/queries";
+import { Resolver, QueryCountArgs, Match } from "@@api";
 import { escapeRegExp } from "@utils";
-import { Resolver } from "@@api/components";
-import { QueryCountArgs, Match } from "@@api/components/definitions";
 
 const count: Resolver<QueryCountArgs, number> = async (_, { filter }) => {
   const match: Match = {};

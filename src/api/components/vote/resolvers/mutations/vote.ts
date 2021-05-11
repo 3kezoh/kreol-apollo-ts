@@ -1,10 +1,9 @@
 import { ApolloError } from "apollo-server-express";
 import { IVoteDocument, Vote } from "@Vote";
-import { Definition, IDefinitionDocument } from "@Definition";
+import { Definition } from "@Definition";
 import { vote as validate } from "@Vote/validations/mutations";
 import pubsub from "@config/pubsub";
-import { Resolver } from "@@api/components";
-import { MutationVoteArgs } from "../../../../../codegen/@types/types";
+import { Resolver, MutationVoteArgs } from "@@api";
 
 const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
   _,

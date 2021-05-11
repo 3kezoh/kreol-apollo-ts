@@ -1,7 +1,6 @@
 import { Definition, IDefinitionDocument } from "@Definition";
 import { ApolloError } from "apollo-server-express";
-import { QueryDefinitionArgs } from "@@api/components/definitions";
-import { Resolver } from "@@api/components";
+import { Resolver, QueryDefinitionArgs } from "@@api";
 
 const definition: Resolver<QueryDefinitionArgs, IDefinitionDocument> = async (_, { id }) => {
   const definition = await Definition.findById(id).populate("author");

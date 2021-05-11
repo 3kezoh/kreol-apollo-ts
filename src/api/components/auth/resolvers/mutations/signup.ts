@@ -1,8 +1,7 @@
 import { AuthenticationError } from "apollo-server-express";
-import { IUser, User } from "@User";
+import { User } from "@User";
 import { signup as validate } from "@Auth/validations/mutations";
-import { Resolver } from "@@api/components";
-import { AuthResponse, MutationSignupArgs, User as _User } from "codegen/@types/types";
+import { Resolver, MutationSignupArgs, AuthResponse, User as _User } from "@@api";
 
 const signup: Resolver<MutationSignupArgs, AuthResponse> = async (
   _parent,

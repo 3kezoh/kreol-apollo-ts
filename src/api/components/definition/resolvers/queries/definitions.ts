@@ -1,10 +1,9 @@
 import { ApolloError } from "apollo-server-express";
-import { definitions as validate } from "@Definition/validations/queries";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { User } from "@User";
+import { definitions as validate } from "@Definition/validations/queries";
+import { Resolver, QueryDefinitionsArgs, Match } from "@@api";
 import { escapeRegExp } from "@utils";
-import { Resolver } from "@@api/components";
-import { QueryDefinitionsArgs, Match } from "@@api/components/definitions";
 
 const DEFINITIONS_PER_PAGE = 5;
 

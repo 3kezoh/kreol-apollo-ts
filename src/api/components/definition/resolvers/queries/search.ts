@@ -1,7 +1,6 @@
 import { Definition, IDefinitionDocument } from "@Definition";
 import { search as validate } from "@Definition/validations/queries";
-import { Resolver } from "@@api/components";
-import { QuerySearchArgs } from "@@api/components/definitions";
+import { Resolver, QuerySearchArgs } from "@@api";
 
 const DEFINITIONS_PER_PAGE = 5;
 

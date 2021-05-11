@@ -1,7 +1,6 @@
 import { Definition, IDefinitionDocument } from "@Definition";
 import { popular as validate } from "@Definition/validations/queries";
-import { Resolver } from "@@api/components";
-import { QueryPopularArgs, Match } from "@@api/components/definitions";
+import { Resolver, QueryPopularArgs, Match } from "@@api";
 
 const DEFINITIONS_LIMIT = 50;
 

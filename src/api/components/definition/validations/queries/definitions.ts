@@ -1,8 +1,7 @@
 import { UserInputError } from "apollo-server-express";
 import { isValidObjectId } from "mongoose";
+import { Validator, QueryDefinitionsArgs } from "@@api";
 import { validationError } from "@utils";
-import { QueryDefinitionsArgs } from "@@api/components/definitions";
-import { Validator } from "@@api/components";
 
 const definitions: Validator<QueryDefinitionsArgs> = ({ filter, page, limit } = {}): void => {
   const validationErrors = [];
