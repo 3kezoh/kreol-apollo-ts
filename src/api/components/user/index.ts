@@ -1,7 +1,8 @@
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import User from "./User";
-export { IUser } from "./User";
+import User, { IUser, IUserDocument } from "./User";
+
+export { User, IUser, IUserDocument };
 
 export default {
   typeDefs: [typeDefs],

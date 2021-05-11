@@ -1,0 +1,10 @@
+watch: true
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+overwrite: true
+schema: http://localhost:4000/graphql
+generates:
+  src/codegen/@types/types.ts:
+    plugins:
+      - typescript

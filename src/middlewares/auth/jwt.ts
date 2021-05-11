@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
-import { IUser } from "@User";
+import { IUserDocument } from "@User";
 
-const handleJWT = (req: Request, res: Response, next: NextFunction) => (error: Error, user: IUser) => {
+const handleJWT = (req: Request, res: Response, next: NextFunction) => (
+  error: Error,
+  user: IUserDocument,
+) => {
   if (user) {
     req.user = user;
   }

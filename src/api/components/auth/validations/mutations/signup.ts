@@ -1,8 +1,12 @@
-const { UserInputError } = require("apollo-server-express");
-const { isEmail, isLength } = require("validator");
-const { validationError } = require("@utils");
+import { UserInputError } from "apollo-server-express";
+import validator from "validator";
+import { validationError } from "@utils";
+import { MutationSignupArgs } from "codegen/@types/types";
+import { Validator } from "@@api/components";
 
-const signup = ({ email, password, confirmPassword, name }) => {
+const { isEmail, isLength } = validator;
+
+const signup: Validator<MutationSignupArgs> = ({ email, password, confirmPassword, name }) => {
   const validationErrors = [];
   if (!isEmail(email)) validationErrors.push(validationError("email", "email is invalid"));
   if (!isLength(password, { min: 8 }))
@@ -11,10 +15,8 @@ const signup = ({ email, password, confirmPassword, name }) => {
     validationErrors.push(validationError("password", "password is too long"));
   if (confirmPassword !== password)
     validationErrors.push(validationError("confirmPassword", "password not match"));
-  if (!isLength(name, { min: 2 }))
-    validationErrors.push(validationError("name", "name is too short"));
-  if (!isLength(name, { max: 128 }))
-    validationErrors.push(validationError("name", "name is too long"));
+  if (!isLength(name, { min: 2 })) validationErrors.push(validationError("name", "name is too short"));
+  if (!isLength(name, { max: 128 })) validationErrors.push(validationError("name", "name is too long"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 

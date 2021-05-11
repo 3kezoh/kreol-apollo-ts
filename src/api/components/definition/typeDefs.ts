@@ -18,13 +18,13 @@ const typeDefs = gql`
     score: Int!
   }
 
+  extend type Subscription {
+    definition(id: ID!): DefinitionSubscription!
+  }
+
   input Filter {
     author: ID
     word: String
-  }
-
-  extend type Subscription {
-    definition(ids: [ID!]!): DefinitionSubscription!
   }
 
   extend type Query {
@@ -36,20 +36,11 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createDefinition(
-      word: String!
-      meaning: String!
-      example: String
-      language: String!
-    ): Definition @isAuthenticated
+    createDefinition(word: String!, meaning: String!, example: String, language: String!): Definition
+      @isAuthenticated
 
-    updateDefinition(
-      id: ID!
-      word: String
-      meaning: String
-      example: String
-      language: String
-    ): Definition @isAuthenticated
+    updateDefinition(id: ID!, word: String, meaning: String, example: String, language: String): Definition
+      @isAuthenticated
 
     deleteDefinition(id: ID!): Definition @isAuthenticated
   }

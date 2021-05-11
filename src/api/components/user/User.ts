@@ -1,9 +1,9 @@
 import { hash, compare } from "bcryptjs";
-import { model, Schema, Model, Document } from "mongoose";
+import { model, Schema, Model, Document, Types } from "mongoose";
 import { sign } from "jsonwebtoken";
 import { jwtSecret, jwtExpiration } from "@config/globals";
 
-export interface IUser extends Document {
+export interface IUser {
   email: string;
   password: string;
   name: string;
@@ -13,11 +13,15 @@ export interface IUser extends Document {
       token: string;
     };
   };
-  token(): string;
-  passwordMatches(): Promise<boolean>;
 }
 
-const userSchema = new Schema<IUser>(
+export interface IUserDocument extends IUser, Document {
+  _id: Types.ObjectId;
+  token(): string;
+  passwordMatches(password: string): Promise<boolean>;
+}
+
+const userSchema = new Schema<IUserDocument>(
   {
     email: {
       type: String,
@@ -52,7 +56,7 @@ const userSchema = new Schema<IUser>(
 
 userSchema.set("toObject", { versionKey: false });
 
-userSchema.pre<IUser>("save", async function save(next) {
+userSchema.pre<IUserDocument>("save", async function save(next) {
   try {
     if (!this.isModified("password")) return next();
     const hashedPassword = await hash(this.password, 10);
@@ -73,6 +77,6 @@ userSchema.methods.passwordMatches = async function passwordMatches(candidatePas
   return compare(candidatePassword, this.password);
 };
 
-const User: Model<IUser> = model("User", userSchema);
+const User: Model<IUserDocument> = model("User", userSchema);
 
 export default User;

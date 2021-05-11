@@ -1,17 +1,32 @@
-import { model, Schema, Model, Document } from "mongoose";
+import { model, Schema, Model, Document, Types } from "mongoose";
+import { IUserDocument } from "@User";
 
-export interface IDefinition extends Document {
+type Language = "fr" | "gf";
+
+export interface IDefinition {
   word: string;
   meaning: string;
   example?: string;
-  language: string;
-  author: string;
+  language: Language;
+  author: Types.ObjectId | string;
   score: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const definitionSchema = new Schema(
+interface IDefinitionBaseDocument extends IDefinition, Document {
+  _id: Types.ObjectId;
+}
+
+export interface IDefinitionDocument extends IDefinitionBaseDocument {
+  author: IUserDocument["_id"];
+}
+
+export interface IDefinitionPopulatedDocument extends Omit<IDefinitionBaseDocument, "author"> {
+  author: IUserDocument;
+}
+
+const definitionSchema = new Schema<IDefinitionDocument>(
   {
     word: {
       type: String,
@@ -54,6 +69,6 @@ definitionSchema.index({ score: -1, createdAt: 1 });
 definitionSchema.index({ score: 1 });
 definitionSchema.index({ createdAt: 1 });
 
-const Definition: Model<IDefinition> = model("Definition", definitionSchema);
+const Definition: Model<IDefinitionDocument> = model("Definition", definitionSchema);
 
 export default Definition;

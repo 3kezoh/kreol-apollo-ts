@@ -1,11 +1,10 @@
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import Definition from "./Definition";
+import Definition, { IDefinition, IDefinitionDocument, IDefinitionPopulatedDocument } from "./Definition";
 
-export { IDefinition } from "./Definition";
+export { Definition, IDefinition, IDefinitionDocument, IDefinitionPopulatedDocument };
 
 export default {
   typeDefs: [typeDefs],
   resolvers,
-  Definition,
 };
