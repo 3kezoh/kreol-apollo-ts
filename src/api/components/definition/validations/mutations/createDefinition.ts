@@ -1,8 +1,11 @@
-const { UserInputError } = require("apollo-server-express");
-const { isEmpty, isLength, isIn } = require("validator");
-const { validationError } = require("@utils");
+import { UserInputError } from "apollo-server-express";
+import validator from "validator";
+import { validationError } from "@utils";
+import { Validator, MutationCreateDefinitionArgs } from "@@api";
 
-const createDefinition = ({ word, meaning, example, language }) => {
+const { isEmpty, isLength, isIn } = validator;
+
+const createDefinition: Validator<MutationCreateDefinitionArgs> = ({ word, meaning, example, language }) => {
   const validationErrors = [];
   if (isEmpty(word)) validationErrors.push(validationError("word", "word is empty"));
   if (isEmpty(meaning)) validationErrors.push(validationError("meaning", "meaning is empty"));

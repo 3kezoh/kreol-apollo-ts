@@ -21,8 +21,6 @@
       "@api/*": ["api/*"],
       "@components": ["api/components/index.ts"],
       "@components/*": ["api/components/*"],
-      "@utils": ["api/utils/index.ts"],
-      "@utils/*": ["api/utils/*"],
       "@Auth": ["api/components/auth/index.ts"],
       "@Auth/*": ["api/components/auth/*"],
       "@Definition": ["api/components/definition/index.ts"],
@@ -42,7 +40,9 @@
       "@middlewares": ["middlewares/index.ts"],
       "@middlewares/*": ["middlewares/*"],
       "@scalars": ["scalars/index.ts"],
-      "@scalars/*": ["scalars/*"]
+      "@scalars/*": ["scalars/*"],
+      "@utils": ["utils/index.ts"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["./src/**/*"]

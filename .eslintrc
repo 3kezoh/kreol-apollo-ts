@@ -33,7 +33,6 @@
       "alias": [
         ["@api", "./src/api"],
         ["@components", "./src/api/components"],
-        ["@utils", "./src/api/utils"],
         ["@Auth", "./src/api/components/auth"],
         ["@Definition", "./src/api/components/definition"],
         ["@Report", "./src/api/components/report"],
@@ -43,7 +42,8 @@
         ["@config", "./src/config"],
         ["@directives", "./src/directives"],
         ["@middlewares", "./src/middlewares"],
-        ["@scalars", "./src/scalars"]
+        ["@scalars", "./src/scalars"],
+        ["@utils", "./src/utils"]
       ]
     }
   }
