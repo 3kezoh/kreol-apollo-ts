@@ -1,17 +1,16 @@
 /* eslint-disable no-param-reassign */
 import "module-alias/register";
-import { model } from "mongoose";
+import { Query } from "mongoose";
 import mongoose from "@config/mongoose";
 import logger from "@config/winston";
 import { mongo } from "@config/globals";
-import { randomUsers, randomDefinitions } from "./data";
-import progressBar from "./progressBar";
+import { Definition, IDefinitionDocument } from "@Definition";
+import { Report } from "@Report";
+import { User } from "@User";
+import { Vote, IVote } from "@Vote";
 import ran from "./ran";
-
-const Definition = model("Definition");
-const Report = model("Report");
-const User = model("User");
-const Vote = model("Vote");
+import progressBar from "./progressBar";
+import { randomUsers, randomDefinitions } from "./data";
 
 const users = randomUsers(100);
 const definitions = randomDefinitions(1000);
@@ -38,8 +37,8 @@ const populate = async () => {
       lean: true,
     });
 
-    let votes = [];
-    let updates = [];
+    let votes: IVote[] = [];
+    let updates: Query<IDefinitionDocument | null, IDefinitionDocument, {}>[] = [];
 
     for (let i = 0; i < __definitions.length; i += 1) {
       progressBar(__definitions.length, i);

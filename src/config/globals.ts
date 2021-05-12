@@ -14,6 +14,12 @@ if (fs.existsSync(".env")) {
 
 const { env } = process;
 
+const MONGO_URIS: { [index: string]: string } = {
+  production: env.MONGODB_URI ?? "",
+  development: env.MONGODB_URI_LOCAL ?? "",
+  test: env.MONGODB_URI_TEST ?? "",
+};
+
 const google = {
   clientID: env.GOOGLE_CLIENT_ID ?? "",
   clientSecret: env.GOOGLE_CLIENT_SECRET ?? "",
@@ -26,7 +32,7 @@ const rateLimit = {
   max: parseInt(env.RATE_LIMIT_MAX ?? "9000", 10),
 };
 const mongo = {
-  uri: (env.NODE_ENV === "production" ? env.MONGODB_URI : env.MONGODB_URI_LOCAL) ?? "",
+  uri: MONGO_URIS[env.NODE_ENV ?? "development"],
 };
 
 export { google, jwtSecret, jwtExpiration, port, rateLimit, mongo };

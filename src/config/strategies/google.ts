@@ -1,4 +1,3 @@
-import { model } from "mongoose";
 import {
   Strategy as GoogleStrategy,
   StrategyOptions,
@@ -6,10 +5,9 @@ import {
   VerifyCallback,
 } from "passport-google-oauth20";
 import { google } from "@config/globals";
+import { User } from "@User";
 
 type Verify = (token: string, refreshToken: string, profile: Profile, done: VerifyCallback) => void;
-
-const User = model("User");
 
 const { clientID, clientSecret } = google;
 

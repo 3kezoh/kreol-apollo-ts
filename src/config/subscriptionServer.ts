@@ -1,7 +1,7 @@
 import http from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
-import { schema } from "@@apollo";
+import { schema } from "@config/apollo";
 import logger from "@config/winston";
 
 const onConnect = () => logger.info("Client connected");

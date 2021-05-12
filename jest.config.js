@@ -4,5 +4,6 @@ const { compilerOptions } = require("./tsconfig");
 module.exports = {
   preset: "ts-jest/presets/js-with-ts",
   testEnvironment: "node",
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/src" }),
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
 };

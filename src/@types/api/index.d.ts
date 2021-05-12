@@ -1,6 +1,11 @@
 import { Types } from "mongoose";
+import { IUserDocument } from "@User";
 
 export * from "./args";
+
+export type Context = {
+  user: IUserDocument;
+};
 
 export type Resolver<TArgs, R> = (
   source: unknown,
@@ -10,10 +15,6 @@ export type Resolver<TArgs, R> = (
 ) => Promise<R>;
 
 export type Validator<TArgs> = (args: TArgs) => void;
-
-export type Context = {
-  user: IUserDocument;
-};
 
 export type Match = {
   author?: Types.ObjectId | string;

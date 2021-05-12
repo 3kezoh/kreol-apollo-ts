@@ -13,7 +13,7 @@ const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
   validate({ definition: id, action });
   const definition = await Definition.findById(id);
   if (!definition) throw new ApolloError("Definition Not Found");
-  const hasVoted = await Vote.findOne({ definition: definition._id, voter });
+  const hasVoted = await Vote.findOne({ definition: definition._id, voter: voter._id });
 
   if (action || hasVoted) {
     const { score, _id: id } =
@@ -31,12 +31,12 @@ const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
 
   if (action) {
     vote = Vote.findOneAndUpdate(
-      { voter, definition: definition._id },
+      { voter: voter._id, definition: definition._id },
       { action },
       { new: true, upsert: true },
     );
   } else if (hasVoted) {
-    vote = Vote.findOneAndDelete({ voter, definition: definition._id });
+    vote = Vote.findOneAndDelete({ voter: voter._id, definition: definition._id });
   }
 
   if (vote) vote = await vote.populate("voter definition");

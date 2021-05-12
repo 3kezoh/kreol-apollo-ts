@@ -5,7 +5,7 @@ import errorHandler from "errorhandler";
 import rateLimit from "express-rate-limit";
 import passport from "passport";
 import { jwt, google } from "@middlewares/auth";
-import { apolloServer } from "@@apollo";
+import { apolloServer } from "@config/apollo";
 import strategies from "@config/strategies";
 import { rateLimit as rL } from "@config/globals";
 

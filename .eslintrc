@@ -39,7 +39,6 @@
         ["@Report", "./src/api/components/report"],
         ["@User", "./src/api/components/user"],
         ["@Vote", "./src/api/components/vote"],
-        ["@@apollo", "./src/apollo"],
         ["@bin", "./src/bin"],
         ["@config", "./src/config"],
         ["@directives", "./src/directives"],

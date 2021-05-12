@@ -33,8 +33,6 @@
       "@User/*": ["api/components/user/*"],
       "@Vote": ["api/components/vote/index.ts"],
       "@Vote/*": ["api/components/vote/*"],
-      "@@apollo": ["apollo/index.ts"],
-      "@@apollo/*": ["apollo/*"],
       "@bin": ["bin/index.ts"],
       "@bin/*": ["bin/*"],
       "@config": ["config/index.ts"],

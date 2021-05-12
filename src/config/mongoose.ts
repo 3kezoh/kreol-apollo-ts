@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
-import { mongo } from "@config/globals";
 import chalk from "chalk";
 import logger from "@config/winston";
 
-require("@Definition/Definition");
-require("@Report/Report");
-require("@User/User");
-require("@Vote/Vote");
+import "@Definition";
+import "@Report";
+import "@User";
+import "@Vote";
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);

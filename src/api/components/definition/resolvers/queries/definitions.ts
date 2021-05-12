@@ -59,9 +59,7 @@ const definitions: Resolver<QueryDefinitionsArgs, IDefinitionDocument[]> = async
 
   const definitions: IDefinitionDocument[] = await aggregate.exec();
 
-  const d = Definition.populate(definitions, { path: "author" });
-
-  return d;
+  return Definition.populate(definitions, { path: "author" });
 };
 
 export default definitions;

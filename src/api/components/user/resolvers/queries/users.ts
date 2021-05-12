@@ -1,6 +1,4 @@
-const { model } = require("mongoose");
-
-const User = model("User");
+import { User } from "@User";
 
 const users = async () => {
   return User.find();
