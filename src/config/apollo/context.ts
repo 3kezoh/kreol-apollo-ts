@@ -1,12 +1,8 @@
 import { ExpressContext } from "apollo-server-express";
-import { IUser } from "@User";
+import { Context } from "@@api";
 
-interface IContext {
-  user: IUser;
-}
-
-const context = ({ req }: ExpressContext): IContext => ({
-  user: req.user as IUser,
+const context = ({ req }: ExpressContext): Context => ({
+  user: req.user,
 });
 
 export default context;

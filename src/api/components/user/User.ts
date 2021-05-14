@@ -7,8 +7,8 @@ export interface IUser {
   email: string;
   password: string;
   name: string;
-  social: {
-    google: {
+  social?: {
+    google?: {
       id: string;
       token: string;
     };

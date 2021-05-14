@@ -28,6 +28,14 @@
     "no-underscore-dangle": "off",
     "no-param-reassign": "off"
   },
+  "overrides": [
+    {
+      "files": ["./src/utils/test/*.ts"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ],
   "settings": {
     "import/resolver": {
       "alias": [

@@ -26,20 +26,17 @@ const dropCollections = async () => {
 };
 
 const setupMongoose = () => {
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await mongoose.connect(mongo.uri);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await deleteCollections();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await dropCollections();
     await mongoose.connection.close();
-    done();
   });
 };
 
