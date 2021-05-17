@@ -4,6 +4,7 @@ import context from "./context";
 import formatError from "./formatError";
 import playground from "./playground";
 import plugins from "./plugins";
+import dataSources from "./dataSources";
 
 const apolloServer = new ApolloServer({
   schema,
@@ -11,6 +12,7 @@ const apolloServer = new ApolloServer({
   formatError,
   playground,
   plugins,
+  dataSources,
 });
 
 export default apolloServer;

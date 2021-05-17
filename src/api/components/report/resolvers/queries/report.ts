@@ -8,7 +8,7 @@ const report: Resolver<QueryReportArgs, IReportDocument | null> = async (
   { user: reporter },
 ) => {
   validate({ definition });
-  const report = Report.findOne({ reporter: reporter._id, definition })
+  const report = Report.findOne({ reporter: reporter?._id, definition })
     .populate("reporter")
     .populate({ path: "definition", populate: { path: "author" } });
   return report;

@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { IUserDocument } from "@User";
+import { DefinitionDataSource } from "@Definition";
 
 export * from "./args";
 
@@ -7,10 +8,16 @@ export type Context = {
   user?: IUserDocument;
 };
 
+export type DataSourceContext = {
+  dataSources: {
+    definition: DefinitionDataSource;
+  };
+};
+
 export type Resolver<TArgs, R> = (
   source: unknown,
   args: TArgs,
-  context: Context,
+  context: Context & DataSourceContext,
   info: unknown,
 ) => Promise<R>;
 

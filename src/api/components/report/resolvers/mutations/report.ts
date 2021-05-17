@@ -12,7 +12,7 @@ const report: Resolver<MutationReportArgs, IReportDocument> = async (
   validate({ definition: id, reason, message });
   const definition = await Definition.findById(id);
   if (!definition) throw new ApolloError("Definition Not Found");
-  const hasReported = await Report.findOne({ definition: definition._id, reporter: reporter._id });
+  const hasReported = await Report.findOne({ definition: definition._id, reporter: reporter?._id });
   if (hasReported) throw new ApolloError("Already reported", undefined, { hasReported });
   const report = await Report.create({ definition, reason, reporter, message });
   await report.populate("definition.author").execPopulate();

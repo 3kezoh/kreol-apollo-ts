@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
 import { createTestClient } from "apollo-server-testing";
-import { schema, formatError, playground, plugins } from "@config/apollo";
+import { schema, formatError, playground, plugins, dataSources } from "@config/apollo";
 import { Context } from "@@api";
 import { getUser } from "@utils/test";
 
@@ -10,6 +10,7 @@ const setupApolloServer = async () => {
   const apolloServer = new ApolloServer({
     schema,
     context,
+    dataSources,
     formatError,
     playground,
     plugins,

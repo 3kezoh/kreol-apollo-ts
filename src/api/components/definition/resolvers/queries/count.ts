@@ -1,12 +1,10 @@
 import { ApolloError } from "apollo-server-express";
-import { FilterQuery } from "mongoose";
-import { Definition, IDefinitionDocument } from "@Definition";
 import { User } from "@User";
 import { definitions as validate } from "@Definition/validations/queries";
 import { Resolver, QueryCountArgs, Match } from "@@api";
 import { escapeRegExp } from "@utils";
 
-const count: Resolver<QueryCountArgs, number> = async (_, { filter }) => {
+const count: Resolver<QueryCountArgs, number> = async (_, { filter }, { dataSources }) => {
   const match: Match = {};
   validate({ filter });
 
@@ -17,7 +15,7 @@ const count: Resolver<QueryCountArgs, number> = async (_, { filter }) => {
     if (!user) throw new ApolloError("User Not Found");
   }
 
-  return Definition.countDocuments(match as FilterQuery<IDefinitionDocument>);
+  return dataSources.definition.getCount(match);
 };
 
 export default count;
