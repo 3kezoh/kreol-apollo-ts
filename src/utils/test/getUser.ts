@@ -1,7 +1,14 @@
-import { User } from "@User";
+import { User, IUser } from "@User";
 
-const setupUser = async () => {
-  return User.create({ email: "sion@gmail.com", name: "sion", password: "password" });
+const user: IUser = {
+  email: "sion@gmail.com",
+  name: "sion",
+  password: "password",
 };
 
-export default setupUser;
+const getUser = async () => {
+  return User.create(user);
+};
+
+export default getUser;
+export { user };

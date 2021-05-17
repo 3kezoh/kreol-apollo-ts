@@ -4,7 +4,7 @@ import { IUserDocument } from "@User";
 export * from "./args";
 
 export type Context = {
-  user: IUserDocument;
+  user?: IUserDocument;
 };
 
 export type Resolver<TArgs, R> = (

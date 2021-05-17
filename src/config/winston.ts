@@ -15,6 +15,7 @@ const options: transports.ConsoleTransportOptions = {
 const logger = createLogger({
   transports: [new Console(options)],
   exitOnError: false,
+  silent: process.env.NODE_ENV === "test",
 });
 
 export default logger;

@@ -5,3 +5,4 @@ import popular from "./popular";
 import search from "./search";
 
 export default { count, definitions, definition, popular, search };
+export { count, definitions, definition, popular, search };
