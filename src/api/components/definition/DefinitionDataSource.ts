@@ -1,4 +1,12 @@
-import { Context, Match, Maybe, QueryCountArgs, QueryDefinitionsArgs, QueryPopularArgs } from "@@api";
+import {
+  Context,
+  Match,
+  Maybe,
+  QueryCountArgs,
+  QueryDefinitionsArgs,
+  QueryPopularArgs,
+  QuerySearchArgs,
+} from "@@api";
 import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
@@ -50,7 +58,7 @@ class DefinitionDataSource extends DataSource<Context> {
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = filter.author;
     if (!page || page < 1) page = 1;
-    if (!limit || limit < 1 || limit > 100) limit = 50;
+    if (!limit || limit < 1 || limit > 100) limit = 5;
 
     const aggregate = this.model.aggregate([
       { $match: match },
@@ -98,6 +106,7 @@ class DefinitionDataSource extends DataSource<Context> {
 
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
       { $match: { word: new RegExp(`^${letter}`, "i") } },
+      { $sort: BY_SCORE },
       { $group: { _id: "$word", score: { $sum: "$score" }, doc: { $first: "$$ROOT" } } },
       { $sort: BY_SCORE },
       { $limit: limit },
@@ -108,7 +117,10 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async search(match: string | null | undefined, page: number, limit: number) {
+  async search({ match, page, limit }: QuerySearchArgs) {
+    if (!page || page < 1) page = 1;
+    if (!limit || limit < 1 || limit > 100) limit = 5;
+
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
       { $match: { word: new RegExp(`^${match?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i") } },
       { $sort: BY_SCORE },
