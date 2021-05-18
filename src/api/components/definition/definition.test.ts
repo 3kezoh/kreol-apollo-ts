@@ -2,7 +2,7 @@ import { DataSourcesContext } from "@@api";
 import { Definition, DefinitionDataSource, definitionValidation } from "@Definition";
 import { count, definition, definitions, popular, search } from "@Definition/resolvers/queries";
 import { User, UserDataSource } from "@User";
-import { mockedDefinition, mockedUser } from "@utils/test";
+import { mockedDefinition } from "@utils/test";
 import { Vote, VoteDataSource } from "@Vote";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
@@ -24,7 +24,6 @@ describe("Definition", () => {
   };
 
   const id = mockedDefinition._id.toHexString();
-  const author = mockedUser._id.toHexString();
 
   const {
     getDefinition,
@@ -34,8 +33,6 @@ describe("Definition", () => {
     search: _search,
   } = mockedContext.dataSources.definition;
 
-  const { getUser } = mockedContext.dataSources.user;
-
   describe("queries", () => {
     describe("count", () => {
       it("should resolve", async () => {
@@ -43,14 +40,6 @@ describe("Definition", () => {
         const c = await count(null, {}, mockedContext, null);
         expect(getCount).toBeCalledWith({});
         expect(c).toEqual(0);
-      });
-
-      it("should throw if author is not found", async () => {
-        mocked(getUser).mockResolvedValue(null);
-        await expect(count(null, { filter: { author } }, mockedContext, null)).rejects.toThrow(
-          new ApolloError("User Not Found"),
-        );
-        expect(getCount).not.toBeCalled();
       });
     });
 
@@ -75,7 +64,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(getDefinitions).mockResolvedValue([]);
         const d = await definitions(null, {}, mockedContext, null);
-        expect(getDefinitions).toBeCalledWith({}, 1, 5);
+        expect(getDefinitions).toBeCalledWith({});
         expect(d).toEqual([]);
       });
     });
@@ -83,8 +72,8 @@ describe("Definition", () => {
     describe("popular", () => {
       it("should resolve", async () => {
         mocked(getPopular).mockResolvedValue([]);
-        const d = await popular(null, { letter: "w" }, mockedContext, null);
-        expect(getPopular).toBeCalledWith("w", 50);
+        const d = await popular(null, { letter: "w", limit: 3 }, mockedContext, null);
+        expect(getPopular).toBeCalledWith({ letter: "w", limit: 3 });
         expect(d).toEqual([]);
       });
     });

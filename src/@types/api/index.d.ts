@@ -6,6 +6,8 @@ import { Types } from "mongoose";
 
 export * from "./args";
 
+type Maybe<T> = T | null | undefined;
+
 export type Context = {
   user?: IUserDocument;
 };
@@ -37,4 +39,9 @@ export type Validator<TArgs> = (args: TArgs) => void;
 export type Match = {
   author?: Types.ObjectId | string;
   word?: RegExp;
+};
+
+export type AggregationArgs = {
+  page?: Maybe<number>;
+  limit?: Maybe<number>;
 };

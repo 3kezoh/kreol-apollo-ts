@@ -1,8 +1,9 @@
-import { Context, Match, Maybe } from "@@api";
+import { Context, Match, Maybe, QueryCountArgs, QueryDefinitionsArgs, QueryPopularArgs } from "@@api";
 import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
+import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Model } from "mongoose";
+import { isValidObjectId, Model } from "mongoose";
 
 const BY_SCORE = { score: -1, createdAt: 1 };
 const BY_DATE = { createdAt: -1 };
@@ -31,7 +32,11 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.create({ word, meaning, example, author, language });
   }
 
-  async getCount(match: Match) {
+  async getCount({ filter }: QueryCountArgs) {
+    if (!isValidObjectId(filter?.author)) return 0;
+    const match: Match = {};
+    if (filter?.word) match.word = escapeRegExp(filter.word);
+    if (filter?.author) match.author = filter.author;
     return this.model.countDocuments(match);
   }
 
@@ -39,7 +44,14 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.findById(id).populate("author");
   }
 
-  async getDefinitions(match: Match, page: number, limit: number) {
+  async getDefinitions({ filter, page, limit }: QueryDefinitionsArgs) {
+    if (!isValidObjectId(filter?.author)) return [];
+    const match: Match = {};
+    if (filter?.word) match.word = escapeRegExp(filter.word);
+    if (filter?.author) match.author = filter.author;
+    if (!page || page < 1) page = 1;
+    if (!limit || limit < 1 || limit > 100) limit = 50;
+
     const aggregate = this.model.aggregate([
       { $match: match },
       { $sort: match?.word ? BY_SCORE : BY_DATE },
@@ -80,10 +92,12 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async getPopular(letter: string, limit: number) {
+  async getPopular({ letter, limit }: QueryPopularArgs) {
+    if (!limit || limit < 1 || limit > 100) limit = 50;
+    if (!letter || ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter)) letter = "a";
+
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
       { $match: { word: new RegExp(`^${letter}`, "i") } },
-      { $sort: BY_SCORE },
       { $group: { _id: "$word", score: { $sum: "$score" }, doc: { $first: "$$ROOT" } } },
       { $sort: BY_SCORE },
       { $limit: limit },
