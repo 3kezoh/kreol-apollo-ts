@@ -1,45 +1,32 @@
-import { ApolloError } from "apollo-server-express";
-import { IVoteDocument, Vote } from "@Vote";
-import { Definition } from "@Definition";
-import { vote as validate } from "@Vote/validations/mutations";
+import { MutationVoteArgs, Resolver } from "@@api";
 import pubsub from "@config/pubsub";
-import { Resolver, MutationVoteArgs } from "@@api";
+import { IUserDocument } from "@User";
+import { IVoteDocument } from "@Vote";
+import { vote as validate } from "@Vote/validations/mutations";
+import { ApolloError } from "apollo-server-express";
 
 const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
   _,
   { definition: id, action },
-  { user: voter },
+  { user: voter, dataSources },
 ) => {
   validate({ definition: id, action });
-  const definition = await Definition.findById(id);
+  const definition = await dataSources.definition.getDefinition(id);
   if (!definition) throw new ApolloError("Definition Not Found");
-  const hasVoted = await Vote.findOne({ definition: definition._id, voter: voter?._id });
+  const hasVoted = await dataSources.vote.get(definition._id, (voter as IUserDocument)._id);
 
   if (action || hasVoted) {
-    const { score, _id: id } =
-      (await Definition.findByIdAndUpdate(
-        definition,
-        {
-          $inc: { score: hasVoted ? action - hasVoted.action : action },
-        },
-        { new: true },
-      )) ?? {};
+    const { score, _id: id } = await definition.updateScore(hasVoted ? action - hasVoted.action : action);
     pubsub.publish("SCORE", { definition: { score, id } });
   }
 
   let vote = null;
 
   if (action) {
-    vote = Vote.findOneAndUpdate(
-      { voter: voter?._id, definition: definition._id },
-      { action },
-      { new: true, upsert: true },
-    );
+    vote = await dataSources.vote.upsert(definition._id, (voter as IUserDocument)._id, action);
   } else if (hasVoted) {
-    vote = Vote.findOneAndDelete({ voter: voter?._id, definition: definition._id });
+    vote = await dataSources.vote.delete(definition._id, (voter as IUserDocument)._id);
   }
-
-  if (vote) vote = await vote.populate("voter definition");
 
   if (vote && !action && hasVoted) vote.action = 0;
 

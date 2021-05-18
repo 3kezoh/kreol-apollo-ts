@@ -1,15 +1,13 @@
 import { UserInputError } from "apollo-server-express";
 import { isValidObjectId } from "mongoose";
-import { Validator, QueryDefinitionsArgs } from "@@api";
+import { Validator, QueryCountArgs } from "@@api";
 import { validationError } from "@utils";
 
-const definitions: Validator<QueryDefinitionsArgs> = ({ filter, page, limit } = {}): void => {
+const count: Validator<QueryCountArgs> = ({ filter } = {}): void => {
   const validationErrors = [];
   if (!isValidObjectId(filter?.author))
     validationErrors.push(validationError("author", "Author Id is invalid"));
-  if (limit && limit > 100) validationErrors.push(validationError("limit", "Limit cannot exceed 100"));
-  if (page && page < 0) validationErrors.push(validationError("page", "Page cannot be negative"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 
-export default definitions;
+export default count;

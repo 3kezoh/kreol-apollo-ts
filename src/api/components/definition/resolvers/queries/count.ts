@@ -1,17 +1,17 @@
-import { ApolloError } from "apollo-server-express";
-import { User } from "@User";
-import { definitions as validate } from "@Definition/validations/queries";
-import { Resolver, QueryCountArgs, Match } from "@@api";
+import { Match, QueryCountArgs, Resolver } from "@@api";
+import { definitionValidation as validate } from "@Definition";
 import { escapeRegExp } from "@utils";
+import { ApolloError } from "apollo-server-express";
 
 const count: Resolver<QueryCountArgs, number> = async (_, { filter }, { dataSources }) => {
-  const match: Match = {};
   validate({ filter });
+
+  const match: Match = {};
 
   if (filter?.word) match.word = escapeRegExp(filter.word);
 
   if (filter?.author) {
-    const user = await User.findById(filter.author);
+    const user = await dataSources.user.getUser(filter.author);
     if (!user) throw new ApolloError("User Not Found");
   }
 

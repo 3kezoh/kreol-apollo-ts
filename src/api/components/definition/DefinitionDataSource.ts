@@ -1,6 +1,7 @@
-import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { Context, Match, Maybe } from "@@api";
 import { IDefinitionDocument } from "@Definition";
-import { Context, Match } from "@@api";
+import { IUserDocument } from "@User";
+import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Model } from "mongoose";
 
 const BY_SCORE = { score: -1, createdAt: 1 };
@@ -18,6 +19,20 @@ class DefinitionDataSource extends DataSource<Context> {
 
   initialize({ context }: DataSourceConfig<Context>) {
     this.context = context;
+  }
+
+  async create(
+    word: string,
+    meaning: string,
+    author: IUserDocument,
+    language: string,
+    example?: Maybe<string>,
+  ) {
+    return this.model.create({ word, meaning, example, author, language });
+  }
+
+  async getCount(match: Match) {
+    return this.model.countDocuments(match);
   }
 
   async getDefinition(id: string) {
@@ -65,10 +80,6 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async getCount(match: Match) {
-    return this.model.countDocuments(match);
-  }
-
   async getPopular(letter: string, limit: number) {
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
       { $match: { word: new RegExp(`^${letter}`, "i") } },
@@ -96,6 +107,10 @@ class DefinitionDataSource extends DataSource<Context> {
 
     return this.model.populate(definitions, { path: "author" });
   }
+
+  // async updateScore(id: string, score: number) {
+  //   return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true });
+  // }
 }
 
 export default DefinitionDataSource;

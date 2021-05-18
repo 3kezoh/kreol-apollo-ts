@@ -1,4 +1,4 @@
-const validationError = (field: string, message?: string) => {
+const validationError = (field: string, message: string) => {
   return { field, message };
 };
 

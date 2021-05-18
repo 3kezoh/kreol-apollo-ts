@@ -1,6 +1,8 @@
-import { Types } from "mongoose";
-import { IUserDocument } from "@User";
 import { DefinitionDataSource } from "@Definition";
+import { IUserDocument, UserDataSource } from "@User";
+import { VoteDataSource } from "@Vote";
+import { DocumentNode } from "graphql";
+import { Types } from "mongoose";
 
 export * from "./args";
 
@@ -8,18 +10,27 @@ export type Context = {
   user?: IUserDocument;
 };
 
-export type DataSourceContext = {
-  dataSources: {
-    definition: DefinitionDataSource;
-  };
+export type DataSources = {
+  definition: DefinitionDataSource;
+  user: UserDataSource;
+  vote: VoteDataSource;
+};
+
+export type DataSourcesContext = {
+  dataSources: DataSources;
 };
 
 export type Resolver<TArgs, R> = (
   source: unknown,
   args: TArgs,
-  context: Context & DataSourceContext,
+  context: Context & DataSourcesContext,
   info: unknown,
 ) => Promise<R>;
+
+export type Component = {
+  typeDefs: DocumentNode[];
+  resolvers: Resolver;
+};
 
 export type Validator<TArgs> = (args: TArgs) => void;
 

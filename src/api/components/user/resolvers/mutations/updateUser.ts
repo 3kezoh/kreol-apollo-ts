@@ -1,6 +1,5 @@
-import { User } from "@User";
+import { User, IUserDocument } from "@User";
 import { MutationUpdateUserArgs, Resolver } from "@@api";
-import { IUserDocument } from "../..";
 import { ApolloError } from "apollo-server-express";
 import { updateUser as validate } from "@User/validations/mutations";
 

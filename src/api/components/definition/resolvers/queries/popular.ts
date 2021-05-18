@@ -1,6 +1,6 @@
+import { QueryPopularArgs, Resolver } from "@@api";
 import { IDefinitionDocument } from "@Definition";
 import { popular as validate } from "@Definition/validations/queries";
-import { Resolver, QueryPopularArgs } from "@@api";
 
 const DEFINITIONS_LIMIT = 50;
 

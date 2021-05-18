@@ -16,6 +16,7 @@ export interface IDefinition {
 
 interface IDefinitionBaseDocument extends IDefinition, Document {
   _id: Types.ObjectId;
+  updateScore(score: number): Promise<IDefinitionDocument>;
 }
 
 export interface IDefinitionDocument extends IDefinitionBaseDocument {
@@ -68,6 +69,10 @@ definitionSchema.index({ word: 1 });
 definitionSchema.index({ score: -1, createdAt: 1 });
 definitionSchema.index({ score: 1 });
 definitionSchema.index({ createdAt: 1 });
+
+definitionSchema.methods.updateScore = async function updateScore(score: number) {
+  return this.update({ $inc: { score } }, { new: true });
+};
 
 const Definition: Model<IDefinitionDocument> = model("Definition", definitionSchema);
 

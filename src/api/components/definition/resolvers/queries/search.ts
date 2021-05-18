@@ -1,6 +1,6 @@
+import { QuerySearchArgs, Resolver } from "@@api";
 import { IDefinitionDocument } from "@Definition";
 import { search as validate } from "@Definition/validations/queries";
-import { Resolver, QuerySearchArgs } from "@@api";
 
 const DEFINITIONS_PER_PAGE = 5;
 
