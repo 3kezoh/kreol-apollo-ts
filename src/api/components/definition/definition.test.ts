@@ -3,6 +3,7 @@ import { Definition, DefinitionDataSource, definitionValidation } from "@Definit
 import { count, definition, definitions, popular, search } from "@Definition/resolvers/queries";
 import { User, UserDataSource } from "@User";
 import { mockedDefinition, mockedUser } from "@utils/test";
+import { Vote, VoteDataSource } from "@Vote";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 
@@ -18,6 +19,7 @@ describe("Definition", () => {
     dataSources: {
       definition: new DefinitionDataSource(Definition),
       user: new UserDataSource(User),
+      vote: new VoteDataSource(Vote),
     },
   };
 

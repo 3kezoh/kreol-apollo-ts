@@ -71,7 +71,7 @@ definitionSchema.index({ score: 1 });
 definitionSchema.index({ createdAt: 1 });
 
 definitionSchema.methods.updateScore = async function updateScore(score: number) {
-  return this.update({ $inc: { score } }, { new: true });
+  return this.updateOne({ $inc: { score } }, { new: true });
 };
 
 const Definition: Model<IDefinitionDocument> = model("Definition", definitionSchema);
