@@ -1,4 +1,4 @@
-import { MutationVoteArgs, Resolver } from "@@api";
+import { DefinitionSubscriptionPayload, MutationVoteArgs, Resolver } from "@@api";
 import pubsub from "@config/pubsub";
 import { IUserDocument } from "@User";
 import { IVoteDocument } from "@Vote";
@@ -16,8 +16,13 @@ const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
   const hasVoted = await dataSources.vote.get(definition._id, (voter as IUserDocument)._id);
 
   if (action || hasVoted) {
-    const { score, _id: id } = await definition.updateScore(hasVoted ? action - hasVoted.action : action);
-    pubsub.publish("SCORE", { definition: { score, id } });
+    const score = hasVoted ? action - hasVoted.action : action;
+    const _definition = await dataSources.definition.updateScore(definition._id, score);
+    if (_definition) {
+      const { score, _id } = _definition;
+      const payload: DefinitionSubscriptionPayload = { definition: { score, id: _id.toHexString() } };
+      pubsub.publish("SCORE", payload);
+    }
   }
 
   let vote = null;

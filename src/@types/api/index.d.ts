@@ -3,6 +3,7 @@ import { IUserDocument, UserDataSource } from "@User";
 import { VoteDataSource } from "@Vote";
 import { DocumentNode } from "graphql";
 import { Types } from "mongoose";
+import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
 
 export * from "./args";
 
@@ -45,3 +46,12 @@ export type AggregationArgs = {
   page?: Maybe<number>;
   limit?: Maybe<number>;
 };
+
+export type DefinitionSubscriptionPayload = {
+  definition: DefinitionSubscription;
+};
+
+export type DefinitionSubscriptionFilter = (
+  payload: DefinitionSubscriptionPayload,
+  variables: SubscriptionDefinitionArgs,
+) => boolean;

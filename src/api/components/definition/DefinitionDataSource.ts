@@ -133,9 +133,9 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.findOneAndDelete({ _id, author }).populate("author");
   }
 
-  // async updateScore(id: string, score: number) {
-  //   return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true });
-  // }
+  async updateScore(id: Types.ObjectId, score: number): Promise<IDefinitionDocument | null> {
+    return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true });
+  }
 }
 
 export default DefinitionDataSource;
