@@ -26,10 +26,10 @@ describe("Definition", () => {
   const id = mockedDefinitionDocument._id.toHexString();
 
   const {
-    getDefinition,
-    getDefinitions,
-    getCount,
-    getPopular,
+    get: getDefinition,
+    list: getDefinitions,
+    count: getCount,
+    popular: getPopular,
     search: _search,
   } = mockedContext.dataSources.definition;
 

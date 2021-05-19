@@ -11,7 +11,7 @@ import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { isValidObjectId, Model } from "mongoose";
+import { isValidObjectId, Model, Types } from "mongoose";
 
 const BY_SCORE = { score: -1, createdAt: 1 };
 const BY_DATE = { createdAt: -1 };
@@ -40,7 +40,7 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.create({ word, meaning, example, author, language });
   }
 
-  async getCount({ filter }: QueryCountArgs) {
+  async count({ filter }: QueryCountArgs) {
     if (!isValidObjectId(filter?.author)) return 0;
     const match: Match = {};
     if (filter?.word) match.word = escapeRegExp(filter.word);
@@ -48,11 +48,11 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.countDocuments(match);
   }
 
-  async getDefinition(id: string) {
+  async get(id: string) {
     return this.model.findById(id).populate("author");
   }
 
-  async getDefinitions({ filter, page, limit }: QueryDefinitionsArgs) {
+  async list({ filter, page, limit }: QueryDefinitionsArgs) {
     if (!isValidObjectId(filter?.author)) return [];
     const match: Match = {};
     if (filter?.word) match.word = escapeRegExp(filter.word);
@@ -100,7 +100,7 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async getPopular({ letter, limit }: QueryPopularArgs) {
+  async popular({ letter, limit }: QueryPopularArgs) {
     if (!limit || limit < 1 || limit > 100) limit = 50;
     if (!letter || ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter)) letter = "a";
 
@@ -132,6 +132,11 @@ class DefinitionDataSource extends DataSource<Context> {
     ]);
 
     return this.model.populate(definitions, { path: "author" });
+  }
+
+  async delete(_id: string, author: Types.ObjectId | undefined): Promise<IDefinitionDocument | null> {
+    if (!isValidObjectId(_id)) return null;
+    return this.model.findOneAndDelete({ _id, author }).populate("author");
   }
 
   // async updateScore(id: string, score: number) {

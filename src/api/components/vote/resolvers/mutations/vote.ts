@@ -11,7 +11,7 @@ const vote: Resolver<MutationVoteArgs, IVoteDocument | null> = async (
   { user: voter, dataSources },
 ) => {
   validate({ definition: id, action });
-  const definition = await dataSources.definition.getDefinition(id);
+  const definition = await dataSources.definition.get(id);
   if (!definition) throw new ApolloError("Definition Not Found");
   const hasVoted = await dataSources.vote.get(definition._id, (voter as IUserDocument)._id);
 

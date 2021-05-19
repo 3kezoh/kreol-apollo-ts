@@ -5,6 +5,6 @@ const popular: Resolver<QueryPopularArgs, IDefinitionDocument[]> = async (
   _,
   { letter, limit },
   { dataSources },
-) => dataSources.definition.getPopular({ letter, limit });
+) => dataSources.definition.popular({ letter, limit });
 
 export default popular;

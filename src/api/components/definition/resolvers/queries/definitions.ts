@@ -5,6 +5,6 @@ const definitions: Resolver<QueryDefinitionsArgs, IDefinitionDocument[]> = async
   _,
   { filter, page, limit },
   { dataSources },
-) => dataSources.definition.getDefinitions({ filter, page, limit });
+) => dataSources.definition.list({ filter, page, limit });
 
 export default definitions;

@@ -1,7 +1,6 @@
 import { MutationCreateDefinitionArgs, Resolver } from "@@api";
 import { IUserDocument } from "@api/components/user";
-import { IDefinitionDocument } from "@Definition";
-import { createDefinition as validate } from "@Definition/validations/mutations";
+import { definitionValidation as validate, IDefinitionDocument } from "@Definition";
 
 const createDefinition: Resolver<MutationCreateDefinitionArgs, IDefinitionDocument> = async (
   _,
