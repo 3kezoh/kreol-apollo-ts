@@ -109,6 +109,14 @@ describe("Definition", () => {
         expect(remove).toBeCalledWith(id, mockedUser._id);
         expect(d).toEqual(mockedDefinitionDocument);
       });
+
+      it("should throw is definition is null", async () => {
+        mocked(remove).mockResolvedValue(null);
+        await expect(deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
+          new ApolloError("Definition Not Found"),
+        );
+        expect(remove).toBeCalledWith(id, mockedUser._id);
+      });
     });
   });
 
