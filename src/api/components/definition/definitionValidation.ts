@@ -1,18 +1,23 @@
-import { QueryDefinitionsArgs, QueryPopularArgs, Validator } from "@@api";
+import { MutationCreateDefinitionArgs, Validator } from "@@api";
 import { validationError } from "@utils";
 import { UserInputError } from "apollo-server-express";
-import { isValidObjectId } from "mongoose";
+import validator from "validator";
 
-type args = QueryDefinitionsArgs & QueryPopularArgs;
+const { isEmpty, isLength, isIn } = validator;
 
-const definitionValidation: Validator<args> = ({ filter, letter, page, limit } = {}): void => {
+type args = MutationCreateDefinitionArgs;
+
+const definitionValidation: Validator<args> = ({ word, meaning, example, language }): void => {
   const validationErrors = [];
-  if (filter?.author && !isValidObjectId(filter.author))
-    validationErrors.push(validationError("author", "Author Id is invalid"));
-  if (letter && ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter))
-    validationErrors.push(validationError("letter", "Letter is invalid"));
-  if (limit && limit > 100) validationErrors.push(validationError("limit", "Limit cannot exceed 100"));
-  if (page && page < 0) validationErrors.push(validationError("page", "Page cannot be negative"));
+  if (isEmpty(word)) validationErrors.push(validationError("word", "word is empty"));
+  if (isEmpty(meaning)) validationErrors.push(validationError("meaning", "meaning is empty"));
+  if (!isLength(meaning, { max: 1500 }))
+    validationErrors.push(validationError("meaning", "meaning is too long"));
+  if (!isLength(example || "", { max: 1500 }))
+    validationErrors.push(validationError("example", "example is too long"));
+  if (isEmpty(language)) validationErrors.push(validationError("language", "language is empty"));
+  if (!isIn(language, ["fr", "gf"]))
+    validationErrors.push(validationError("language", "language can only be fr or gf"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
 

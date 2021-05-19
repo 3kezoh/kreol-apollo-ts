@@ -2,7 +2,7 @@ import { DataSourcesContext } from "@@api";
 import { Definition, DefinitionDataSource, definitionValidation } from "@Definition";
 import { count, definition, definitions, popular, search } from "@Definition/resolvers/queries";
 import { User, UserDataSource } from "@User";
-import { mockedDefinition } from "@utils/test";
+import { mockedDefinition, mockedDefinitionDocument } from "@utils/test";
 import { Vote, VoteDataSource } from "@Vote";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
@@ -23,7 +23,7 @@ describe("Definition", () => {
     },
   };
 
-  const id = mockedDefinition._id.toHexString();
+  const id = mockedDefinitionDocument._id.toHexString();
 
   const {
     getDefinition,
@@ -45,10 +45,10 @@ describe("Definition", () => {
 
     describe("definition", () => {
       it("should resolve", async () => {
-        mocked(getDefinition).mockResolvedValue(mockedDefinition);
+        mocked(getDefinition).mockResolvedValue(mockedDefinitionDocument);
         const d = await definition(null, { id }, mockedContext, null);
         expect(getDefinition).toBeCalledWith(id);
-        expect(d).toEqual(mockedDefinition);
+        expect(d).toEqual(mockedDefinitionDocument);
       });
 
       it("should throw because the definition is not found", async () => {
@@ -82,41 +82,36 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(_search).mockResolvedValue([]);
         const d = await search(null, { match: "" }, mockedContext, null);
-        expect(_search).toBeCalledWith("", 1, 5);
+        expect(_search).toBeCalledWith({ match: "" });
         expect(d).toEqual([]);
       });
     });
   });
 
   describe("validation", () => {
-    it("should throw if author has an invalid ObjectId", () => {
-      expect(() => definitionValidation({ filter: { author: "3" } })).toThrow(
+    it.each([["word", "meaning", "language"]])("should throw if %s is empty", (attr) => {
+      (mockedDefinition as { [i: string]: string })[attr] = "";
+      expect(() => definitionValidation(mockedDefinition)).toThrow(
         new UserInputError("Validation Error", {
-          validationErrors: [{ field: "author", message: "Author Id is invalid" }],
+          validationErrors: [{ field: "%s", message: "%s is empty" }],
         }),
       );
     });
 
-    it("should throw if letter is invalid", () => {
-      expect(() => definitionValidation({ letter: "3" })).toThrow(
+    it.each(["meaning", "example"])("should throw if %s greater than 1500", (attr) => {
+      (mockedDefinition as { [i: string]: string })[attr] = "#".repeat(1503);
+      expect(() => definitionValidation(mockedDefinition)).toThrow(
         new UserInputError("Validation Error", {
-          validationErrors: [{ field: "letter", message: "Letter is invalid" }],
+          validationErrors: [{ field: "%s", message: "%s is too long" }],
         }),
       );
     });
 
-    it("should throw if page is negative", () => {
-      expect(() => definitionValidation({ page: -3 })).toThrow(
+    it("should throw if language is neither fr or gf", () => {
+      mockedDefinition.language = "en";
+      expect(() => definitionValidation(mockedDefinition)).toThrow(
         new UserInputError("Validation Error", {
-          validationErrors: [{ field: "page", message: "Page cannot be negative" }],
-        }),
-      );
-    });
-
-    it("should throw if limit is greater than 100", () => {
-      expect(() => definitionValidation({ limit: 103 })).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "limit", message: "Limit cannot exceed 100" }],
+          validationErrors: [{ field: "language", message: "language can only be fr or gf" }],
         }),
       );
     });
