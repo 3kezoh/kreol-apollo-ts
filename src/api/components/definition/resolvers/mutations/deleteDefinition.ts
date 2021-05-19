@@ -7,7 +7,7 @@ const deleteDefinition: Resolver<MutationDeleteDefinitionArgs, IDefinitionDocume
   { id },
   { user, dataSources },
 ) => {
-  const definition = await dataSources.definition.delete(id, user?._id);
+  const definition = await dataSources.definition.remove(id, user?._id);
   if (!definition) throw new ApolloError("Definition Not Found");
   return definition;
 };

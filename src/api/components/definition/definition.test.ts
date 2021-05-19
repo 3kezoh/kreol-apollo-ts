@@ -1,8 +1,9 @@
-import { DataSourcesContext } from "@@api";
+import { Context, DataSourcesContext } from "@@api";
 import { Definition, DefinitionDataSource, definitionValidation } from "@Definition";
+import { createDefinition, deleteDefinition } from "@Definition/resolvers/mutations";
 import { count, definition, definitions, popular, search } from "@Definition/resolvers/queries";
 import { User, UserDataSource } from "@User";
-import { mockedDefinition, mockedDefinitionDocument } from "@utils/test";
+import { mockedDefinition, mockedDefinitionDocument, mockedUser } from "@utils/test";
 import { Vote, VoteDataSource } from "@Vote";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
@@ -15,65 +16,68 @@ afterEach(() => {
 });
 
 describe("Definition", () => {
-  const mockedContext: DataSourcesContext = {
+  const mockedContext: Context & DataSourcesContext = {
     dataSources: {
       definition: new DefinitionDataSource(Definition),
       user: new UserDataSource(User),
       vote: new VoteDataSource(Vote),
     },
+    user: mockedUser,
   };
 
   const id = mockedDefinitionDocument._id.toHexString();
 
   const {
-    get: getDefinition,
-    list: getDefinitions,
-    count: getCount,
-    popular: getPopular,
+    get,
+    list,
+    count: _count,
+    popular: _popular,
     search: _search,
+    create,
+    remove,
   } = mockedContext.dataSources.definition;
 
   describe("queries", () => {
     describe("count", () => {
       it("should resolve", async () => {
-        mocked(getCount).mockResolvedValue(0);
+        mocked(_count).mockResolvedValue(0);
         const c = await count(null, {}, mockedContext, null);
-        expect(getCount).toBeCalledWith({});
+        expect(_count).toBeCalledWith({});
         expect(c).toEqual(0);
       });
     });
 
     describe("definition", () => {
       it("should resolve", async () => {
-        mocked(getDefinition).mockResolvedValue(mockedDefinitionDocument);
+        mocked(get).mockResolvedValue(mockedDefinitionDocument);
         const d = await definition(null, { id }, mockedContext, null);
-        expect(getDefinition).toBeCalledWith(id);
+        expect(get).toBeCalledWith(id);
         expect(d).toEqual(mockedDefinitionDocument);
       });
 
       it("should throw because the definition is not found", async () => {
-        mocked(getDefinition).mockResolvedValue(null);
+        mocked(get).mockResolvedValue(null);
         await expect(definition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
-        expect(getDefinition).toBeCalledWith(id);
+        expect(get).toBeCalledWith(id);
       });
     });
 
     describe("definitions", () => {
       it("should resolve", async () => {
-        mocked(getDefinitions).mockResolvedValue([]);
+        mocked(list).mockResolvedValue([]);
         const d = await definitions(null, {}, mockedContext, null);
-        expect(getDefinitions).toBeCalledWith({});
+        expect(list).toBeCalledWith({});
         expect(d).toEqual([]);
       });
     });
 
     describe("popular", () => {
       it("should resolve", async () => {
-        mocked(getPopular).mockResolvedValue([]);
+        mocked(_popular).mockResolvedValue([]);
         const d = await popular(null, { letter: "w", limit: 3 }, mockedContext, null);
-        expect(getPopular).toBeCalledWith({ letter: "w", limit: 3 });
+        expect(_popular).toBeCalledWith({ letter: "w", limit: 3 });
         expect(d).toEqual([]);
       });
     });
@@ -84,6 +88,26 @@ describe("Definition", () => {
         const d = await search(null, { match: "" }, mockedContext, null);
         expect(_search).toBeCalledWith({ match: "" });
         expect(d).toEqual([]);
+      });
+    });
+  });
+
+  describe("mutations", () => {
+    describe("createDefinition", () => {
+      it("should resolve", async () => {
+        mocked(create).mockResolvedValue(mockedDefinitionDocument);
+        const d = await createDefinition(null, mockedDefinition, mockedContext, null);
+        expect(create).toBeCalledWith(mockedDefinition, mockedUser);
+        expect(d).toEqual(mockedDefinitionDocument);
+      });
+    });
+
+    describe("deleteDefinition", () => {
+      it("should resolve", async () => {
+        mocked(remove).mockResolvedValue(mockedDefinitionDocument);
+        const d = await deleteDefinition(null, { id }, mockedContext, null);
+        expect(remove).toBeCalledWith(id, mockedUser._id);
+        expect(d).toEqual(mockedDefinitionDocument);
       });
     });
   });

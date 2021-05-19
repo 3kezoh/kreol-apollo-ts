@@ -1,7 +1,7 @@
 import {
   Context,
   Match,
-  Maybe,
+  MutationCreateDefinitionArgs,
   QueryCountArgs,
   QueryDefinitionsArgs,
   QueryPopularArgs,
@@ -30,13 +30,7 @@ class DefinitionDataSource extends DataSource<Context> {
     this.context = context;
   }
 
-  async create(
-    word: string,
-    meaning: string,
-    author: IUserDocument,
-    language: string,
-    example?: Maybe<string>,
-  ) {
+  async create({ word, meaning, example, language }: MutationCreateDefinitionArgs, author: IUserDocument) {
     return this.model.create({ word, meaning, example, author, language });
   }
 
@@ -134,7 +128,7 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async delete(_id: string, author: Types.ObjectId | undefined): Promise<IDefinitionDocument | null> {
+  async remove(_id: string, author: Types.ObjectId | undefined): Promise<IDefinitionDocument | null> {
     if (!isValidObjectId(_id)) return null;
     return this.model.findOneAndDelete({ _id, author }).populate("author");
   }

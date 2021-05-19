@@ -8,7 +8,7 @@ const createDefinition: Resolver<MutationCreateDefinitionArgs, IDefinitionDocume
   { user, dataSources },
 ) => {
   validate({ word, meaning, example, language });
-  return dataSources.definition.create(word, meaning, user as IUserDocument, language, example);
+  return dataSources.definition.create({ word, meaning, language, example }, user as IUserDocument);
 };
 
 export default createDefinition;
