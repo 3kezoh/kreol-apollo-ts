@@ -38,7 +38,7 @@ class DefinitionDataSource extends DataSource<Context> {
     if (!isValidObjectId(filter?.author)) return 0;
     const match: Match = {};
     if (filter?.word) match.word = escapeRegExp(filter.word);
-    if (filter?.author) match.author = filter.author;
+    if (filter?.author) match.author = new Types.ObjectId(filter.author);
     return this.model.countDocuments(match);
   }
 
@@ -50,7 +50,7 @@ class DefinitionDataSource extends DataSource<Context> {
     if (!isValidObjectId(filter?.author)) return [];
     const match: Match = {};
     if (filter?.word) match.word = escapeRegExp(filter.word);
-    if (filter?.author) match.author = filter.author;
+    if (filter?.author) match.author = new Types.ObjectId(filter.author);
     if (!page || page < 1) page = 1;
     if (!limit || limit < 1 || limit > 100) limit = 5;
 
