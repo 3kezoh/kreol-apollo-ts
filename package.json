@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-datasource": "^0.9.0",
+    "apollo-server-caching": "^0.6.0",
     "apollo-server-express": "^2.19.0",
     "apollo-server-plugin-base": "^0.11.0",
     "apollo-server-plugin-response-cache": "^0.8.0",
@@ -22,6 +23,7 @@
     "chalk": "^4.1.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
     "date-fns": "^2.16.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^8.2.0",
@@ -33,6 +35,7 @@
     "module-alias": "^2.2.2",
     "mongodb": "^3.6.6",
     "mongoose": "^5.10.17",
+    "mongoose-lean-id": "^0.2.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",

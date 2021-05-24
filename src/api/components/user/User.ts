@@ -2,6 +2,7 @@ import { hash, compare } from "bcryptjs";
 import { model, Schema, Model, Document, Types } from "mongoose";
 import { sign } from "jsonwebtoken";
 import { jwtSecret, jwtExpiration } from "@config/globals";
+import mongooseLeanId from "mongoose-lean-id";
 
 export interface IUser {
   email: string;
@@ -54,6 +55,7 @@ const userSchema = new Schema<IUserDocument>(
   { timestamps: true },
 );
 
+userSchema.plugin(mongooseLeanId);
 userSchema.set("toObject", { versionKey: false });
 
 userSchema.pre<IUserDocument>("save", async function save(next) {

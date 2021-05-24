@@ -1,5 +1,6 @@
 import { IUserDocument } from "@User";
 import { Document, model, Model, Schema, Types } from "mongoose";
+import mongooseLeanId from "mongoose-lean-id";
 
 type Language = "fr" | "gf";
 
@@ -63,6 +64,7 @@ const definitionSchema = new Schema<IDefinitionDocument>(
   { timestamps: true },
 );
 
+definitionSchema.plugin(mongooseLeanId);
 definitionSchema.set("toObject", { versionKey: false });
 definitionSchema.index({ word: 1 });
 definitionSchema.index({ score: -1, createdAt: 1 });

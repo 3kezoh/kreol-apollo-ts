@@ -11,6 +11,7 @@ import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
 import { isValidObjectId, Model, Types } from "mongoose";
 
 const BY_SCORE = { score: -1, createdAt: 1 };
@@ -21,13 +22,16 @@ class DefinitionDataSource extends DataSource<Context> {
 
   context!: Context;
 
+  cache!: KeyValueCache<string>;
+
   constructor(model: Model<IDefinitionDocument>) {
     super();
     this.model = model;
   }
 
-  initialize({ context }: DataSourceConfig<Context>) {
+  initialize({ context, cache }: DataSourceConfig<Context>) {
     this.context = context;
+    this.cache = cache || new InMemoryLRUCache();
   }
 
   async create({ word, meaning, example, language }: MutationCreateDefinitionArgs, author: IUserDocument) {
@@ -42,8 +46,12 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.countDocuments(match);
   }
 
-  async get(id: string) {
-    return this.model.findById(id).populate("author");
+  async get(id: string, ttl?: number) {
+    const cachedDefinition = await this.cache.get(id);
+    if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
+    const definition = await this.model.findById(id).populate("author");
+    if (ttl) this.cache.set(id, JSON.stringify(definition), { ttl });
+    return definition;
   }
 
   async list({ filter, page, limit }: QueryDefinitionsArgs) {

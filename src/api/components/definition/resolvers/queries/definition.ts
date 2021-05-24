@@ -1,9 +1,12 @@
 import { QueryDefinitionArgs, Resolver } from "@@api";
 import { IDefinitionDocument } from "@Definition";
 import { ApolloError } from "apollo-server-express";
+import { LeanDocument } from "mongoose";
 
-const definition: Resolver<QueryDefinitionArgs, IDefinitionDocument> = async (_, { id }, { dataSources }) => {
-  const definition = await dataSources.definition.get(id);
+type definitionResolver = Resolver<QueryDefinitionArgs, LeanDocument<IDefinitionDocument>>;
+
+const definition: definitionResolver = async (_, { id }, { dataSources }) => {
+  const definition = await dataSources.definition.get(id, 30);
   if (!definition) throw new ApolloError("Definition Not Found");
   return definition;
 };

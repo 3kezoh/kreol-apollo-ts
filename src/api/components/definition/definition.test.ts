@@ -51,7 +51,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(get).mockResolvedValue(mockedDefinitionDocument);
         const d = await definition(null, { id }, mockedContext, null);
-        expect(get).toBeCalledWith(id);
+        expect(get).toBeCalledWith(id, 30);
         expect(d).toEqual(mockedDefinitionDocument);
       });
 
@@ -60,7 +60,7 @@ describe("Definition", () => {
         await expect(definition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
-        expect(get).toBeCalledWith(id);
+        expect(get).toBeCalledWith(id, 30);
       });
     });
 
