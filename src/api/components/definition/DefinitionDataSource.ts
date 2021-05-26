@@ -7,7 +7,7 @@ import {
   QueryPopularArgs,
   QuerySearchArgs,
 } from "@@api";
-import { IDefinitionDocument } from "@Definition";
+import { IDefinition, IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
@@ -49,13 +49,14 @@ class DefinitionDataSource extends DataSource<Context> {
   async get(id: string, ttl?: number) {
     const cachedDefinition = await this.cache.get(id);
     if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
-    const definition = await this.model.findById(id).populate("author");
+    const definition = await this.model.findById(id).populate("author").lean();
     if (ttl) this.cache.set(id, JSON.stringify(definition), { ttl });
     return definition;
   }
 
   async list({ filter, page, limit }: QueryDefinitionsArgs) {
     if (!isValidObjectId(filter?.author)) return [];
+
     const match: Match = {};
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = new Types.ObjectId(filter.author);
@@ -67,7 +68,9 @@ class DefinitionDataSource extends DataSource<Context> {
       { $sort: match?.word ? BY_SCORE : BY_DATE },
       { $skip: (page - 1) * limit },
       { $limit: limit },
-      { $set: { id: "$_id" } },
+      { $lookup: { from: "users", localField: "author", foreignField: "_id", as: "author" } },
+      { $set: { author: { $first: "$author" } } },
+      { $set: { id: "$_id", "author.id": "$author._id" } },
     ]);
 
     if (this.context.user) {
@@ -97,9 +100,9 @@ class DefinitionDataSource extends DataSource<Context> {
       ]);
     }
 
-    const definitions: IDefinitionDocument[] = await aggregate.exec();
+    const definitions: IDefinition[] = await aggregate.exec();
 
-    return this.model.populate(definitions, { path: "author" });
+    return definitions;
   }
 
   async popular({ letter, limit }: QueryPopularArgs) {

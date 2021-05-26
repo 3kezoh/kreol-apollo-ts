@@ -68,7 +68,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(list).mockResolvedValue([]);
         const d = await definitions(null, {}, mockedContext, null);
-        expect(list).toBeCalledWith({});
+        expect(list).toBeCalledWith({}, 30);
         expect(d).toEqual([]);
       });
     });

@@ -1,7 +1,7 @@
 import { QueryDefinitionsArgs, Resolver } from "@@api";
-import { IDefinitionDocument } from "@Definition";
+import { IDefinition } from "@Definition";
 
-const definitions: Resolver<QueryDefinitionsArgs, IDefinitionDocument[]> = async (
+const definitions: Resolver<QueryDefinitionsArgs, IDefinition[]> = async (
   _,
   { filter, page, limit },
   { dataSources },

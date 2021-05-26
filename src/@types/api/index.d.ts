@@ -2,7 +2,7 @@ import { DefinitionDataSource } from "@Definition";
 import { IUserDocument, UserDataSource } from "@User";
 import { VoteDataSource } from "@Vote";
 import { DocumentNode } from "graphql";
-import { Types } from "mongoose";
+import { LeanDocument, Types } from "mongoose";
 import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
 
 export * from "./args";
@@ -10,7 +10,7 @@ export * from "./args";
 type Maybe<T> = T | null | undefined;
 
 export type Context = {
-  user?: IUserDocument;
+  user?: LeanDocument<IUserDocument>;
 };
 
 export type DataSources = {
