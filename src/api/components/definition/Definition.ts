@@ -2,13 +2,11 @@ import { IUserDocument } from "@User";
 import { Document, model, Model, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
 
-type Language = "fr" | "gf";
-
 export interface IDefinition {
   word: string;
   meaning: string;
   example?: string;
-  language: Language;
+  language: "fr" | "gf";
   author: Types.ObjectId | string;
   score: number;
   createdAt: Date;

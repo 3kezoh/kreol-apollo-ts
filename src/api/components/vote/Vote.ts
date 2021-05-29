@@ -1,6 +1,6 @@
-import { model, Schema, Model, Document, Types } from "mongoose";
 import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
+import { Document, model, Model, Schema, Types } from "mongoose";
 
 export interface IVote {
   voter: Types.ObjectId | string;

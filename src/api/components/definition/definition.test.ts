@@ -1,7 +1,8 @@
 import { Context, DataSourcesContext } from "@@api";
 import { Definition, DefinitionDataSource, definitionValidation } from "@Definition";
-import { createDefinition, deleteDefinition } from "@Definition/resolvers/mutations";
-import { count, definition, definitions, popular, search } from "@Definition/resolvers/queries";
+import mutations from "@Definition/resolvers/mutations";
+import queries from "@Definition/resolvers/queries";
+import { Report, ReportDataSource } from "@Report";
 import { User, UserDataSource } from "@User";
 import { mockedDefinition, mockedDefinitionDocument, mockedUser } from "@utils/test";
 import { Vote, VoteDataSource } from "@Vote";
@@ -21,28 +22,21 @@ describe("Definition", () => {
       definition: new DefinitionDataSource(Definition),
       user: new UserDataSource(User),
       vote: new VoteDataSource(Vote),
+      report: new ReportDataSource(Report),
     },
     user: mockedUser,
   };
 
   const id = mockedDefinitionDocument._id.toHexString();
 
-  const {
-    get,
-    list,
-    count: _count,
-    popular: _popular,
-    search: _search,
-    create,
-    remove,
-  } = mockedContext.dataSources.definition;
+  const { get, list, count, popular, search, create, remove } = mockedContext.dataSources.definition;
 
   describe("queries", () => {
     describe("count", () => {
       it("should resolve", async () => {
-        mocked(_count).mockResolvedValue(0);
-        const c = await count(null, {}, mockedContext, null);
-        expect(_count).toBeCalledWith({});
+        mocked(count).mockResolvedValue(0);
+        const c = await queries.count(null, {}, mockedContext, null);
+        expect(count).toBeCalledWith({});
         expect(c).toEqual(0);
       });
     });
@@ -50,14 +44,14 @@ describe("Definition", () => {
     describe("definition", () => {
       it("should resolve", async () => {
         mocked(get).mockResolvedValue(mockedDefinitionDocument);
-        const d = await definition(null, { id }, mockedContext, null);
+        const definition = await queries.definition(null, { id }, mockedContext, null);
         expect(get).toBeCalledWith(id, 30);
-        expect(d).toEqual(mockedDefinitionDocument);
+        expect(definition).toEqual(mockedDefinitionDocument);
       });
 
       it("should throw because the definition is not found", async () => {
         mocked(get).mockResolvedValue(null);
-        await expect(definition(null, { id }, mockedContext, null)).rejects.toThrow(
+        await expect(queries.definition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
         expect(get).toBeCalledWith(id, 30);
@@ -67,27 +61,27 @@ describe("Definition", () => {
     describe("definitions", () => {
       it("should resolve", async () => {
         mocked(list).mockResolvedValue([]);
-        const d = await definitions(null, {}, mockedContext, null);
-        expect(list).toBeCalledWith({}, 30);
-        expect(d).toEqual([]);
+        const definitions = await queries.definitions(null, {}, mockedContext, null);
+        expect(list).toBeCalledWith({});
+        expect(definitions).toEqual([]);
       });
     });
 
     describe("popular", () => {
       it("should resolve", async () => {
-        mocked(_popular).mockResolvedValue([]);
-        const d = await popular(null, { letter: "w", limit: 3 }, mockedContext, null);
-        expect(_popular).toBeCalledWith({ letter: "w", limit: 3 });
-        expect(d).toEqual([]);
+        mocked(popular).mockResolvedValue([]);
+        const definition = await queries.popular(null, { letter: "w", limit: 3 }, mockedContext, null);
+        expect(popular).toBeCalledWith({ letter: "w", limit: 3 });
+        expect(definition).toEqual([]);
       });
     });
 
     describe("search", () => {
       it("should resolve", async () => {
-        mocked(_search).mockResolvedValue([]);
-        const d = await search(null, { match: "" }, mockedContext, null);
-        expect(_search).toBeCalledWith({ match: "" });
-        expect(d).toEqual([]);
+        mocked(search).mockResolvedValue([]);
+        const definitions = await queries.search(null, { match: "" }, mockedContext, null);
+        expect(search).toBeCalledWith({ match: "" });
+        expect(definitions).toEqual([]);
       });
     });
   });
@@ -96,23 +90,23 @@ describe("Definition", () => {
     describe("createDefinition", () => {
       it("should resolve", async () => {
         mocked(create).mockResolvedValue(mockedDefinitionDocument);
-        const d = await createDefinition(null, mockedDefinition, mockedContext, null);
+        const definition = await mutations.createDefinition(null, mockedDefinition, mockedContext, null);
         expect(create).toBeCalledWith(mockedDefinition, mockedUser);
-        expect(d).toEqual(mockedDefinitionDocument);
+        expect(definition).toEqual(mockedDefinitionDocument);
       });
     });
 
     describe("deleteDefinition", () => {
       it("should resolve", async () => {
         mocked(remove).mockResolvedValue(mockedDefinitionDocument);
-        const d = await deleteDefinition(null, { id }, mockedContext, null);
+        const definition = await mutations.deleteDefinition(null, { id }, mockedContext, null);
         expect(remove).toBeCalledWith(id, mockedUser._id);
-        expect(d).toEqual(mockedDefinitionDocument);
+        expect(definition).toEqual(mockedDefinitionDocument);
       });
 
       it("should throw is definition is null", async () => {
         mocked(remove).mockResolvedValue(null);
-        await expect(deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
+        await expect(mutations.deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
         expect(remove).toBeCalledWith(id, mockedUser._id);

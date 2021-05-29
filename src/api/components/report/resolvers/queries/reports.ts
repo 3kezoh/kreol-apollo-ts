@@ -1,11 +1,12 @@
 import { QueryReportsArgs, Resolver } from "@@api";
-import { IReportDocument, Report } from "@Report";
-import { reports as validate } from "@Report/validations/queries";
+import { IReportDocument } from "@Report";
 
-const reports: Resolver<QueryReportsArgs, IReportDocument[]> = async (_, { definition }) => {
-  validate({ definition });
-  const reports = Report.find({ definition }).populate("reporter definition ");
-  return reports;
+const reports: Resolver<QueryReportsArgs, IReportDocument[] | null> = async (
+  _,
+  { definition },
+  { dataSources },
+) => {
+  return dataSources.report.list(definition);
 };
 
 export default reports;

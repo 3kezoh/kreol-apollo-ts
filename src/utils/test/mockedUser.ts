@@ -1,4 +1,4 @@
-import { IUserDocument } from "@api/components/user";
+import { IUserDocument, IUser } from "@api/components/user";
 import { ObjectId } from "mongodb";
 
 const mockedUser = ({
@@ -6,6 +6,6 @@ const mockedUser = ({
   email: "sion@mail.com",
   name: "sion",
   password: "password",
-} as unknown) as IUserDocument;
+} as IUser) as IUserDocument;
 
 export default mockedUser;

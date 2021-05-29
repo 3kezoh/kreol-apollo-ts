@@ -1,22 +1,19 @@
+import { MutationReportArgs, Resolver } from "@@api";
+import { IReportDocument, reportValidation as validate } from "@Report";
+import { IUserDocument } from "@User";
 import { ApolloError } from "apollo-server-express";
-import { IReportDocument, Report } from "@Report";
-import { Definition } from "@Definition";
-import { report as validate } from "@Report/validations/mutations";
-import { Resolver, MutationReportArgs } from "@@api";
 
 const report: Resolver<MutationReportArgs, IReportDocument> = async (
   _,
   { definition: id, reason, message },
-  { user: reporter },
+  { user: reporter, dataSources },
 ) => {
   validate({ definition: id, reason, message });
-  const definition = await Definition.findById(id);
+  const definition = await dataSources.definition.get(id);
   if (!definition) throw new ApolloError("Definition Not Found");
-  const hasReported = await Report.findOne({ definition: definition._id, reporter: reporter?._id });
+  const hasReported = await dataSources.report.get(definition._id, (reporter as IUserDocument)._id);
   if (hasReported) throw new ApolloError("Already reported", undefined, { hasReported });
-  const report = await Report.create({ definition, reason, reporter, message });
-  await report.populate("definition.author").execPopulate();
-  return report;
+  return dataSources.report.create(definition._id, (reporter as IUserDocument)._id, reason, message);
 };
 
 export default report;

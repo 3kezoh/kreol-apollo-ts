@@ -1,4 +1,5 @@
 import { DefinitionDataSource } from "@Definition";
+import { ReportDataSource } from "@Report";
 import { IUserDocument, UserDataSource } from "@User";
 import { VoteDataSource } from "@Vote";
 import { DocumentNode } from "graphql";
@@ -17,6 +18,7 @@ export type DataSources = {
   definition: DefinitionDataSource;
   user: UserDataSource;
   vote: VoteDataSource;
+  report: ReportDataSource;
 };
 
 export type DataSourcesContext = {

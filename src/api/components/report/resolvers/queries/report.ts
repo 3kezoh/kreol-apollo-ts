@@ -1,17 +1,13 @@
 import { QueryReportArgs, Resolver } from "@@api";
-import { IReportDocument, Report } from "@Report";
-import { report as validate } from "@Report/validations/queries";
+import { IUserDocument } from "@api/components/user";
+import { IReportDocument } from "@Report";
 
 const report: Resolver<QueryReportArgs, IReportDocument | null> = async (
   _,
   { definition },
-  { user: reporter },
+  { user: reporter, dataSources },
 ) => {
-  validate({ definition });
-  const report = Report.findOne({ reporter: reporter?._id, definition })
-    .populate("reporter")
-    .populate({ path: "definition", populate: { path: "author" } });
-  return report;
+  return dataSources.report.get(definition, (reporter as IUserDocument)._id);
 };
 
 export default report;

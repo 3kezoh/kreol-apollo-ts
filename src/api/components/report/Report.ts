@@ -1,6 +1,6 @@
-import { model, Schema, Model, Document, Types } from "mongoose";
 import { IDefinitionDocument } from "@Definition";
 import { IUserDocument } from "@User";
+import { Document, model, Model, Schema, Types } from "mongoose";
 
 export interface IReport {
   reporter: Types.ObjectId | string;
@@ -29,6 +29,7 @@ const reportSchema = new Schema<IReportDocument>(
 );
 
 reportSchema.set("toObject", { versionKey: false });
+reportSchema.index({ definition: 1, reporter: 1 });
 
 const Report: Model<IReportDocument> = model("Report", reportSchema);
 
