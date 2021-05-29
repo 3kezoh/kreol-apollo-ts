@@ -9,7 +9,6 @@ const typeDefs = gql`
 
   extend type Query {
     vote(definition: ID!): Vote @isAuthenticated
-    votes: [Vote] @isAuthenticated
   }
 
   extend type Mutation {

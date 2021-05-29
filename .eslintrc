@@ -51,7 +51,8 @@
         ["@directives", "./src/directives"],
         ["@middlewares", "./src/middlewares"],
         ["@scalars", "./src/scalars"],
-        ["@utils", "./src/utils"]
+        ["@utils", "./src/utils"],
+        ["@test", "./src/utils/test"]
       ]
     }
   }

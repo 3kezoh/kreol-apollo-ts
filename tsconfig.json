@@ -42,7 +42,9 @@
       "@scalars": ["scalars/index.ts"],
       "@scalars/*": ["scalars/*"],
       "@utils": ["utils/index.ts"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@test": ["utils/test/index.ts"],
+      "@test/*": ["utils/test/*"]
     }
   },
   "include": ["./src/**/*"]

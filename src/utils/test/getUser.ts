@@ -11,4 +11,3 @@ const getUser = async () => {
 };
 
 export default getUser;
-export { user };

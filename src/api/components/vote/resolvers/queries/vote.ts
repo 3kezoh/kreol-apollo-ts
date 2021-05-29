@@ -1,10 +1,11 @@
 import { QueryVoteArgs, Resolver } from "@@api";
-import { IVoteDocument, Vote } from "@Vote";
-import { vote as validate } from "@Vote/validations/queries";
+import { IUserDocument } from "@api/components/user";
+import { IVoteDocument } from "@Vote";
 
-const vote: Resolver<QueryVoteArgs, IVoteDocument | null> = async (_, { definition }, { user: voter }) => {
-  validate({ definition });
-  return Vote.findOne({ voter: voter?._id, definition }).populate("voter definition");
+type voteResolver = Resolver<QueryVoteArgs, IVoteDocument | null>;
+
+const vote: voteResolver = async (_, { definition }, { user: voter, dataSources }) => {
+  return dataSources.vote.get(definition, (voter as IUserDocument)._id);
 };
 
 export default vote;

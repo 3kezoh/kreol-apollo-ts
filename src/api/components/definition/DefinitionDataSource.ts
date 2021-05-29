@@ -47,6 +47,7 @@ class DefinitionDataSource extends DataSource<Context> {
   }
 
   async get(id: string, ttl?: number) {
+    if (!isValidObjectId(id)) return null;
     const cachedDefinition = await this.cache.get(id);
     if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
     const definition = await this.model.findById(id).populate("author").lean();

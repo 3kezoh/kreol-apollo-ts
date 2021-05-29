@@ -1,11 +1,7 @@
-import { Context, DataSourcesContext } from "@@api";
-import { Definition, DefinitionDataSource } from "@Definition";
-import { Report, ReportDataSource, reportValidation } from "@Report";
+import { reportValidation } from "@Report";
 import mutations from "@Report/resolvers/mutations";
 import queries from "@Report/resolvers/queries";
-import { User, UserDataSource } from "@User";
-import { mockedDefinitionDocument, mockedReport, mockedReportDocument, mockedUser } from "@utils/test";
-import { Vote, VoteDataSource } from "@Vote";
+import { mockedContext, mockedDefinition, mockedReport, mockedUser, setupMocks } from "@test";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 
@@ -13,24 +9,12 @@ jest.mock("@Definition/DefinitionDataSource");
 jest.mock("@User/UserDataSource");
 jest.mock("@Report/ReportDataSource");
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
+setupMocks();
 
 describe("Definition", () => {
-  const mockedContext: Context & DataSourcesContext = {
-    dataSources: {
-      definition: new DefinitionDataSource(Definition),
-      user: new UserDataSource(User),
-      vote: new VoteDataSource(Vote),
-      report: new ReportDataSource(Report),
-    },
-    user: mockedUser,
-  };
-
-  const { reason, message } = mockedReport;
-  const definition = mockedDefinitionDocument._id.toHexString();
-  const definitionId = mockedDefinitionDocument._id;
+  const { reason, message } = mockedReport.args;
+  const definition = mockedDefinition.document._id.toHexString();
+  const definitionId = mockedDefinition.document._id;
   const reporterId = mockedUser._id;
 
   const { get, create, remove, list } = mockedContext.dataSources.report;
@@ -59,27 +43,26 @@ describe("Definition", () => {
   describe("mutations", () => {
     describe("report", () => {
       it("should resolve", async () => {
-        mocked(create).mockResolvedValue(mockedReportDocument);
-        mocked(_get).mockResolvedValue(mockedDefinitionDocument);
-        const report = await mutations.report(null, mockedReport, mockedContext, null);
+        mocked(create).mockResolvedValue(mockedReport.document);
+        mocked(_get).mockResolvedValue(mockedDefinition.document);
+        const report = await mutations.report(null, mockedReport.args, mockedContext, null);
         expect(create).toBeCalledWith(definitionId, reporterId, reason, message);
-        expect(report).toEqual(mockedReportDocument);
+        expect(report).toEqual(mockedReport.document);
       });
 
       it("should throw if the definition is not found", async () => {
-        mocked(create).mockResolvedValue(mockedReportDocument);
         mocked(_get).mockResolvedValue(null);
-        await expect(mutations.report(null, mockedReport, mockedContext, null)).rejects.toThrow(
+        await expect(mutations.report(null, mockedReport.args, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
         expect(create).not.toBeCalled();
       });
 
       it("should throw if the report already exists", async () => {
-        mocked(get).mockResolvedValue(mockedReportDocument);
-        mocked(_get).mockResolvedValue(mockedDefinitionDocument);
-        await expect(mutations.report(null, mockedReport, mockedContext, null)).rejects.toThrow(
-          new ApolloError("Already reported", undefined, { hasReported: mockedReportDocument }),
+        mocked(get).mockResolvedValue(mockedReport.document);
+        mocked(_get).mockResolvedValue(mockedDefinition.document);
+        await expect(mutations.report(null, mockedReport.args, mockedContext, null)).rejects.toThrow(
+          new ApolloError("Already reported", undefined, { hasReported: mockedReport.document }),
         );
         expect(create).not.toBeCalled();
       });
@@ -88,8 +71,8 @@ describe("Definition", () => {
 
   describe("validation", () => {
     it("should throw if the reason is not in [0, 1, 2, 3]", () => {
-      mockedReport.reason = -3;
-      expect(() => reportValidation(mockedReport)).toThrow(
+      mockedReport.args.reason = -3;
+      expect(() => reportValidation(mockedReport.args)).toThrow(
         new UserInputError("Validation Error", {
           validationErrors: [{ field: "reason", message: "reason is invalid" }],
         }),
@@ -97,8 +80,8 @@ describe("Definition", () => {
     });
 
     it("should throw if the message greater than 500", () => {
-      mockedReport.message = "#".repeat(503);
-      expect(() => reportValidation(mockedReport)).toThrow(
+      mockedReport.args.message = "#".repeat(503);
+      expect(() => reportValidation(mockedReport.args)).toThrow(
         new UserInputError("Validation Error", {
           validationErrors: [{ field: "message", message: "message is too long" }],
         }),

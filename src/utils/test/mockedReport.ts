@@ -1,19 +1,20 @@
-import { IReportDocument } from "@api/components/report";
-import { mockedDefinitionDocument, mockedUser } from "@utils/test";
+import { IReportDocument } from "@Report";
+import { mockedDefinition, mockedUser } from "@test";
 import { ObjectId } from "mongodb";
 
-const mockedReport = {
-  definition: mockedDefinitionDocument._id.toHexString(),
+const args = {
+  definition: mockedDefinition.document._id.toHexString(),
   reason: 0,
   message: "message",
 };
 
-const mockedReportDocument = ({
+const document = ({
   _id: new ObjectId(),
-  ...mockedReport,
-  score: 0,
-  createdAt: new Date(),
+  ...args,
   reporter: mockedUser,
+  createdAt: new Date(),
 } as unknown) as IReportDocument;
 
-export { mockedReport, mockedReportDocument };
+const mockedReport = { args, document };
+
+export default mockedReport;

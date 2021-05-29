@@ -1,20 +1,23 @@
 import { ObjectId } from "mongodb";
-import { mockedUser } from "@utils/test";
+import { mockedUser } from "@test";
 import { IDefinitionDocument } from "@api/components/definition";
+import { MutationCreateDefinitionArgs } from "@@api";
 
-const mockedDefinition = {
+const args: MutationCreateDefinitionArgs = {
   word: "word",
   meaning: "meaning",
   example: "example",
   language: "fr",
 };
 
-const mockedDefinitionDocument = ({
+const document = ({
   _id: new ObjectId(),
-  ...mockedDefinition,
+  ...args,
   score: 0,
   createdAt: new Date(),
   author: mockedUser,
 } as unknown) as IDefinitionDocument;
 
-export { mockedDefinition, mockedDefinitionDocument };
+const mockedDefinition = { args, document };
+
+export default mockedDefinition;
