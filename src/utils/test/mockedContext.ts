@@ -2,8 +2,8 @@ import { Context, DataSourcesContext } from "@@api";
 import { Definition, DefinitionDataSource } from "@Definition";
 import { Report, ReportDataSource } from "@Report";
 import { User, UserDataSource } from "@User";
-import { mockedUser } from "@test";
 import { Vote, VoteDataSource } from "@Vote";
+import mockedUser from "./mockedUser";
 
 const mockedContext: Context & DataSourcesContext = {
   dataSources: {
@@ -12,7 +12,7 @@ const mockedContext: Context & DataSourcesContext = {
     vote: new VoteDataSource(Vote),
     report: new ReportDataSource(Report),
   },
-  user: mockedUser,
+  user: mockedUser.document,
 };
 
 export default mockedContext;

@@ -1,7 +1,7 @@
 import { reportValidation } from "@Report";
 import mutations from "@Report/resolvers/mutations";
 import queries from "@Report/resolvers/queries";
-import { mockedContext, mockedDefinition, mockedReport, mockedUser, setupMocks } from "@test";
+import { mockedContext, mockedDefinition, mockedReport, setupMocks } from "@test";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 
@@ -11,11 +11,10 @@ jest.mock("@Report/ReportDataSource");
 
 setupMocks();
 
-describe("Definition", () => {
+describe("Report", () => {
   const { reason, message } = mockedReport.args;
   const definition = mockedDefinition.document._id.toHexString();
   const definitionId = mockedDefinition.document._id;
-  const reporterId = mockedUser._id;
 
   const { get, create, remove, list } = mockedContext.dataSources.report;
   const { get: _get } = mockedContext.dataSources.definition;
@@ -25,7 +24,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(get).mockResolvedValue(null);
         const report = await queries.report(null, { definition }, mockedContext, null);
-        expect(get).toBeCalledWith(definition, mockedUser._id);
+        expect(get).toBeCalledWith(definition, mockedContext.user?._id);
         expect(report).toEqual(null);
       });
     });
@@ -46,7 +45,7 @@ describe("Definition", () => {
         mocked(create).mockResolvedValue(mockedReport.document);
         mocked(_get).mockResolvedValue(mockedDefinition.document);
         const report = await mutations.report(null, mockedReport.args, mockedContext, null);
-        expect(create).toBeCalledWith(definitionId, reporterId, reason, message);
+        expect(create).toBeCalledWith(definitionId, mockedContext.user?._id, reason, message);
         expect(report).toEqual(mockedReport.document);
       });
 

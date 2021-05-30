@@ -1,16 +1,17 @@
-import { AuthenticationError } from "apollo-server-express";
-import { User } from "@User";
+import { AuthResponse, MutationLoginArgs, Resolver } from "@@api";
 import { login as validate } from "@Auth/validations/mutations";
-import { Resolver, MutationLoginArgs, AuthResponse, User as _User } from "@@api";
+import { AuthenticationError } from "apollo-server-express";
 
-const login: Resolver<MutationLoginArgs, AuthResponse> = async (_parent, { email, password }) => {
+type loginResolver = Resolver<MutationLoginArgs, AuthResponse>;
+
+const login: loginResolver = async (_, { email, password }, { dataSources }) => {
   validate({ email, password });
-  const user = await User.findOne({ email });
+  const user = await dataSources.user.getBy({ email });
   if (!user) throw new AuthenticationError("User Not Found");
   const passwordMatches = await user.passwordMatches(password);
   if (!passwordMatches) throw new AuthenticationError("Incorrect Password");
   const token = user.token();
-  return { token, user: user as _User };
+  return { token, user };
 };
 
 export default login;

@@ -1,7 +1,7 @@
 import { definitionValidation } from "@Definition";
 import mutations from "@Definition/resolvers/mutations";
 import queries from "@Definition/resolvers/queries";
-import { mockedContext, mockedDefinition, mockedUser, setupMocks } from "@test";
+import { mockedContext, mockedDefinition, setupMocks } from "@test";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 
@@ -75,7 +75,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(create).mockResolvedValue(mockedDefinition.document);
         const definition = await mutations.createDefinition(null, mockedDefinition.args, mockedContext, null);
-        expect(create).toBeCalledWith(mockedDefinition.args, mockedUser);
+        expect(create).toBeCalledWith(mockedDefinition.args, mockedContext.user);
         expect(definition).toEqual(mockedDefinition.document);
       });
     });
@@ -84,7 +84,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(remove).mockResolvedValue(mockedDefinition.document);
         const definition = await mutations.deleteDefinition(null, { id }, mockedContext, null);
-        expect(remove).toBeCalledWith(id, mockedUser._id);
+        expect(remove).toBeCalledWith(id, mockedContext.user?._id);
         expect(definition).toEqual(mockedDefinition.document);
       });
 
@@ -93,7 +93,7 @@ describe("Definition", () => {
         await expect(mutations.deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError("Definition Not Found"),
         );
-        expect(remove).toBeCalledWith(id, mockedUser._id);
+        expect(remove).toBeCalledWith(id, mockedContext.user?._id);
       });
     });
   });

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { mockedUser } from "@test";
+import { mockedContext } from "@test";
 import { IDefinitionDocument } from "@api/components/definition";
 import { MutationCreateDefinitionArgs } from "@@api";
 
@@ -15,7 +15,7 @@ const document = ({
   ...args,
   score: 0,
   createdAt: new Date(),
-  author: mockedUser,
+  author: mockedContext.user,
 } as unknown) as IDefinitionDocument;
 
 const mockedDefinition = { args, document };

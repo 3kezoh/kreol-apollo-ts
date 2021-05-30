@@ -1,11 +1,24 @@
+import { MutationLoginArgs, MutationSignupArgs } from "@@api";
 import { IUserDocument, IUser } from "@api/components/user";
 import { ObjectId } from "mongodb";
 
-const mockedUser = ({
-  _id: new ObjectId(),
+const args: MutationSignupArgs & MutationLoginArgs = {
   email: "sion@mail.com",
   name: "sion",
   password: "password",
+  confirmPassword: "password",
+};
+
+const token = () => "token";
+const passwordMatches = (password: string) => password === "password";
+
+const document = ({
+  _id: new ObjectId(),
+  ...args,
+  token,
+  passwordMatches,
 } as IUser) as IUserDocument;
+
+const mockedUser = { args, document };
 
 export default mockedUser;

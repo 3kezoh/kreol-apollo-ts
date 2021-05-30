@@ -1,4 +1,4 @@
-import { mockedDefinition, mockedUser, mockedVote, mockedContext, setupMocks } from "@test";
+import { mockedContext, mockedDefinition, mockedVote, setupMocks } from "@test";
 import { voteValidation } from "@Vote";
 import mutations from "@Vote/resolvers/mutations";
 import queries from "@Vote/resolvers/queries";
@@ -11,10 +11,9 @@ jest.mock("@Vote/VoteDataSource");
 
 setupMocks();
 
-describe("Definition", () => {
+describe("Vote", () => {
   const definition = mockedDefinition.document._id.toHexString();
   const definitionId = mockedDefinition.document._id;
-  const voterId = mockedUser._id;
 
   const { get, remove, upsert } = mockedContext.dataSources.vote;
   const { get: _get } = mockedContext.dataSources.definition;
@@ -24,7 +23,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(get).mockResolvedValue(null);
         const vote = await queries.vote(null, { definition }, mockedContext, null);
-        expect(get).toBeCalledWith(definition, mockedUser._id);
+        expect(get).toBeCalledWith(definition, mockedContext.user?._id);
         expect(vote).toEqual(null);
       });
     });
@@ -41,8 +40,8 @@ describe("Definition", () => {
         mocked(upsert).mockResolvedValue(voteDocument);
         const vote = await mutations.vote(null, { definition, action }, mockedContext, null);
         expect(_get).toBeCalledWith(definition);
-        expect(get).toBeCalledWith(definitionId, voterId);
-        expect(upsert).toBeCalledWith(definitionId, voterId, action);
+        expect(get).toBeCalledWith(definitionId, mockedContext.user?._id);
+        expect(upsert).toBeCalledWith(definitionId, mockedContext.user?._id, action);
         expect(vote).toEqual(voteDocument);
       });
 
@@ -53,8 +52,8 @@ describe("Definition", () => {
         mocked(remove).mockResolvedValue(voteDocument);
         const vote = await mutations.vote(null, { definition, action: 0 }, mockedContext, null);
         expect(_get).toBeCalledWith(definition);
-        expect(get).toBeCalledWith(definitionId, voterId);
-        expect(remove).toBeCalledWith(definitionId, voterId);
+        expect(get).toBeCalledWith(definitionId, mockedContext.user?._id);
+        expect(remove).toBeCalledWith(definitionId, mockedContext.user?._id);
         expect(vote).toEqual(voteDocument);
       });
 

@@ -1,5 +1,5 @@
 import { IReportDocument } from "@Report";
-import { mockedDefinition, mockedUser } from "@test";
+import { mockedDefinition, mockedContext } from "@test";
 import { ObjectId } from "mongodb";
 
 const args = {
@@ -11,7 +11,7 @@ const args = {
 const document = ({
   _id: new ObjectId(),
   ...args,
-  reporter: mockedUser,
+  reporter: mockedContext.user,
   createdAt: new Date(),
 } as unknown) as IReportDocument;
 

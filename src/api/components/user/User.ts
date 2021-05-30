@@ -18,6 +18,7 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {
   _id: Types.ObjectId;
+  id: string;
   token(): string;
   passwordMatches(password: string): Promise<boolean>;
 }

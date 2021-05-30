@@ -30,7 +30,7 @@ export type Resolver<TArgs, R> = (
   args: TArgs,
   context: Context & DataSourcesContext,
   info: unknown,
-) => Promise<R>;
+) => Promise<R> | R;
 
 export type Component = {
   typeDefs: DocumentNode[];

@@ -1,7 +1,7 @@
+import { MutationLoginArgs, Validator } from "@@api";
+import { validationError } from "@utils";
 import { UserInputError } from "apollo-server-express";
 import validator from "validator";
-import { Validator, MutationLoginArgs } from "@@api";
-import { validationError } from "@utils";
 
 const { isEmpty } = validator;
 
