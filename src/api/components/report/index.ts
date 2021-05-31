@@ -6,4 +6,4 @@ import typeDefs from "./typeDefs";
 
 export { Report, ReportDataSource, reportValidation, IReport, IReportDocument };
 
-export default { typeDefs: [typeDefs], resolvers };
+export default { typeDefs, resolvers };

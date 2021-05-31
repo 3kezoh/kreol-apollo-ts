@@ -6,4 +6,4 @@ import voteValidation from "./voteValidation";
 
 export { Vote, VoteDataSource, voteValidation, IVote, IVoteDocument, IVotePopulatedDocument };
 
-export default { typeDefs: [typeDefs], resolvers };
+export default { typeDefs, resolvers };

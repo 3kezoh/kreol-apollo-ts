@@ -11,22 +11,22 @@ const globalTypeDefs = gql`
   type Subscription
 `;
 
-let typeDefs = [globalTypeDefs];
+const typeDefs = [globalTypeDefs];
 let resolvers = {};
 let schemaDirectives = {};
 
 directives.forEach((directive) => {
-  typeDefs = [...typeDefs, ...directive.typeDefs];
+  typeDefs.push(directive.typeDefs);
   schemaDirectives = Object.assign(schemaDirectives, directive.schema);
 });
 
 scalars.forEach((scalar) => {
-  typeDefs = [...typeDefs, ...scalar.typeDefs];
+  typeDefs.push(scalar.typeDefs);
   resolvers = merge(resolvers, scalar.resolvers);
 });
 
 components.forEach((component) => {
-  typeDefs = [...typeDefs, ...component.typeDefs];
+  typeDefs.push(component.typeDefs);
   resolvers = merge(resolvers, component.resolvers);
 });
 

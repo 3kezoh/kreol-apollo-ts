@@ -9,8 +9,9 @@
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
   "rules": {
+    "import/prefer-default-export": "off",
     "quotes": ["error", "double"],
     "@typescript-eslint/quotes": ["error", "double"],
     "@typescript-eslint/naming-convention": [

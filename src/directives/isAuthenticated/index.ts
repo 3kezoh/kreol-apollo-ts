@@ -1,4 +1,4 @@
-import schema from "./schema";
+import isAuthenticated from "./schema";
 import typeDefs from "./typeDefs";
 
-export default { typeDefs: [typeDefs], schema: { isAuthenticated: schema } };
+export default { typeDefs, schema: { isAuthenticated } };

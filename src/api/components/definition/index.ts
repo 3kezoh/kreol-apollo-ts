@@ -1,19 +1,11 @@
-import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import Definition, { IDefinition, IDefinitionDocument, IDefinitionPopulatedDocument } from "./Definition";
-import DefinitionDataSource from "./DefinitionDataSource";
-import definitionValidation from "./definitionValidation";
+import typeDefs from "./typeDefs";
 
-export {
-  Definition,
-  DefinitionDataSource,
-  definitionValidation,
-  IDefinition,
-  IDefinitionDocument,
-  IDefinitionPopulatedDocument,
-};
+export * from "./Definition";
+export * from "./DefinitionDataSource";
+export * from "./definitionValidation";
 
 export default {
-  typeDefs: [typeDefs],
+  typeDefs,
   resolvers,
 };

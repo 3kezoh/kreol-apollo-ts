@@ -17,7 +17,7 @@ import { isValidObjectId, Model, Types } from "mongoose";
 const BY_SCORE = { score: -1, createdAt: 1 };
 const BY_DATE = { createdAt: -1 };
 
-class DefinitionDataSource extends DataSource<Context> {
+export class DefinitionDataSource extends DataSource<Context> {
   model: Model<IDefinitionDocument>;
 
   context!: Context;
@@ -149,5 +149,3 @@ class DefinitionDataSource extends DataSource<Context> {
     return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true });
   }
 }
-
-export default DefinitionDataSource;

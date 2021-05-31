@@ -2,13 +2,14 @@ import { DefinitionDataSource } from "@Definition";
 import { ReportDataSource } from "@Report";
 import { IUserDocument, UserDataSource } from "@User";
 import { VoteDataSource } from "@Vote";
+import { SchemaDirectiveVisitor, IResolvers } from "apollo-server-express";
 import { DocumentNode } from "graphql";
 import { LeanDocument, Types } from "mongoose";
 import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
 
 export * from "./args";
 
-type Maybe<T> = T | null | undefined;
+type Maybe<T> = T | undefined;
 
 export type Context = {
   user?: LeanDocument<IUserDocument>;
@@ -33,8 +34,18 @@ export type Resolver<TArgs, R> = (
 ) => Promise<R> | R;
 
 export type Component = {
-  typeDefs: DocumentNode[];
+  typeDefs: DocumentNode;
   resolvers: Resolver;
+};
+
+export type Scalars = {
+  typeDefs: DocumentNode;
+  resolvers: IResolvers;
+};
+
+export type Directive = {
+  typeDefs: DocumentNode;
+  schema?: SchemaDirectiveVisitor;
 };
 
 export type Validator<TArgs> = (args: TArgs) => void;

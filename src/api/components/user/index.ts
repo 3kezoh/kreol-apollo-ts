@@ -6,6 +6,6 @@ import UserDataSource from "./UserDataSource";
 export { User, UserDataSource, IUser, IUserDocument };
 
 export default {
-  typeDefs: [typeDefs],
+  typeDefs,
   resolvers,
 };

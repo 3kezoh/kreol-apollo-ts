@@ -7,7 +7,7 @@ const { isEmpty, isLength, isIn } = validator;
 
 type args = MutationCreateDefinitionArgs;
 
-const definitionValidation: Validator<args> = ({ word, meaning, example, language }): void => {
+export const definitionValidation: Validator<args> = ({ word, meaning, example, language }): void => {
   const validationErrors = [];
   if (isEmpty(word)) validationErrors.push(validationError("word", "word is empty"));
   if (isEmpty(meaning)) validationErrors.push(validationError("meaning", "meaning is empty"));
@@ -20,5 +20,3 @@ const definitionValidation: Validator<args> = ({ word, meaning, example, languag
     validationErrors.push(validationError("language", "language can only be fr or gf"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
-
-export default definitionValidation;

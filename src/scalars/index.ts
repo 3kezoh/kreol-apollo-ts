@@ -1,13 +1,7 @@
-import { DocumentNode } from "graphql";
-import { IResolvers } from "apollo-server-express";
-import ObjectId from "./ObjectId";
+import { Scalars } from "@@api";
 import Date from "./Date";
+import ObjectId from "./ObjectId";
 
-interface IScalars {
-  typeDefs: DocumentNode[];
-  resolvers: IResolvers;
-}
-
-const scalars: IScalars[] = [ObjectId, Date];
+const scalars: Scalars[] = [ObjectId, Date];
 
 export default scalars;
