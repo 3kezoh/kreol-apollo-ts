@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   extend type Query {
     me: User
     verify(token: String!): Boolean!
@@ -16,5 +16,3 @@ const typeDefs = gql`
     signup(email: String!, password: String!, confirmPassword: String!, name: String!): AuthResponse
   }
 `;
-
-export default typeDefs;

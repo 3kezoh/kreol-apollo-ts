@@ -1,7 +1,5 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   directive @isAdmin on FIELD_DEFINITION
 `;
-
-export default typeDefs;

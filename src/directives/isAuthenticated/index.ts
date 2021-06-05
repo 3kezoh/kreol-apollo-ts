@@ -1,4 +1,4 @@
-import isAuthenticated from "./schema";
-import typeDefs from "./typeDefs";
+import { IsAuthenticatedDirective as isAuthenticated } from "./schema";
+import { typeDefs } from "./typeDefs";
 
-export default { typeDefs, schema: { isAuthenticated } };
+export default { schema: { isAuthenticated }, typeDefs };

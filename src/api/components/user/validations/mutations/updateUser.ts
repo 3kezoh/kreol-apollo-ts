@@ -1,8 +1,8 @@
-import { UserInputError } from "apollo-server-express";
-import validator from "validator";
-import { isValidObjectId } from "mongoose";
+import { MutationUpdateUserArgs, Validator } from "@@api";
 import { validationError } from "@utils";
-import { Validator, MutationUpdateUserArgs } from "@@api";
+import { UserInputError } from "apollo-server-express";
+import { isValidObjectId } from "mongoose";
+import validator from "validator";
 
 const { isEmail, isLength } = validator;
 

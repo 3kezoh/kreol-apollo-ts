@@ -1,11 +1,8 @@
-import resolvers from "./resolvers";
-import typeDefs from "./typeDefs";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs";
 
 export * from "./Definition";
 export * from "./DefinitionDataSource";
 export * from "./definitionValidation";
 
-export default {
-  typeDefs,
-  resolvers,
-};
+export default { resolvers, typeDefs };

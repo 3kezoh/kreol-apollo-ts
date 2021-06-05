@@ -1,11 +1,7 @@
-import typeDefs from "./typeDefs";
-import resolvers from "./resolvers";
-import User, { IUser, IUserDocument } from "./User";
-import UserDataSource from "./UserDataSource";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs";
 
-export { User, UserDataSource, IUser, IUserDocument };
+export * from "./User";
+export * from "./UserDataSource";
 
-export default {
-  typeDefs,
-  resolvers,
-};
+export default { typeDefs, resolvers };

@@ -1,5 +1,5 @@
 import { IReportDocument } from "@Report";
-import { mockedDefinition, mockedContext } from "@test";
+import { mockedContext, mockedDefinition } from "@test";
 import { ObjectId } from "mongodb";
 
 const args = {

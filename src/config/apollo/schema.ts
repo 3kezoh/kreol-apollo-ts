@@ -1,9 +1,8 @@
+import components from "@components";
+import directives from "@directives";
+import scalars from "@scalars";
 import { gql, makeExecutableSchema } from "apollo-server-express";
 import merge from "deepmerge";
-
-import directives from "@directives";
-import components from "@components";
-import scalars from "@scalars";
 
 const globalTypeDefs = gql`
   type Query
@@ -30,6 +29,4 @@ components.forEach((component) => {
   resolvers = merge(resolvers, component.resolvers);
 });
 
-const schema = makeExecutableSchema({ typeDefs, resolvers, schemaDirectives });
-
-export default schema;
+export const schema = makeExecutableSchema({ typeDefs, resolvers, schemaDirectives });

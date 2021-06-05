@@ -1,13 +1,11 @@
-import jwt from "jsonwebtoken";
-import { jwtSecret } from "@config/globals";
 import { QueryVerifyArgs, Resolver } from "@@api";
+import { jwtSecret } from "@config/globals";
+import jwt from "jsonwebtoken";
 
-const verify: Resolver<QueryVerifyArgs, boolean> = (_parent, { token }) => {
+export const verify: Resolver<QueryVerifyArgs, boolean> = (_parent, { token }) => {
   try {
     return !!jwt.verify(token, jwtSecret);
   } catch (error) {
     return false;
   }
 };
-
-export default verify;

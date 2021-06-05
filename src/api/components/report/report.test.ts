@@ -1,6 +1,6 @@
 import { reportValidation } from "@Report";
-import mutations from "@Report/resolvers/mutations";
-import queries from "@Report/resolvers/queries";
+import * as mutations from "@Report/resolvers/mutations";
+import * as queries from "@Report/resolvers/queries";
 import { mockedContext, mockedDefinition, mockedReport, setupMocks } from "@test";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";

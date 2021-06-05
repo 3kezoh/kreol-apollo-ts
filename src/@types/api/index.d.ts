@@ -2,7 +2,7 @@ import { DefinitionDataSource } from "@Definition";
 import { ReportDataSource } from "@Report";
 import { IUserDocument, UserDataSource } from "@User";
 import { VoteDataSource } from "@Vote";
-import { SchemaDirectiveVisitor, IResolvers } from "apollo-server-express";
+import { IResolvers, SchemaDirectiveVisitor } from "apollo-server-express";
 import { DocumentNode } from "graphql";
 import { LeanDocument, Types } from "mongoose";
 import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";

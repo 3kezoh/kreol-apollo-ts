@@ -3,7 +3,7 @@ import { IReportDocument, reportValidation as validate } from "@Report";
 import { IUserDocument } from "@User";
 import { ApolloError } from "apollo-server-express";
 
-const report: Resolver<MutationReportArgs, IReportDocument> = async (
+export const report: Resolver<MutationReportArgs, IReportDocument> = async (
   _,
   { definition: id, reason, message },
   { user: reporter, dataSources },
@@ -15,5 +15,3 @@ const report: Resolver<MutationReportArgs, IReportDocument> = async (
   if (hasReported) throw new ApolloError("Already reported", undefined, { hasReported });
   return dataSources.report.create(definition._id, (reporter as IUserDocument)._id, reason, message);
 };
-
-export default report;

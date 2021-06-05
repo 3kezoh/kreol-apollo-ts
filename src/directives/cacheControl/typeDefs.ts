@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   enum CacheControlScope {
     PUBLIC
     PRIVATE
@@ -8,5 +8,3 @@ const typeDefs = gql`
 
   directive @cacheControl(maxAge: Int, scope: CacheControlScope) on OBJECT | FIELD_DEFINITION
 `;
-
-export default typeDefs;

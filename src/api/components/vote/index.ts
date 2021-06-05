@@ -1,9 +1,8 @@
-import resolvers from "./resolvers";
-import typeDefs from "./typeDefs";
-import Vote, { IVote, IVoteDocument, IVotePopulatedDocument } from "./Vote";
-import VoteDataSource from "./VoteDataSource";
-import voteValidation from "./voteValidation";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs";
 
-export { Vote, VoteDataSource, voteValidation, IVote, IVoteDocument, IVotePopulatedDocument };
+export * from "./Vote";
+export * from "./VoteDataSource";
+export * from "./voteValidation";
 
 export default { typeDefs, resolvers };

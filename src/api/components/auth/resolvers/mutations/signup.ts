@@ -4,7 +4,11 @@ import { AuthenticationError } from "apollo-server-express";
 
 type signupResolver = Resolver<MutationSignupArgs, AuthResponse>;
 
-const signup: signupResolver = async (_, { email, password, confirmPassword, name }, { dataSources }) => {
+export const signup: signupResolver = async (
+  _,
+  { email, password, confirmPassword, name },
+  { dataSources },
+) => {
   validate({ email, password, confirmPassword, name });
   let user = await dataSources.user.getBy({ email });
   if (user) throw new AuthenticationError("User already exists");
@@ -14,5 +18,3 @@ const signup: signupResolver = async (_, { email, password, confirmPassword, nam
   const token = user.token();
   return { token, user };
 };
-
-export default signup;

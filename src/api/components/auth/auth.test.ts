@@ -1,4 +1,4 @@
-import mutations from "@Auth/resolvers/mutations";
+import * as mutations from "@Auth/resolvers/mutations";
 import { login as loginValidation, signup as signupValidation } from "@Auth/validations/mutations";
 import { mockedAuth, mockedContext, mockedUser, setupMocks } from "@test";
 import { AuthenticationError, UserInputError } from "apollo-server-express";

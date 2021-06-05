@@ -1,8 +1,6 @@
-import { ExpressContext } from "apollo-server-express";
 import { Context } from "@@api";
+import { ExpressContext } from "apollo-server-express";
 
-const context = ({ req }: ExpressContext): Context => ({
+export const context = ({ req }: ExpressContext): Context => ({
   user: req.user,
 });
-
-export default context;

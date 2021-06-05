@@ -1,9 +1,8 @@
-import Report, { IReport, IReportDocument } from "./Report";
-import ReportDataSource from "./ReportDataSource";
-import reportValidation from "./reportValidation";
-import resolvers from "./resolvers";
-import typeDefs from "./typeDefs";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs";
 
-export { Report, ReportDataSource, reportValidation, IReport, IReportDocument };
+export * from "./Report";
+export * from "./ReportDataSource";
+export * from "./reportValidation";
 
-export default { typeDefs, resolvers };
+export default { resolvers, typeDefs };

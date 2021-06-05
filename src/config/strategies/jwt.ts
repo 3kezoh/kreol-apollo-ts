@@ -21,6 +21,4 @@ const verify: VerifyCallback = async (payload, done) => {
   }
 };
 
-const jwtStrategy = new JwtStrategy(options, verify);
-
-export default jwtStrategy;
+export const jwtStrategy = new JwtStrategy(options, verify);

@@ -1,3 +1,1 @@
-import vote from "./vote";
-
-export default { vote };
+export * from "./vote";

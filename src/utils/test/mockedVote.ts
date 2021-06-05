@@ -1,5 +1,5 @@
+import { mockedContext, mockedDefinition } from "@test";
 import { IVoteDocument } from "@Vote";
-import { mockedDefinition, mockedContext } from "@test";
 import { ObjectId } from "mongodb";
 
 const mockedVote = (action: number) =>

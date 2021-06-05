@@ -1,4 +1,4 @@
-import google from "./google";
-import jwt from "./jwt";
+import { googleStrategy as google } from "./google";
+import { jwtStrategy as jwt } from "./jwt";
 
 export default { google, jwt };

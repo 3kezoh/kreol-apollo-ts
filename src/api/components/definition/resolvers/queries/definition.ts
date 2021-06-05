@@ -5,10 +5,8 @@ import { LeanDocument } from "mongoose";
 
 type definitionResolver = Resolver<QueryDefinitionArgs, LeanDocument<IDefinitionDocument>>;
 
-const definition: definitionResolver = async (_, { id }, { dataSources }) => {
+export const definition: definitionResolver = async (_, { id }, { dataSources }) => {
   const definition = await dataSources.definition.get(id, 30);
   if (!definition) throw new ApolloError("Definition Not Found");
   return definition;
 };
-
-export default definition;

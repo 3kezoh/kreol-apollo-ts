@@ -1,7 +1,7 @@
-import { ObjectId } from "mongodb";
-import { mockedContext } from "@test";
-import { IDefinitionDocument } from "@api/components/definition";
 import { MutationCreateDefinitionArgs } from "@@api";
+import { IDefinitionDocument } from "@Definition";
+import { mockedContext } from "@test";
+import { ObjectId } from "mongodb";
 
 const args: MutationCreateDefinitionArgs = {
   word: "word",

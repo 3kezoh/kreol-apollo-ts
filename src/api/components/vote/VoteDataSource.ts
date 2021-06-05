@@ -3,7 +3,7 @@ import { IVoteDocument } from "@Vote";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { isValidObjectId, Model, Types } from "mongoose";
 
-class VoteDataSource extends DataSource<Context> {
+export class VoteDataSource extends DataSource<Context> {
   model: Model<IVoteDocument>;
 
   context!: Context;
@@ -41,5 +41,3 @@ class VoteDataSource extends DataSource<Context> {
     return this.populate(vote);
   }
 }
-
-export default VoteDataSource;

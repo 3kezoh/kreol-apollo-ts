@@ -9,8 +9,6 @@ const handleJWT = (req: Request, _: Response, next: NextFunction) => (_: Error, 
   next();
 };
 
-const authenticate = (req: Request, res: Response, next: NextFunction): void => {
+export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
   passport.authenticate("jwt", { session: false }, handleJWT(req, res, next))(req, res, next);
 };
-
-export default { authenticate };

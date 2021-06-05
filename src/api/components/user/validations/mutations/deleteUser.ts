@@ -1,7 +1,7 @@
-import { Validator, MutationDeleteUserArgs } from "@@api";
+import { MutationDeleteUserArgs, Validator } from "@@api";
+import { validationError } from "@utils";
 import { UserInputError } from "apollo-server-express";
 import { isValidObjectId } from "mongoose";
-import { validationError } from "@utils";
 
 const deleteUser: Validator<MutationDeleteUserArgs> = ({ id }) => {
   const validationErrors = [];

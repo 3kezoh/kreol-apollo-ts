@@ -1,7 +1,7 @@
 import { mockedContext, mockedDefinition, mockedVote, setupMocks } from "@test";
 import { voteValidation } from "@Vote";
-import mutations from "@Vote/resolvers/mutations";
-import queries from "@Vote/resolvers/queries";
+import * as mutations from "@Vote/resolvers/mutations";
+import * as queries from "@Vote/resolvers/queries";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 

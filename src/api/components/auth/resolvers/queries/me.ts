@@ -1,7 +1,6 @@
 import { Resolver } from "@@api";
-import { IUserDocument } from "@api/components/user";
+import { IUserDocument } from "@User";
 import { LeanDocument } from "mongoose";
 
-const me: Resolver<null, LeanDocument<IUserDocument>> = (_parent, _args, { user }) => user as IUserDocument;
-
-export default me;
+export const me: Resolver<null, LeanDocument<IUserDocument>> = (_parent, _args, { user }) =>
+  user as IUserDocument;

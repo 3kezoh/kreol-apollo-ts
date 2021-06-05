@@ -1,11 +1,11 @@
-import {
-  Strategy as GoogleStrategy,
-  StrategyOptions,
-  Profile,
-  VerifyCallback,
-} from "passport-google-oauth20";
 import { google } from "@config/globals";
 import { User } from "@User";
+import {
+  Profile,
+  Strategy as GoogleStrategy,
+  StrategyOptions,
+  VerifyCallback,
+} from "passport-google-oauth20";
 
 type Verify = (token: string, refreshToken: string, profile: Profile, done: VerifyCallback) => void;
 
@@ -34,6 +34,4 @@ const verify: Verify = async (token, refreshToken, { id, emails, name }, done) =
   }
 };
 
-const googleStrategy = new GoogleStrategy(options, verify);
-
-export default googleStrategy;
+export const googleStrategy = new GoogleStrategy(options, verify);

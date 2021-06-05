@@ -1,17 +1,16 @@
 /* eslint-disable no-param-reassign */
-import "module-alias/register";
+import { logger, mongoose } from "@config";
 import { mongo } from "@config/globals";
-import mongoose from "@config/mongoose";
-import logger from "@config/winston";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { Report } from "@Report";
 import { User } from "@User";
 import { IVote, Vote } from "@Vote";
+import "module-alias/register";
 import { Query } from "mongoose";
+import admins from "./admins";
 import { randomDefinitions, randomUsers } from "./data";
 import progressBar from "./progressBar";
 import ran from "./ran";
-import admins from "./admins";
 
 const users = randomUsers(100);
 const definitions = randomDefinitions(1000);

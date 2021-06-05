@@ -1,12 +1,12 @@
 import { DefinitionSubscriptionPayload, MutationVoteArgs, Resolver } from "@@api";
-import pubsub from "@config/pubsub";
+import { pubsub } from "@config";
 import { IUserDocument } from "@User";
 import { IVoteDocument, voteValidation as validate } from "@Vote";
 import { ApolloError } from "apollo-server-express";
 
 type voteResolver = Resolver<MutationVoteArgs, IVoteDocument | null>;
 
-const vote: voteResolver = async (_, { definition: id, action }, { user: voter, dataSources }) => {
+export const vote: voteResolver = async (_, { definition: id, action }, { user: voter, dataSources }) => {
   validate({ action });
   const definition = await dataSources.definition.get(id);
   if (!definition) throw new ApolloError("Definition Not Found");
@@ -34,5 +34,3 @@ const vote: voteResolver = async (_, { definition: id, action }, { user: voter, 
 
   return vote;
 };
-
-export default vote;

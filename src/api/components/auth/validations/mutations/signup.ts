@@ -5,7 +5,7 @@ import validator from "validator";
 
 const { isEmail, isLength } = validator;
 
-const signup: Validator<MutationSignupArgs> = ({ email, password, confirmPassword, name }) => {
+export const signup: Validator<MutationSignupArgs> = ({ email, password, confirmPassword, name }) => {
   const validationErrors = [];
   if (!isEmail(email)) validationErrors.push(validationError("email", "email is invalid"));
   if (!isLength(password, { min: 8 }))
@@ -18,5 +18,3 @@ const signup: Validator<MutationSignupArgs> = ({ email, password, confirmPasswor
   if (!isLength(name, { max: 128 })) validationErrors.push(validationError("name", "name is too long"));
   if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
 };
-
-export default signup;

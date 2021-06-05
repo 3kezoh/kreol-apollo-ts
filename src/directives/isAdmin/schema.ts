@@ -2,10 +2,10 @@
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-import { SchemaDirectiveVisitor, AuthenticationError } from "apollo-server-express";
+import { AuthenticationError, SchemaDirectiveVisitor } from "apollo-server-express";
 import { defaultFieldResolver, GraphQLField } from "graphql";
 
-class IsAdminDirective extends SchemaDirectiveVisitor {
+export class IsAdminDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: GraphQLField<any, any>): GraphQLField<any, any> | void | null {
     const { resolve = defaultFieldResolver } = field;
     field.resolve = async function (...args) {
@@ -16,5 +16,3 @@ class IsAdminDirective extends SchemaDirectiveVisitor {
     };
   }
 }
-
-export default IsAdminDirective;

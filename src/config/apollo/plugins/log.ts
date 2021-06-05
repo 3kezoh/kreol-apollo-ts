@@ -1,8 +1,8 @@
+import { logger } from "@config/winston";
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
-import logger from "@config/winston";
 import chalk from "chalk";
 
-const log: ApolloServerPlugin = {
+export const log: ApolloServerPlugin = {
   serverWillStart() {
     logger.info(`${chalk.hex("#3F20BA")("Apollo")} server starting`);
   },
@@ -14,5 +14,3 @@ const log: ApolloServerPlugin = {
     };
   },
 };
-
-export default log;

@@ -4,7 +4,7 @@ import { AuthenticationError } from "apollo-server-express";
 
 type loginResolver = Resolver<MutationLoginArgs, AuthResponse>;
 
-const login: loginResolver = async (_, { email, password }, { dataSources }) => {
+export const login: loginResolver = async (_, { email, password }, { dataSources }) => {
   validate({ email, password });
   const user = await dataSources.user.getBy({ email });
   if (!user) throw new AuthenticationError("User Not Found");
@@ -13,5 +13,3 @@ const login: loginResolver = async (_, { email, password }, { dataSources }) => 
   const token = user.token();
   return { token, user };
 };
-
-export default login;

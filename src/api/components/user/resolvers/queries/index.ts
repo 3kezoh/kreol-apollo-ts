@@ -1,4 +1,2 @@
-import user from "./user";
-import users from "./users";
-
-export default { user, users };
+export * from "./user";
+export * from "./users";

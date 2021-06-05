@@ -1,5 +1,5 @@
 import { MutationLoginArgs, MutationSignupArgs } from "@@api";
-import { IUserDocument, IUser } from "@api/components/user";
+import { IUser, IUserDocument } from "@User";
 import { ObjectId } from "mongodb";
 
 const args: MutationSignupArgs & MutationLoginArgs = {

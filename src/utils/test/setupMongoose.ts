@@ -1,5 +1,5 @@
+import { mongoose } from "@config";
 import { mongo } from "@config/globals";
-import mongoose from "@config/mongoose";
 
 mongoose.Promise = global.Promise;
 

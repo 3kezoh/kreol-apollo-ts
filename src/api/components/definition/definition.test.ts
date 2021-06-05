@@ -1,6 +1,6 @@
 import { definitionValidation } from "@Definition";
-import mutations from "@Definition/resolvers/mutations";
-import queries from "@Definition/resolvers/queries";
+import * as mutations from "@Definition/resolvers/mutations";
+import * as queries from "@Definition/resolvers/queries";
 import { mockedContext, mockedDefinition, setupMocks } from "@test";
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";

@@ -1,15 +1,15 @@
-import cors from "cors";
+import { apolloServer } from "@config/apollo";
+import { rateLimit as rL } from "@config/globals";
+import strategies from "@config/strategies";
+import { google, jwt } from "@middlewares/auth";
 import compression from "compression";
-import express from "express";
+import cors from "cors";
 import errorHandler from "errorhandler";
+import express from "express";
 import rateLimit from "express-rate-limit";
 import passport from "passport";
-import { jwt, google } from "@middlewares/auth";
-import { apolloServer } from "@config/apollo";
-import strategies from "@config/strategies";
-import { rateLimit as rL } from "@config/globals";
 
-const app = express();
+export const app = express();
 
 const whitelist = ["http://localhost:3000, https://studio.apollographql.com"];
 
@@ -31,5 +31,3 @@ app.get("/auth/google/callback", google.callback, google.success);
 app.use("/graphql", jwt.authenticate);
 app.use(errorHandler({ log: (err) => console.error(err) }));
 apolloServer.applyMiddleware({ app });
-
-export default app;

@@ -1,11 +1,8 @@
 import "module-alias/register";
-import http from "http";
-import logger from "@config/winston";
-import mongoose from "@config/mongoose";
-import app from "@config/express";
-import { port, mongo } from "@config/globals";
-import subscriptionServer from "@config/subscriptionServer";
+import { app, logger, mongoose, subscriptionServer } from "@config";
+import { mongo, port } from "@config/globals";
 import chalk from "chalk";
+import http from "http";
 
 app.set("port", port);
 

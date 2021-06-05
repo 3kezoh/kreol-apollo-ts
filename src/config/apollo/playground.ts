@@ -1,7 +1,5 @@
-const playground = {
+export const playground = {
   settings: {
     "schema.polling.enable": false,
   },
 };
-
-export default playground;

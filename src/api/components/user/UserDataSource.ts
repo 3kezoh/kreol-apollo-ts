@@ -4,7 +4,7 @@ import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
 import { FilterQuery, Model } from "mongoose";
 
-class UserDataSource extends DataSource<Context> {
+export class UserDataSource extends DataSource<Context> {
   model: Model<IUserDocument>;
 
   context!: Context;
@@ -33,5 +33,3 @@ class UserDataSource extends DataSource<Context> {
     return this.model.create({ email, password, name });
   }
 }
-
-export default UserDataSource;

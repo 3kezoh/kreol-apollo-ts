@@ -1,7 +1,5 @@
 import { User } from "@User";
 
-const users = async () => {
+export const users = async () => {
   return User.find();
 };
-
-export default users;

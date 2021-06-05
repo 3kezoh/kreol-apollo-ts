@@ -1,12 +1,12 @@
 import { ApolloServer } from "apollo-server-express";
-import schema from "./schema";
-import context from "./context";
-import formatError from "./formatError";
-import playground from "./playground";
-import plugins from "./plugins";
-import dataSources from "./dataSources";
+import { context } from "./context";
+import { dataSources } from "./dataSources";
+import { formatError } from "./formatError";
+import { playground } from "./playground";
+import { plugins } from "./plugins";
+import { schema } from "./schema";
 
-const apolloServer = new ApolloServer({
+export const apolloServer = new ApolloServer({
   schema,
   context,
   formatError,
@@ -14,5 +14,3 @@ const apolloServer = new ApolloServer({
   plugins,
   dataSources,
 });
-
-export default apolloServer;

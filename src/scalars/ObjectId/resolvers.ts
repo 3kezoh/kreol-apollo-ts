@@ -1,7 +1,7 @@
 import { GraphQLScalarType, StringValueNode } from "graphql";
 import { isValidObjectId } from "mongoose";
 
-const resolvers = {
+export const resolvers = {
   ObjectId: new GraphQLScalarType({
     name: "ObjectId",
     serialize: (value) => value,
@@ -10,5 +10,3 @@ const resolvers = {
       isValidObjectId((ast as StringValueNode).value) ? (ast as StringValueNode).value : null,
   }),
 };
-
-export default resolvers;

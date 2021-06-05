@@ -1,9 +1,9 @@
-import mutations from "./mutations";
-import queries from "./queries";
-import subscriptions from "./subscriptions";
+import * as mutations from "./mutations";
+import * as queries from "./queries";
+import * as subscriptions from "./subscriptions";
 
-export default {
-  Query: { ...queries },
+export const resolvers = {
   Mutation: { ...mutations },
+  Query: { ...queries },
   Subscription: { ...subscriptions },
 };

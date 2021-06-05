@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Definition {
     id: ID!
     word: String!
@@ -42,5 +42,3 @@ const typeDefs = gql`
     review(id: ID!): Definition @isAdmin
   }
 `;
-
-export default typeDefs;

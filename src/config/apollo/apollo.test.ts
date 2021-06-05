@@ -1,4 +1,4 @@
-import { setupMongoose, setupApolloServer, getUser } from "@test";
+import { getUser, setupApolloServer, setupMongoose } from "@test";
 import { gql } from "apollo-server-express";
 
 const GET_DEFINITIONS = gql`

@@ -34,6 +34,4 @@ const voteSchema = new Schema<IVoteDocument>(
 voteSchema.set("toObject", { versionKey: false });
 voteSchema.index({ definition: 1, voter: 1 });
 
-const Vote: Model<IVoteDocument> = model("Vote", voteSchema);
-
-export default Vote;
+export const Vote: Model<IVoteDocument> = model("Vote", voteSchema);

@@ -31,6 +31,4 @@ const reportSchema = new Schema<IReportDocument>(
 reportSchema.set("toObject", { versionKey: false });
 reportSchema.index({ definition: 1, reporter: 1 });
 
-const Report: Model<IReportDocument> = model("Report", reportSchema);
-
-export default Report;
+export const Report: Model<IReportDocument> = model("Report", reportSchema);

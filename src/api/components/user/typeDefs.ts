@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type User @cacheControl(maxAge: 3600) {
     id: ID!
     name: String!
@@ -17,5 +17,3 @@ const typeDefs = gql`
     deleteUser(id: ID!): User
   }
 `;
-
-export default typeDefs;

@@ -1,5 +1,5 @@
 import createUser from "./createUser";
-import updateUser from "./updateUser";
 import deleteUser from "./deleteUser";
+import updateUser from "./updateUser";
 
 export { createUser, updateUser, deleteUser };

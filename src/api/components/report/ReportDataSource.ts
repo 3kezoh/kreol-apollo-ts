@@ -3,7 +3,7 @@ import { IReportDocument } from "@Report";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Model, Types } from "mongoose";
 
-class ReportDataSource extends DataSource<Context> {
+export class ReportDataSource extends DataSource<Context> {
   model: Model<IReportDocument>;
 
   context!: Context;
@@ -37,5 +37,3 @@ class ReportDataSource extends DataSource<Context> {
     return this.model.populate(report, "definition definition.author reporter");
   }
 }
-
-export default ReportDataSource;

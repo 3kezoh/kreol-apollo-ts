@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Vote {
     voter: User
     definition: Definition
@@ -15,5 +15,3 @@ const typeDefs = gql`
     vote(definition: ID!, action: Int!): Vote @isAuthenticated
   }
 `;
-
-export default typeDefs;

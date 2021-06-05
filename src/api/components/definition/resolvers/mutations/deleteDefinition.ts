@@ -1,8 +1,8 @@
-import { ApolloError } from "apollo-server-express";
-import { IDefinitionDocument } from "@Definition";
 import { MutationDeleteDefinitionArgs, Resolver } from "@@api";
+import { IDefinitionDocument } from "@Definition";
+import { ApolloError } from "apollo-server-express";
 
-const deleteDefinition: Resolver<MutationDeleteDefinitionArgs, IDefinitionDocument> = async (
+export const deleteDefinition: Resolver<MutationDeleteDefinitionArgs, IDefinitionDocument> = async (
   _,
   { id },
   { user, dataSources },
@@ -11,5 +11,3 @@ const deleteDefinition: Resolver<MutationDeleteDefinitionArgs, IDefinitionDocume
   if (!definition) throw new ApolloError("Definition Not Found");
   return definition;
 };
-
-export default deleteDefinition;

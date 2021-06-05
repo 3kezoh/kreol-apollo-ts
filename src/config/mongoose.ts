@@ -1,12 +1,11 @@
-import mongoose from "mongoose";
-import chalk from "chalk";
-import logger from "@config/winston";
 import {} from "@config/globals";
-
+import { logger } from "@config";
 import "@Definition";
 import "@Report";
 import "@User";
 import "@Vote";
+import chalk from "chalk";
+import mongoose from "mongoose";
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
@@ -24,4 +23,4 @@ mongoose.connection.on("connected", () => {
   logger.info(`${chalk.hex("#13AA52")("MongoDB")} connected`);
 });
 
-export default mongoose;
+export { mongoose };

@@ -1,7 +1,7 @@
-import { hash, compare } from "bcryptjs";
-import { model, Schema, Model, Document, Types } from "mongoose";
+import { jwtExpiration, jwtSecret } from "@config/globals";
+import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { jwtSecret, jwtExpiration } from "@config/globals";
+import { Document, model, Model, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
 
 export interface IUser {
@@ -85,6 +85,4 @@ userSchema.methods.passwordMatches = async function passwordMatches(candidatePas
   return compare(candidatePassword, this.password);
 };
 
-const User: Model<IUserDocument> = model("User", userSchema);
-
-export default User;
+export const User: Model<IUserDocument> = model("User", userSchema);
