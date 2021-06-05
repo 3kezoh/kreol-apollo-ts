@@ -52,6 +52,11 @@ const userSchema = new Schema<IUserDocument>(
         token: String,
       },
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   { timestamps: true },
 );

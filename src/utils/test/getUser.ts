@@ -1,13 +1,20 @@
-import { User, IUser } from "@User";
-
-const user: IUser = {
-  email: "sion@gmail.com",
-  name: "sion",
-  password: "password",
-};
+import { User } from "@User";
 
 const getUser = async () => {
-  return User.create(user);
+  const user = await User.create({
+    email: "user@gmail.com",
+    name: "sion",
+    password: "password",
+  });
+
+  const admin = await User.create({
+    email: "admin@gmail.com",
+    name: "admin",
+    password: "password",
+    role: "admin",
+  });
+
+  return { user, admin };
 };
 
 export default getUser;

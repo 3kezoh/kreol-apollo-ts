@@ -16,6 +16,7 @@ const document = ({
   score: 0,
   createdAt: new Date(),
   author: mockedContext.user,
+  reviewed: false,
 } as unknown) as IDefinitionDocument;
 
 const mockedDefinition = { args, document };

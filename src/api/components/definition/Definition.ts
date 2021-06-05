@@ -11,6 +11,7 @@ export interface IDefinition {
   score: number;
   createdAt: Date;
   updatedAt: Date;
+  reviewed: boolean;
 }
 
 interface IDefinitionBaseDocument extends IDefinition, Document {
@@ -57,6 +58,10 @@ const definitionSchema = new Schema<IDefinitionDocument>(
     score: {
       type: Number,
       default: 0,
+    },
+    reviewed: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true },

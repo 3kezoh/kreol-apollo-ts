@@ -53,8 +53,8 @@ export type Mutation = {
   login?: Maybe<AuthResponse>;
   signup?: Maybe<AuthResponse>;
   createDefinition?: Maybe<Definition>;
-  updateDefinition?: Maybe<Definition>;
   deleteDefinition?: Maybe<Definition>;
+  review?: Maybe<Definition>;
   report?: Maybe<Report>;
   createUser?: Maybe<User>;
   updateUser?: Maybe<User>;
@@ -81,15 +81,11 @@ export type MutationCreateDefinitionArgs = {
   language: Scalars["String"];
 };
 
-export type MutationUpdateDefinitionArgs = {
+export type MutationDeleteDefinitionArgs = {
   id: Scalars["ID"];
-  word?: Maybe<Scalars["String"]>;
-  meaning?: Maybe<Scalars["String"]>;
-  example?: Maybe<Scalars["String"]>;
-  language?: Maybe<Scalars["String"]>;
 };
 
-export type MutationDeleteDefinitionArgs = {
+export type MutationReviewArgs = {
   id: Scalars["ID"];
 };
 
@@ -134,7 +130,6 @@ export type Query = {
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   vote?: Maybe<Vote>;
-  votes?: Maybe<Array<Maybe<Vote>>>;
 };
 
 export type QueryVerifyArgs = {
@@ -202,7 +197,6 @@ export type SubscriptionDefinitionArgs = {
 export type User = {
   __typename?: "User";
   id: Scalars["ID"];
-  email: Scalars["String"];
   name: Scalars["String"];
 };
 

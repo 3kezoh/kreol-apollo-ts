@@ -40,7 +40,7 @@ export class DefinitionDataSource extends DataSource<Context> {
 
   async count({ filter }: QueryCountArgs) {
     if (!isValidObjectId(filter?.author)) return 0;
-    const match: Match = {};
+    const match: Match = { reviewed: true };
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = new Types.ObjectId(filter.author);
     return this.model.countDocuments(match);
@@ -50,7 +50,7 @@ export class DefinitionDataSource extends DataSource<Context> {
     if (!isValidObjectId(id)) return null;
     const cachedDefinition = await this.cache.get(id);
     if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
-    const definition = await this.model.findById(id).populate("author").lean();
+    const definition = await this.model.findOne({ id, reviewed: true }).populate("author").lean();
     if (ttl) this.cache.set(id, JSON.stringify(definition), { ttl });
     return definition;
   }
@@ -58,7 +58,7 @@ export class DefinitionDataSource extends DataSource<Context> {
   async list({ filter, page, limit }: QueryDefinitionsArgs) {
     if (!isValidObjectId(filter?.author)) return [];
 
-    const match: Match = {};
+    const match: Match = { reviewed: true };
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = new Types.ObjectId(filter.author);
     if (!page || page < 1) page = 1;
@@ -110,8 +110,11 @@ export class DefinitionDataSource extends DataSource<Context> {
     if (!limit || limit < 1 || limit > 100) limit = 50;
     if (!letter || ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter)) letter = "a";
 
+    const match: Match = { reviewed: true };
+    match.word = new RegExp(`^${letter}`, "i");
+
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
-      { $match: { word: new RegExp(`^${letter}`, "i") } },
+      { $match: match },
       { $sort: BY_SCORE },
       { $group: { _id: "$word", score: { $sum: "$score" }, doc: { $first: "$$ROOT" } } },
       { $sort: BY_SCORE },
@@ -127,8 +130,11 @@ export class DefinitionDataSource extends DataSource<Context> {
     if (!page || page < 1) page = 1;
     if (!limit || limit < 1 || limit > 100) limit = 5;
 
+    const _match: Match = { reviewed: true };
+    _match.word = new RegExp(`^${match?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
+
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
-      { $match: { word: new RegExp(`^${match?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i") } },
+      { $match: _match },
       { $sort: BY_SCORE },
       { $group: { _id: "$word", doc: { $first: "$$ROOT" } } },
       { $skip: (page - 1) * limit },
@@ -145,7 +151,15 @@ export class DefinitionDataSource extends DataSource<Context> {
     return this.model.findOneAndDelete({ _id, author }).populate("author");
   }
 
+  async review(_id: string) {
+    if (!isValidObjectId) return null;
+    return this.model
+      .findByIdAndUpdate(_id, { reviewed: true }, { new: true, lean: true })
+      .populate("author");
+  }
+
   async updateScore(id: Types.ObjectId, score: number): Promise<IDefinitionDocument | null> {
-    return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true });
+    if (!isValidObjectId) return null;
+    return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true }).populate("author");
   }
 }

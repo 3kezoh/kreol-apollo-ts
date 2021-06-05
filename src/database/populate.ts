@@ -1,29 +1,32 @@
 /* eslint-disable no-param-reassign */
 import "module-alias/register";
-import { Query } from "mongoose";
+import { mongo } from "@config/globals";
 import mongoose from "@config/mongoose";
 import logger from "@config/winston";
-import { mongo } from "@config/globals";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { Report } from "@Report";
 import { User } from "@User";
-import { Vote, IVote } from "@Vote";
-import ran from "./ran";
+import { IVote, Vote } from "@Vote";
+import { Query } from "mongoose";
+import { randomDefinitions, randomUsers } from "./data";
 import progressBar from "./progressBar";
-import { randomUsers, randomDefinitions } from "./data";
+import ran from "./ran";
+import admins from "./admins";
 
 const users = randomUsers(100);
 const definitions = randomDefinitions(1000);
 
-mongoose.connect(mongo.uri);
-
 const populate = async () => {
   try {
     console.time("populate");
+    await mongoose.connect(mongo.uri);
+
     await Definition.deleteMany();
     await Report.deleteMany();
     await User.deleteMany();
     await Vote.deleteMany();
+
+    await Promise.all(admins.map((admin) => User.create({ ...admin, role: "admin" })));
 
     const _users = await Promise.all(users.map((user) => User.create(user)));
 
@@ -56,7 +59,6 @@ const populate = async () => {
     }
 
     await Promise.all(updates);
-
     await Vote.insertMany(votes);
 
     logger.info("Database population is done");

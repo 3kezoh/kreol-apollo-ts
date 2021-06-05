@@ -8,3 +8,5 @@ generates:
   src/@types/api/args.d.ts:
     plugins:
       - typescript
+    config:
+      maybeValue: T | undefined

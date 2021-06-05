@@ -53,6 +53,7 @@ export type Validator<TArgs> = (args: TArgs) => void;
 export type Match = {
   author?: Types.ObjectId | string;
   word?: RegExp;
+  reviewed: boolean;
 };
 
 export type AggregationArgs = {

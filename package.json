@@ -8,7 +8,8 @@
     "dev": "nodemon",
     "doc": "typedoc",
     "watch-ts": "tsc -w",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "populate": "ts-node src/database/populate.ts"
   },
   "keywords": [],
   "author": "Stanley CRICO",
@@ -54,6 +55,7 @@
     "@types/errorhandler": "^1.5.0",
     "@types/express-rate-limit": "^5.1.1",
     "@types/jest": "^26.0.23",
+    "@types/module-alias": "^2.0.0",
     "@types/node": "^15.0.1",
     "@types/passport": "^1.0.6",
     "@types/passport-google-oauth20": "^2.0.7",

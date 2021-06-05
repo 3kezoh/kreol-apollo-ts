@@ -13,7 +13,7 @@ setupMocks();
 describe("Definition", () => {
   const id = mockedDefinition.document._id.toHexString();
 
-  const { get, list, count, popular, search, create, remove } = mockedContext.dataSources.definition;
+  const { get, list, count, popular, search, create, remove, review } = mockedContext.dataSources.definition;
 
   describe("queries", () => {
     describe("count", () => {
@@ -94,6 +94,15 @@ describe("Definition", () => {
           new ApolloError("Definition Not Found"),
         );
         expect(remove).toBeCalledWith(id, mockedContext.user?._id);
+      });
+    });
+
+    describe("review", () => {
+      it("should resolve", async () => {
+        mocked(review).mockResolvedValue(mockedDefinition.document);
+        const definition = await mutations.review(null, { id }, mockedContext, null);
+        expect(review).toBeCalledWith(id);
+        expect(definition).toEqual(mockedDefinition.document);
       });
     });
   });

@@ -3,7 +3,7 @@ import { IUserDocument, IUser } from "@api/components/user";
 import { ObjectId } from "mongodb";
 
 const args: MutationSignupArgs & MutationLoginArgs = {
-  email: "sion@mail.com",
+  email: "user@mail.com",
   name: "sion",
   password: "password",
   confirmPassword: "password",

@@ -11,13 +11,13 @@ import setupMongoose from "./setupMongoose";
 
 export {
   getUser,
-  setupApolloServer,
-  setupMocks,
-  setupMongoose,
   mockedAuth,
   mockedContext,
   mockedDefinition,
   mockedReport,
   mockedUser,
   mockedVote,
+  setupApolloServer,
+  setupMocks,
+  setupMongoose,
 };
