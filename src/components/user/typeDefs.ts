@@ -12,8 +12,8 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    createUser(email: String!, password: String!, name: String!): User
-    updateUser(id: ID!, email: String!, name: String!): User
-    deleteUser(id: ID!): User
+    createUser(email: String!, password: String!, name: String!): User @isAdmin
+    updateUser(id: ID!, email: String!, name: String!): User @isAdmin
+    deleteUser(id: ID!): User @isAdmin
   }
 `;

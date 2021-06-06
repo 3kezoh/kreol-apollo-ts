@@ -1,4 +1,4 @@
-import { MutationLoginArgs, MutationSignupArgs } from "@@components";
+import { MutationLoginArgs, MutationSignupArgs, MutationUpdateUserArgs } from "@@components";
 import { IUser, IUserDocument } from "@User";
 import { ObjectId } from "mongodb";
 
@@ -12,11 +12,19 @@ const args: MutationSignupArgs & MutationLoginArgs = {
 const token = () => "token";
 const passwordMatches = (password: string) => password === "password";
 
+const _id = new ObjectId();
+
 const document = ({
-  _id: new ObjectId(),
+  _id,
   ...args,
   token,
   passwordMatches,
 } as IUser) as IUserDocument;
 
-export const mockedUser = { args, document };
+const update: MutationUpdateUserArgs = {
+  id: _id.toHexString(),
+  email: "user@gmail.com",
+  name: "sion",
+};
+
+export const mockedUser = { args, document, update };

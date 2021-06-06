@@ -1,11 +1,13 @@
 import { MutationDeleteUserArgs, Resolver } from "@@components";
-import { IUserDocument, User } from "@User/User";
-import { deleteUser as validate } from "@User/validations/mutations";
+import { IUserDocument } from "@User/User";
 import { ApolloError } from "apollo-server-express";
 
-export const deleteUser: Resolver<MutationDeleteUserArgs, IUserDocument> = async (_parent, { id }) => {
-  validate({ id });
-  const user = await User.findByIdAndDelete(id);
+export const deleteUser: Resolver<MutationDeleteUserArgs, IUserDocument> = async (
+  _parent,
+  { id },
+  { dataSources },
+) => {
+  const user = await dataSources.user.remove(id);
   if (!user) throw new ApolloError("User Not Found");
   return user;
 };
