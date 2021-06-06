@@ -1,7 +1,5 @@
-const setupMock = () => {
+export const setupMocks = () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 };
-
-export default setupMock;

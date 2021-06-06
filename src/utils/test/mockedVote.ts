@@ -1,8 +1,9 @@
-import { mockedContext, mockedDefinition } from "@test";
 import { IVoteDocument } from "@Vote";
 import { ObjectId } from "mongodb";
+import { mockedContext } from "./mockedContext";
+import { mockedDefinition } from "./mockedDefinition";
 
-const mockedVote = (action: number) =>
+export const mockedVote = (action: number) =>
   (({
     _id: new ObjectId(),
     definition: mockedDefinition.document,
@@ -10,5 +11,3 @@ const mockedVote = (action: number) =>
     voter: mockedContext.user,
     createdAt: new Date(),
   } as unknown) as IVoteDocument);
-
-export default mockedVote;

@@ -1,10 +1,10 @@
-import { Context } from "@@api";
+import { Context } from "@@components";
 import { dataSources, formatError, playground, plugins, schema } from "@config/apollo";
 import { IUserDocument } from "@User";
 import { ApolloServer } from "apollo-server-express";
 import { createTestClient } from "apollo-server-testing";
 
-const setupApolloServer = async (user: IUserDocument) => {
+export const setupApolloServer = async (user: IUserDocument) => {
   const context: Context = { user };
   const apolloServer = new ApolloServer({
     schema,
@@ -21,5 +21,3 @@ const setupApolloServer = async (user: IUserDocument) => {
 
   return { query, mutate };
 };
-
-export default setupApolloServer;

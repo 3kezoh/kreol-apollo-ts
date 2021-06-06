@@ -1,6 +1,7 @@
 import { IReportDocument } from "@Report";
-import { mockedContext, mockedDefinition } from "@test";
 import { ObjectId } from "mongodb";
+import { mockedContext } from "./mockedContext";
+import { mockedDefinition } from "./mockedDefinition";
 
 const args = {
   definition: mockedDefinition.document._id.toHexString(),
@@ -15,6 +16,4 @@ const document = ({
   createdAt: new Date(),
 } as unknown) as IReportDocument;
 
-const mockedReport = { args, document };
-
-export default mockedReport;
+export const mockedReport = { args, document };

@@ -1,8 +1,6 @@
-import mockedContext from "./mockedContext";
+import { mockedContext } from "./mockedContext";
 
-const mockedAuth = {
+export const mockedAuth = {
   token: "token",
   user: mockedContext.user,
 };
-
-export default mockedAuth;

@@ -40,13 +40,12 @@
   "settings": {
     "import/resolver": {
       "alias": [
-        ["@api", "./src/api"],
-        ["@components", "./src/api/components"],
-        ["@Auth", "./src/api/components/auth"],
-        ["@Definition", "./src/api/components/definition"],
-        ["@Report", "./src/api/components/report"],
-        ["@User", "./src/api/components/user"],
-        ["@Vote", "./src/api/components/vote"],
+        ["@components", "./src/components"],
+        ["@Auth", "./src/components/auth"],
+        ["@Definition", "./src/components/definition"],
+        ["@Report", "./src/components/report"],
+        ["@User", "./src/components/user"],
+        ["@Vote", "./src/components/vote"],
         ["@bin", "./src/bin"],
         ["@config", "./src/config"],
         ["@directives", "./src/directives"],

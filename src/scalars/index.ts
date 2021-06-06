@@ -1,4 +1,4 @@
-import { Scalars } from "@@api";
+import { Scalars } from "@@components";
 import Date from "./Date";
 import ObjectId from "./ObjectId";
 

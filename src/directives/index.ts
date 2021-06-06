@@ -1,4 +1,4 @@
-import { Directive } from "@@api";
+import { Directive } from "@@components";
 import cacheControl from "./cacheControl";
 import isAdmin from "./isAdmin";
 import isAuthenticated from "./isAuthenticated";

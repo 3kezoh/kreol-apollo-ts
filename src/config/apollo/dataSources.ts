@@ -1,4 +1,4 @@
-import { DataSources } from "@@api";
+import { DataSources } from "@@components";
 import { Definition, DefinitionDataSource } from "@Definition";
 import { Report, ReportDataSource } from "@Report";
 import { User, UserDataSource } from "@User";

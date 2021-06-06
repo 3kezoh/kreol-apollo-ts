@@ -1,5 +1,4 @@
-import {} from "@config/globals";
-import { logger } from "@config";
+import { logger } from "@config/winston";
 import "@Definition";
 import "@Report";
 import "@User";

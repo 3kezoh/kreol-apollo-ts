@@ -25,7 +25,7 @@ const dropCollections = async () => {
   }
 };
 
-const setupMongoose = () => {
+export const setupMongoose = () => {
   beforeAll(async () => {
     await mongoose.connect(mongo.uri);
   });
@@ -39,5 +39,3 @@ const setupMongoose = () => {
     await mongoose.connection.close();
   });
 };
-
-export default setupMongoose;

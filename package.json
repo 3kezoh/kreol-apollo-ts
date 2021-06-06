@@ -9,7 +9,9 @@
     "doc": "typedoc",
     "watch-ts": "tsc -w",
     "codegen": "graphql-codegen --config codegen.yml",
-    "populate": "ts-node src/database/populate.ts"
+    "populate": "ts-node src/database/populate.ts",
+    "circular": "madge -c -i circular.svg src",
+    "graph": "madge -i graph.svg src"
   },
   "keywords": [],
   "author": "Stanley CRICO",
@@ -79,13 +81,12 @@
     "typescript": "^4.2.4"
   },
   "_moduleAliases": {
-    "@api": "src/api",
-    "@components": "src/api/components",
-    "@Auth": "src/api/components/auth",
-    "@Definition": "src/api/components/definition",
-    "@Report": "src/api/components/report",
-    "@User": "src/api/components/user",
-    "@Vote": "src/api/components/vote",
+    "@components": "src/components",
+    "@Auth": "src/components/auth",
+    "@Definition": "src/components/definition",
+    "@Report": "src/components/report",
+    "@User": "src/components/user",
+    "@Vote": "src/components/vote",
     "@bin": "src/bin",
     "@config": "src/config",
     "@directives": "src/directives",

@@ -1,4 +1,4 @@
-import { MutationLoginArgs, MutationSignupArgs } from "@@api";
+import { MutationLoginArgs, MutationSignupArgs } from "@@components";
 import { IUser, IUserDocument } from "@User";
 import { ObjectId } from "mongodb";
 
@@ -19,6 +19,4 @@ const document = ({
   passwordMatches,
 } as IUser) as IUserDocument;
 
-const mockedUser = { args, document };
-
-export default mockedUser;
+export const mockedUser = { args, document };

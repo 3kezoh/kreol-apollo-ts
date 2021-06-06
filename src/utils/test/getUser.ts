@@ -1,6 +1,6 @@
 import { User } from "@User";
 
-const getUser = async () => {
+export const getUser = async () => {
   const user = await User.create({
     email: "user@gmail.com",
     name: "sion",
@@ -16,5 +16,3 @@ const getUser = async () => {
 
   return { user, admin };
 };
-
-export default getUser;
