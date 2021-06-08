@@ -1,26 +1,26 @@
 import {
-  Context,
   Match,
   MutationCreateDefinitionArgs,
   QueryCountArgs,
   QueryDefinitionsArgs,
   QueryPopularArgs,
   QuerySearchArgs,
+  UserContext,
 } from "@@components";
 import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
 import { isValidObjectId, Model, Types } from "mongoose";
-import { IDefinition, IDefinitionDocument } from "./Definition";
+import { IDefinitionDocument, IDefinitionPopulated } from "./Definition";
 
 const BY_SCORE = { score: -1, createdAt: 1 };
 const BY_DATE = { createdAt: -1 };
 
-export class DefinitionDataSource extends DataSource<Context> {
+export class DefinitionDataSource extends DataSource<UserContext> {
   model: Model<IDefinitionDocument>;
 
-  context!: Context;
+  context!: UserContext;
 
   cache!: KeyValueCache<string>;
 
@@ -29,7 +29,7 @@ export class DefinitionDataSource extends DataSource<Context> {
     this.model = model;
   }
 
-  initialize({ context, cache }: DataSourceConfig<Context>) {
+  initialize({ context, cache }: DataSourceConfig<UserContext>) {
     this.context = context;
     this.cache = cache || new InMemoryLRUCache();
   }
@@ -101,7 +101,7 @@ export class DefinitionDataSource extends DataSource<Context> {
       ]);
     }
 
-    const definitions: IDefinition[] = await aggregate.exec();
+    const definitions: IDefinitionPopulated[] = await aggregate.exec();
 
     return definitions;
   }

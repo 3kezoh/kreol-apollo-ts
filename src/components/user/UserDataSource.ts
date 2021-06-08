@@ -1,13 +1,13 @@
-import { Context, MutationSignupArgs, MutationUpdateUserArgs } from "@@components";
+import { UserContext, MutationSignupArgs, MutationUpdateUserArgs } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
 import { FilterQuery, Model } from "mongoose";
 import { IUserDocument } from "./User";
 
-export class UserDataSource extends DataSource<Context> {
+export class UserDataSource extends DataSource<UserContext> {
   model: Model<IUserDocument>;
 
-  context!: Context;
+  context!: UserContext;
 
   cache!: KeyValueCache<string>;
 
@@ -16,7 +16,7 @@ export class UserDataSource extends DataSource<Context> {
     this.model = model;
   }
 
-  initialize({ context, cache }: DataSourceConfig<Context>) {
+  initialize({ context, cache }: DataSourceConfig<UserContext>) {
     this.context = context;
     this.cache = cache || new InMemoryLRUCache();
   }

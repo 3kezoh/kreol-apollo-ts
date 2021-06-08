@@ -1,19 +1,19 @@
-import { Context, Maybe } from "@@components";
+import { UserContext, Maybe } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Model, Types } from "mongoose";
 import { IReportDocument } from "./Report";
 
-export class ReportDataSource extends DataSource<Context> {
+export class ReportDataSource extends DataSource<UserContext> {
   model: Model<IReportDocument>;
 
-  context!: Context;
+  context!: UserContext;
 
   constructor(model: Model<IReportDocument>) {
     super();
     this.model = model;
   }
 
-  initialize({ context }: DataSourceConfig<Context>) {
+  initialize({ context }: DataSourceConfig<UserContext>) {
     this.context = context;
   }
 

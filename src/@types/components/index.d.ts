@@ -1,35 +1,19 @@
-import { DefinitionDataSource } from "@Definition";
-import { ReportDataSource } from "@Report";
-import { IUserDocument, UserDataSource } from "@User";
-import { VoteDataSource } from "@Vote";
 import { IResolvers, SchemaDirectiveVisitor } from "apollo-server-express";
 import { DocumentNode } from "graphql";
-import { LeanDocument, Types } from "mongoose";
+import { Types } from "mongoose";
 import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
+import { DataSourcesContext, UserContext } from "./context";
 
 export * from "./args";
+export * from "./context";
+export * from "./dataSources";
 
 type Maybe<T> = T | undefined;
-
-export type Context = {
-  user?: LeanDocument<IUserDocument>;
-};
-
-export type DataSources = {
-  definition: DefinitionDataSource;
-  user: UserDataSource;
-  vote: VoteDataSource;
-  report: ReportDataSource;
-};
-
-export type DataSourcesContext = {
-  dataSources: DataSources;
-};
 
 export type Resolver<TArgs, R> = (
   source: unknown,
   args: TArgs,
-  context: Context & DataSourcesContext,
+  context: UserContext & DataSourcesContext,
   info: unknown,
 ) => Promise<R> | R;
 

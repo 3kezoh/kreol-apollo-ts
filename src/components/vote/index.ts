@@ -1,8 +1,5 @@
-import { resolvers } from "./resolvers";
-import { typeDefs } from "./typeDefs";
-
+export * from "./resolvers";
+export * from "./typeDefs";
+export * from "./validation";
 export * from "./Vote";
 export * from "./VoteDataSource";
-export * from "./validation";
-
-export default { resolvers, typeDefs };

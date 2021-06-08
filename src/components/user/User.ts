@@ -23,6 +23,10 @@ export interface IUserDocument extends IUser, Document {
   passwordMatches(password: string): Promise<boolean>;
 }
 
+export interface IUserPopulated extends IUser {
+  id: string;
+}
+
 const userSchema = new Schema<IUserDocument>(
   {
     email: {

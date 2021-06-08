@@ -1,29 +1,26 @@
-import { IUserDocument } from "@User";
+import { IUserDocument, IUserPopulated } from "@User";
 import { Document, model, Model, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
 
-export interface IDefinition {
+interface IDefinition {
   word: string;
   meaning: string;
   example?: string;
   language: "fr" | "gf";
-  author: Types.ObjectId | string;
+  author: Types.ObjectId;
   score: number;
   createdAt: Date;
   updatedAt: Date;
   reviewed: boolean;
 }
 
-interface IDefinitionBaseDocument extends IDefinition, Document {
+export interface IDefinitionDocument extends IDefinition, Document {
   _id: Types.ObjectId;
 }
 
-export interface IDefinitionDocument extends IDefinitionBaseDocument {
-  author: IUserDocument["_id"];
-}
-
-export interface IDefinitionPopulatedDocument extends Omit<IDefinitionBaseDocument, "author"> {
-  author: IUserDocument;
+export interface IDefinitionPopulated extends Omit<IDefinition, "author"> {
+  id: string;
+  author: IUserPopulated;
 }
 
 const definitionSchema = new Schema<IDefinitionDocument>(

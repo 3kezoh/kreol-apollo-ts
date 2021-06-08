@@ -1,19 +1,19 @@
-import { Context } from "@@components";
+import { UserContext } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { isValidObjectId, Model, Types } from "mongoose";
 import { IVoteDocument } from "./Vote";
 
-export class VoteDataSource extends DataSource<Context> {
+export class VoteDataSource extends DataSource<UserContext> {
   model: Model<IVoteDocument>;
 
-  context!: Context;
+  context!: UserContext;
 
   constructor(model: Model<IVoteDocument>) {
     super();
     this.model = model;
   }
 
-  initialize({ context }: DataSourceConfig<Context>) {
+  initialize({ context }: DataSourceConfig<UserContext>) {
     this.context = context;
   }
 

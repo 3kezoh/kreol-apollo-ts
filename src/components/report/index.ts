@@ -1,8 +1,5 @@
-import { resolvers } from "./resolvers";
-import { typeDefs } from "./typeDefs";
-
 export * from "./Report";
 export * from "./ReportDataSource";
+export * from "./resolvers";
+export * from "./typeDefs";
 export * from "./validation";
-
-export default { resolvers, typeDefs };
