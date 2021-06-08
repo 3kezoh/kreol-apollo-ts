@@ -1,4 +1,4 @@
-import { IUserDocument, IUserPopulated } from "@User";
+import { IUserPopulated } from "@User";
 import { Document, model, Model, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
 
