@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
+import "module-alias/register";
 import { logger, mongoose } from "@config";
 import { mongo } from "@config/globals";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { Report } from "@Report";
 import { User } from "@User";
 import { IVote, Vote } from "@Vote";
-import "module-alias/register";
 import { Query } from "mongoose";
-import admins from "./admins";
+import { admins } from "./admins";
 import { randomDefinitions, randomUsers } from "./data";
 import progressBar from "./progressBar";
 import ran from "./ran";
@@ -25,7 +25,7 @@ const populate = async () => {
     await User.deleteMany();
     await Vote.deleteMany();
 
-    await Promise.all(admins.map((admin) => User.create({ ...admin, role: "admin" })));
+    await Promise.all(admins.map((admin) => User.create({ ...admin, role: "ADMIN" })));
 
     const _users = await Promise.all(users.map((user) => User.create(user)));
 

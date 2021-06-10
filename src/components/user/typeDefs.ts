@@ -3,6 +3,7 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
   type User @cacheControl(maxAge: 3600) {
     id: ID!
+    email: String!
     name: String!
   }
 
@@ -12,8 +13,8 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    createUser(email: String!, password: String!, name: String!): User @isAdmin
-    updateUser(id: ID!, email: String!, name: String!): User @isAdmin
-    deleteUser(id: ID!): User @isAdmin
+    createUser(email: String!, password: String!, name: String!): User @isAuth(role: ADMIN)
+    updateUser(id: ID!, email: String!, name: String!): User @isAuth(role: ADMIN)
+    deleteUser(id: ID!): User @isAuth(role: ADMIN)
   }
 `;

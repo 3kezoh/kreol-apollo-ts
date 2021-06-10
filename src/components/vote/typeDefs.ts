@@ -8,10 +8,10 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    vote(definition: ID!): Vote @isAuthenticated
+    vote(definition: ID!): Vote @isAuth(role: USER)
   }
 
   extend type Mutation {
-    vote(definition: ID!, action: Int!): Vote @isAuthenticated
+    vote(definition: ID!, action: Int!): Vote @isAuth(role: USER)
   }
 `;

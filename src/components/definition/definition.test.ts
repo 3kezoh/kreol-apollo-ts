@@ -75,7 +75,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(create).mockResolvedValue(mockedDefinition.document);
         const definition = await mutations.createDefinition(null, mockedDefinition.args, mockedContext, null);
-        expect(create).toBeCalledWith(mockedDefinition.args, mockedContext.user);
+        expect(create).toBeCalledWith(mockedDefinition.args);
         expect(definition).toEqual(mockedDefinition.document);
       });
     });

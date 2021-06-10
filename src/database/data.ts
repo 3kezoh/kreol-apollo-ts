@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import ran from "./ran";
+import { users } from "./users";
 
 interface IUser {
   email: string;
@@ -30,7 +31,6 @@ const lor = (size = 1) => {
 };
 
 const randomUsers = (n: number): IUser[] => {
-  const users = [];
   while (users.length < n) {
     const user = { email: `${lor()}@gmail.com`, password: "password", name: lor() };
     if (users.length === 0) users.push(user);

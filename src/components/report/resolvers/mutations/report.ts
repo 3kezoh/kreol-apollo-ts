@@ -1,10 +1,10 @@
-import { MutationReportArgs, Resolver } from "@@components";
-import { IReportDocument } from "@Report/Report";
+import { MutationReportArgs as TArgs, Resolver } from "@@components";
+import { IReportDocument as R } from "@Report/Report";
 import { validate } from "@Report/validation";
 import { IUserDocument } from "@User";
 import { ApolloError } from "apollo-server-express";
 
-export const report: Resolver<MutationReportArgs, IReportDocument> = async (
+export const report: Resolver<TArgs, R> = async (
   _,
   { definition: id, reason, message },
   { user: reporter, dataSources },

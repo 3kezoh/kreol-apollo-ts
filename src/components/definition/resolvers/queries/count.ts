@@ -1,4 +1,4 @@
-import { QueryCountArgs, Resolver } from "@@components";
+import { QueryCountArgs as TArgs, Resolver } from "@@components";
 
-export const count: Resolver<QueryCountArgs, number> = async (_, { filter }, { dataSources }) =>
+export const count: Resolver<TArgs, number> = async (_, { filter }, { dataSources }) =>
   dataSources.definition.count({ filter });

@@ -1,8 +1,7 @@
 import { Directive } from "@@components";
 import cacheControl from "./cacheControl";
-import isAdmin from "./isAdmin";
-import isAuthenticated from "./isAuthenticated";
+import isAuth from "./isAuth";
 
-const directives: Directive[] = [cacheControl, isAdmin, isAuthenticated];
+const directives: Directive[] = [cacheControl, isAuth];
 
 export default directives;

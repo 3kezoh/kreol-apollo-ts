@@ -7,7 +7,6 @@ import {
   QuerySearchArgs,
   UserContext,
 } from "@@components";
-import { IUserDocument } from "@User";
 import { escapeRegExp } from "@utils";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
@@ -34,8 +33,9 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     this.cache = cache || new InMemoryLRUCache();
   }
 
-  async create({ word, meaning, example, language }: MutationCreateDefinitionArgs, author: IUserDocument) {
-    return this.model.create({ word, meaning, example, author, language });
+  async create(args: MutationCreateDefinitionArgs) {
+    const author = this.context.user;
+    return this.model.create({ ...args, author });
   }
 
   async count({ filter }: QueryCountArgs) {

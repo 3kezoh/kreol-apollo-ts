@@ -11,6 +11,7 @@ export const typeDefs = gql`
     score: Int!
     createdAt: Date!
     action: Int
+    reviewed: Boolean! @isAuth(role: ADMIN)
   }
 
   type DefinitionSubscription {
@@ -37,8 +38,8 @@ export const typeDefs = gql`
 
   extend type Mutation {
     createDefinition(word: String!, meaning: String!, example: String, language: String!): Definition
-      @isAuthenticated
-    deleteDefinition(id: ID!): Definition @isAuthenticated
-    review(id: ID!): Definition @isAdmin
+      @isAuth(role: USER)
+    deleteDefinition(id: ID!): Definition @isAuth(role: USER)
+    review(id: ID!): Definition @isAuth(role: ADMIN)
   }
 `;

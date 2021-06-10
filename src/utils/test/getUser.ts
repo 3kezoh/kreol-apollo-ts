@@ -11,7 +11,7 @@ export const getUser = async () => {
     email: "admin@gmail.com",
     name: "admin",
     password: "password",
-    role: "admin",
+    role: "ADMIN",
   });
 
   return { user, admin };

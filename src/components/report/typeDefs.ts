@@ -9,11 +9,11 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    report(definition: ID!): Report @isAuthenticated
-    reports(definition: ID!): [Report] @isAuthenticated
+    report(definition: ID!): Report @isAuth(role: USER)
+    reports(definition: ID!): [Report] @isAuth(role: USER)
   }
 
   extend type Mutation {
-    report(definition: ID!, reason: Int!, message: String): Report @isAuthenticated
+    report(definition: ID!, reason: Int!, message: String): Report @isAuth(role: USER)
   }
 `;

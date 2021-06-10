@@ -9,7 +9,9 @@ export const log: ApolloServerPlugin = {
   requestDidStart() {
     return {
       didEncounterErrors({ errors }) {
-        errors.map(({ stack }) => console.error(stack));
+        errors.forEach(({ stack, originalError }) => {
+          if (originalError?.name !== "UserInputError") console.error(stack);
+        });
       },
     };
   },
