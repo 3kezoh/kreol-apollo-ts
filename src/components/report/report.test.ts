@@ -16,7 +16,6 @@ setupMocks();
 describe("Report", () => {
   const { reason, message } = mockedReport.args;
   const definition = mockedDefinition.document._id.toHexString();
-  const definitionId = mockedDefinition.document._id;
 
   const { get, create, remove, list } = mockedContext.dataSources.report;
   const { get: _get } = mockedContext.dataSources.definition;
@@ -55,8 +54,8 @@ describe("Report", () => {
         mocked(_get).mockResolvedValue(mockedDefinition.document);
         const report = await mutations.report(null, mockedReport.args, mockedContext, null);
         expect(_get).toBeCalledWith(definition);
-        expect(get).toBeCalledWith(definitionId);
-        expect(create).toBeCalledWith(definitionId, reason, message);
+        expect(get).toBeCalledWith(definition);
+        expect(create).toBeCalledWith(definition, reason, message);
         expect(report).toEqual(mockedReport.document);
       });
 
@@ -77,7 +76,7 @@ describe("Report", () => {
           new ApolloError(DEFINITION.ALREADY_REPORTED, undefined, { hasReported: mockedReport.document }),
         );
         expect(_get).toBeCalledWith(definition);
-        expect(get).toBeCalledWith(definitionId);
+        expect(get).toBeCalledWith(definition);
         expect(create).not.toBeCalled();
       });
     });
