@@ -5,7 +5,7 @@ import { EXAMPLE, LANGUAGE, MEANING, WORD } from "./errors";
 
 const { isEmpty, isLength, isIn } = validator;
 
-export const validate: Validator<TArgs> = ({ word, meaning, example, language }): void => {
+export const validate: Validator<TArgs> = ({ word, meaning, example, language }) => {
   const validationErrors: Partial<TArgs> = {};
   if (isEmpty(word)) validationErrors.word = WORD.EMPTY;
   if (isEmpty(meaning)) validationErrors.meaning = MEANING.EMPTY;

@@ -1,8 +1,8 @@
-import { MutationDeleteUserArgs, Resolver } from "@@components";
+import { MutationDeleteUserArgs, AsyncResolver } from "@@components";
 import { IUserDocument } from "@User/User";
 import { ApolloError } from "apollo-server-express";
 
-export const deleteUser: Resolver<MutationDeleteUserArgs, IUserDocument> = async (
+export const deleteUser: AsyncResolver<MutationDeleteUserArgs, IUserDocument> = async (
   _parent,
   { id },
   { dataSources },

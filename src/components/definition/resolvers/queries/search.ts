@@ -1,5 +1,5 @@
-import { QuerySearchArgs as TArgs, Resolver } from "@@components";
+import { QuerySearchArgs as TArgs, AsyncResolver } from "@@components";
 import { IDefinitionDocument as R } from "@Definition/Definition";
 
-export const search: Resolver<TArgs, R[]> = async (_, { match, page, limit }, { dataSources }) =>
+export const search: AsyncResolver<TArgs, R[]> = async (_, { match, page, limit }, { dataSources }) =>
   dataSources.definition.search({ match, page, limit });

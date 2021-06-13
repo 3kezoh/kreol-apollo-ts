@@ -1,5 +1,5 @@
-import { QueryDefinitionsArgs as TArgs, Resolver } from "@@components";
+import { QueryDefinitionsArgs as TArgs, AsyncResolver } from "@@components";
 import { IDefinitionPopulated as R } from "@Definition/Definition";
 
-export const definitions: Resolver<TArgs, R[]> = async (_, { filter, page, limit }, { dataSources }) =>
+export const definitions: AsyncResolver<TArgs, R[]> = async (_, { filter, page, limit }, { dataSources }) =>
   dataSources.definition.list({ filter, page, limit });

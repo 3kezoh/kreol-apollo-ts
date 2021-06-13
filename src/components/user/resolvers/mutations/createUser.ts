@@ -1,9 +1,9 @@
-import { MutationCreateUserArgs, Resolver } from "@@components";
+import { MutationCreateUserArgs, AsyncResolver } from "@@components";
 import { IUserDocument } from "@User/User";
 import { createUser as validate } from "@User/validations/mutations";
 import { AuthenticationError } from "apollo-server-express";
 
-export const createUser: Resolver<MutationCreateUserArgs, IUserDocument> = async (
+export const createUser: AsyncResolver<MutationCreateUserArgs, IUserDocument> = async (
   _parent,
   { email, password, name },
   { dataSources },

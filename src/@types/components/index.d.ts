@@ -10,16 +10,23 @@ export * from "./dataSources";
 
 type Maybe<T> = T | undefined;
 
+export type AsyncResolver<TArgs, R> = (
+  source: unknown,
+  args: TArgs,
+  context: UserContext & DataSourcesContext,
+  info: unknown,
+) => Promise<R>;
+
 export type Resolver<TArgs, R> = (
   source: unknown,
   args: TArgs,
   context: UserContext & DataSourcesContext,
   info: unknown,
-) => Promise<R> | R;
+) => R;
 
 export type Component = {
   typeDefs: DocumentNode;
-  resolvers: Resolver;
+  resolvers: AsyncResolver;
 };
 
 export type Scalars = {

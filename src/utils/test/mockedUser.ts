@@ -1,13 +1,13 @@
-import { MutationLoginArgs, MutationSignupArgs, MutationUpdateUserArgs } from "@@components";
+import { MutationUpdateUserArgs } from "@@components";
 import { IUser, IUserDocument } from "@User";
 import { ObjectId } from "mongodb";
 
-const args: MutationSignupArgs & MutationLoginArgs = {
+const args = {
   email: "user@mail.com",
   name: "sion",
   password: "password",
   confirmPassword: "password",
-};
+} as const;
 
 const token = () => "token";
 const passwordMatches = (password: string) => password === "password";
@@ -27,4 +27,4 @@ const update: MutationUpdateUserArgs = {
   name: "sion",
 };
 
-export const mockedUser = { args, document, update };
+export const mockedUser = { args, document, update } as const;

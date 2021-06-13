@@ -1,8 +1,8 @@
-import { QueryReportArgs as TArgs, Resolver } from "@@components";
+import { QueryReportArgs as TArgs, AsyncResolver } from "@@components";
 import { IReportDocument as R } from "@Report/Report";
 import { IUserDocument } from "@User";
 
-export const report: Resolver<TArgs, R | null> = async (
+export const report: AsyncResolver<TArgs, R | null> = async (
   _,
   { definition },
   { user: reporter, dataSources },

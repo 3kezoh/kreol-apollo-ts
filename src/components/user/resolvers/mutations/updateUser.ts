@@ -1,9 +1,9 @@
-import { MutationUpdateUserArgs, Resolver } from "@@components";
+import { MutationUpdateUserArgs, AsyncResolver } from "@@components";
 import { IUserDocument } from "@User/User";
 import { updateUser as validate } from "@User/validations/mutations";
 import { ApolloError } from "apollo-server-express";
 
-export const updateUser: Resolver<MutationUpdateUserArgs, IUserDocument> = async (
+export const updateUser: AsyncResolver<MutationUpdateUserArgs, IUserDocument> = async (
   _parent,
   { id, email, name },
   { dataSources },

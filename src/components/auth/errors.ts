@@ -1,0 +1,37 @@
+/**
+ * USER
+ */
+
+export const USER = { NOT_FOUND: "USER_NOT_FOUND" };
+
+/**
+ * EMAIL
+ */
+
+export const EMAIL = {
+  EMPTY: "EMAIL_EMPTY",
+  INVALID: "EMAIL_INVALID",
+  ALREADY_TAKEN: "EMAIL_ALREADY_TAKEN",
+} as const;
+
+/**
+ * PASSWORD
+ */
+
+export const PASSWORD = {
+  EMPTY: "PASSWORD_EMPTY",
+  TOO_SHORT: "PASSWORD_TOO_SHORT",
+  TOO_LONG: "PASSWORD_TOO_LONG",
+  NOT_MATCH: "PASSWORD_NOT_MATCH",
+  INVALID: "PASSWORD_INVALID",
+} as const;
+
+/**
+ * NAME
+ */
+
+export const NAME = {
+  TOO_SHORT: "NAME_TOO_SHORT",
+  TOO_LONG: "NAME_TOO_LONG",
+  ALREADY_TAKEN: "NAME_ALREADY_TAKEN",
+} as const;
