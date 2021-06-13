@@ -1,20 +1,17 @@
-import { MutationCreateUserArgs, Validator } from "@@components";
-import { validationError } from "@utils";
+import { MutationCreateUserArgs as TArgs, Validator } from "@@components";
+import { EMAIL, NAME, PASSWORD } from "@User/errors";
 import { UserInputError } from "apollo-server-express";
 import validator from "validator";
 
 const { isEmail, isLength } = validator;
 
-const createUser: Validator<MutationCreateUserArgs> = ({ email, password, name }) => {
-  const validationErrors = [];
-  if (!isEmail(email)) validationErrors.push(validationError("email", "email is invalid"));
-  if (!isLength(password, { min: 8 }))
-    validationErrors.push(validationError("password", "password is too short"));
-  if (!isLength(password, { max: 128 }))
-    validationErrors.push(validationError("password", "password is too long"));
-  if (!isLength(name, { min: 2 })) validationErrors.push(validationError("name", "name is too short"));
-  if (!isLength(name, { max: 128 })) validationErrors.push(validationError("name", "name is too long"));
-  if (validationErrors.length) throw new UserInputError("Validation Error", { validationErrors });
+export const createUser: Validator<TArgs> = ({ email, password, name }) => {
+  const validationErrors: Partial<TArgs> = {};
+  if (!isEmail(email)) validationErrors.email = EMAIL.INVALID;
+  if (!isLength(password, { min: 8 })) validationErrors.password = PASSWORD.TOO_SHORT;
+  if (!isLength(password, { max: 128 })) validationErrors.password = PASSWORD.TOO_LONG;
+  if (!isLength(name, { min: 2 })) validationErrors.name = NAME.TOO_SHORT;
+  if (!isLength(name, { max: 128 })) validationErrors.name = NAME.TOO_LONG;
+  if (Object.keys(validationErrors).length)
+    throw new UserInputError("Validation Error", { validationErrors });
 };
-
-export default createUser;

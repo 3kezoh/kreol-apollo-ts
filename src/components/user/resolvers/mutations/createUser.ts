@@ -1,17 +1,14 @@
-import { MutationCreateUserArgs, AsyncResolver } from "@@components";
-import { IUserDocument } from "@User/User";
+import { AsyncResolver, MutationCreateUserArgs as TArgs } from "@@components";
+import { EMAIL, NAME } from "@User/errors";
+import { IUserDocument as R } from "@User/User";
 import { createUser as validate } from "@User/validations/mutations";
 import { AuthenticationError } from "apollo-server-express";
 
-export const createUser: AsyncResolver<MutationCreateUserArgs, IUserDocument> = async (
-  _parent,
-  { email, password, name },
-  { dataSources },
-) => {
+export const createUser: AsyncResolver<TArgs, R> = async (_, { email, password, name }, { dataSources }) => {
   validate({ email, password, name });
   let user = await dataSources.user.getBy({ email });
-  if (user) throw new AuthenticationError("User already exists");
+  if (user) throw new AuthenticationError(EMAIL.ALREADY_TAKEN);
   user = await dataSources.user.getBy({ name });
-  if (user) throw new AuthenticationError("Name is already taken");
+  if (user) throw new AuthenticationError(NAME.ALREADY_TAKEN);
   return dataSources.user.create({ email, password, name });
 };

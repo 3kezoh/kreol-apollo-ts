@@ -25,6 +25,6 @@ const update: MutationUpdateUserArgs = {
   id: _id.toHexString(),
   email: "user@gmail.com",
   name: "sion",
-};
+} as const;
 
 export const mockedUser = { args, document, update } as const;

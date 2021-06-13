@@ -94,21 +94,21 @@ describe("Auth", () => {
           { password: "p".repeat(7), confirmPassword: "p".repeat(7) },
         ],
         ["name", 2, { name: NAME.TOO_SHORT }, { name: "u" }],
-      ])("should throw if the %s length is shorter than %d", (_, __, validationErrors, args) => {
-        expectValidationErrors(validationErrors, () => validators.signup({ ...mockedUser.args, ...args }));
-      });
+      ])("should throw if the %s length is shorter than %d", (_, __, validationErrors, args) =>
+        expectValidationErrors(validationErrors, () => validators.signup({ ...mockedUser.args, ...args })),
+      );
 
       it.each([
         [
           "password",
           128,
           { password: PASSWORD.TOO_LONG },
-          { password: "p".repeat(128 + 3), confirmPassword: "p".repeat(128 + 3) },
+          { password: "p".repeat(131), confirmPassword: "p".repeat(131) },
         ],
-        ["name", 128, { name: NAME.TOO_LONG }, { name: "u".repeat(128 + 3) }],
-      ])("should throw if the %s length is longer than %d", (_, __, validationErrors, args) => {
-        expectValidationErrors(validationErrors, () => validators.signup({ ...mockedUser.args, ...args }));
-      });
+        ["name", 128, { name: NAME.TOO_LONG }, { name: "u".repeat(131) }],
+      ])("should throw if the %s length is longer than %d", (_, __, validationErrors, args) =>
+        expectValidationErrors(validationErrors, () => validators.signup({ ...mockedUser.args, ...args })),
+      );
 
       it.each(["pass word", "PASSWORD", "password "])(
         "should throw if the password confirmation don't match",

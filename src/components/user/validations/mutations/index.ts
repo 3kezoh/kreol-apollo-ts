@@ -1,4 +1,3 @@
-import createUser from "./createUser";
-import updateUser from "./updateUser";
+export * from "./createUser";
+export * from "./updateUser";
 
-export { createUser, updateUser };
