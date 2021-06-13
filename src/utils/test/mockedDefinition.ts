@@ -1,14 +1,13 @@
-import { MutationCreateDefinitionArgs } from "@@components";
 import { IDefinitionDocument } from "@Definition";
 import { ObjectId } from "mongodb";
 import { mockedContext } from "./mockedContext";
 
-const args: MutationCreateDefinitionArgs = {
+const args = {
   word: "word",
   meaning: "meaning",
   example: "example",
   language: "fr",
-};
+} as const;
 
 const document = ({
   _id: new ObjectId(),

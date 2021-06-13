@@ -1,4 +1,10 @@
 /**
+ * DEFINITION
+ */
+
+export const DEFINITION = { NOT_FOUND: "DEFINITION_NOT_FOUND" };
+
+/**
  * WORD
  */
 

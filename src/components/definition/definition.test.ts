@@ -1,6 +1,7 @@
-import { mockedContext, mockedDefinition, setupMocks } from "@test";
-import { ApolloError, UserInputError } from "apollo-server-express";
+import { expectValidationErrors, mockedContext, mockedDefinition, setupMocks } from "@test";
+import { ApolloError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
+import { DEFINITION, EXAMPLE, LANGUAGE, MEANING, WORD } from "./errors";
 import * as mutations from "./resolvers/mutations";
 import * as queries from "./resolvers/queries";
 import { validate } from "./validation";
@@ -33,10 +34,10 @@ describe("Definition", () => {
         expect(definition).toEqual(mockedDefinition.document);
       });
 
-      it("should throw because the definition is not found", async () => {
+      it("should throw if the definition is not found", async () => {
         mocked(get).mockResolvedValue(null);
         await expect(queries.definition(null, { id }, mockedContext, null)).rejects.toThrow(
-          new ApolloError("Definition Not Found"),
+          new ApolloError(DEFINITION.NOT_FOUND),
         );
         expect(get).toBeCalledWith(id, 30);
       });
@@ -88,10 +89,10 @@ describe("Definition", () => {
         expect(definition).toEqual(mockedDefinition.document);
       });
 
-      it("should throw is definition is null", async () => {
+      it("should throw if the definition is not found", async () => {
         mocked(remove).mockResolvedValue(null);
         await expect(mutations.deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
-          new ApolloError("Definition Not Found"),
+          new ApolloError(DEFINITION.NOT_FOUND),
         );
         expect(remove).toBeCalledWith(id, mockedContext.user?._id);
       });
@@ -108,31 +109,23 @@ describe("Definition", () => {
   });
 
   describe("validation", () => {
-    it.each([["word", "meaning", "language"]])("should throw if %s is empty", (attr) => {
-      (mockedDefinition.args as { [i: string]: string })[attr] = "";
-      expect(() => validate(mockedDefinition.args)).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "%s", message: "%s is empty" }],
-        }),
-      );
-    });
+    it.each([
+      ["word", { word: WORD.EMPTY }, { word: "" }],
+      ["meaning", { meaning: MEANING.EMPTY }, { meaning: "" }],
+    ])("should throw if the %s is empty", (_, validationErrors, args) =>
+      expectValidationErrors(validationErrors, () => validate({ ...mockedDefinition.args, ...args })),
+    );
 
-    it.each(["meaning", "example"])("should throw if %s greater than 1500", (attr) => {
-      (mockedDefinition.args as { [i: string]: string })[attr] = "#".repeat(1503);
-      expect(() => validate(mockedDefinition.args)).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "%s", message: "%s is too long" }],
-        }),
-      );
-    });
+    it.each([
+      ["meaning", { meaning: MEANING.TOO_LONG }, { meaning: "#".repeat(1503) }],
+      ["example", { example: EXAMPLE.TOO_LONG }, { example: "#".repeat(1503) }],
+    ])("should throw if %s greater than 1500", (_, validationErrors, args) =>
+      expectValidationErrors(validationErrors, () => validate({ ...mockedDefinition.args, ...args })),
+    );
 
-    it("should throw if language is neither fr or gf", () => {
-      mockedDefinition.args.language = "en";
-      expect(() => validate(mockedDefinition.args)).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "language", message: "language can only be fr or gf" }],
-        }),
-      );
-    });
+    it("should throw if the language is neither fr or gf", () =>
+      expectValidationErrors({ language: LANGUAGE.FR_GF }, () =>
+        validate({ ...mockedDefinition.args, language: "en" }),
+      ));
   });
 });

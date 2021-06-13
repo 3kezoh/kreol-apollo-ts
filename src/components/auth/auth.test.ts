@@ -1,5 +1,5 @@
-import { mockedAuth, mockedContext, mockedUser, setupMocks } from "@test";
-import { AuthenticationError, UserInputError } from "apollo-server-express";
+import { expectValidationErrors, mockedAuth, mockedContext, mockedUser, setupMocks } from "@test";
+import { AuthenticationError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
 import { EMAIL, NAME, PASSWORD, USER } from "./errors";
 import * as mutations from "./resolvers/mutations";
@@ -75,15 +75,6 @@ describe("Auth", () => {
       });
     });
   });
-
-  const expectValidationErrors = (validationErrors: { [i: string]: string }, cb: () => void) => {
-    try {
-      cb();
-    } catch (error) {
-      expect(error).toBeInstanceOf(UserInputError);
-      expect(error.extensions).toHaveProperty("validationErrors", validationErrors);
-    }
-  };
 
   describe("validation", () => {
     describe("signup", () => {
