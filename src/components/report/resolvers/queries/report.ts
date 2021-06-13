@@ -1,11 +1,6 @@
-import { QueryReportArgs as TArgs, AsyncResolver } from "@@components";
+import { AsyncResolver, QueryReportArgs as TArgs } from "@@components";
 import { IReportDocument as R } from "@Report/Report";
-import { IUserDocument } from "@User";
 
-export const report: AsyncResolver<TArgs, R | null> = async (
-  _,
-  { definition },
-  { user: reporter, dataSources },
-) => {
-  return dataSources.report.get(definition, (reporter as IUserDocument)._id);
+export const report: AsyncResolver<TArgs, R | null> = async (_, { definition }, { dataSources }) => {
+  return dataSources.report.get(definition);
 };

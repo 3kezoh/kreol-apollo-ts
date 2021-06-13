@@ -1,6 +1,6 @@
 import { UserContext, Maybe } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Model, Types } from "mongoose";
+import { isValidObjectId, Model, Types } from "mongoose";
 import { IReportDocument } from "./Report";
 
 export class ReportDataSource extends DataSource<UserContext> {
@@ -17,12 +17,15 @@ export class ReportDataSource extends DataSource<UserContext> {
     this.context = context;
   }
 
-  async create(definition: Types.ObjectId, reporter: Types.ObjectId, reason: number, message: Maybe<string>) {
+  async create(definition: Types.ObjectId | string, reason: number, message: Maybe<string>) {
+    if (!isValidObjectId(definition)) return null;
+    const reporter = this.context.user;
     const report = await this.model.create({ definition, reason, reporter, message });
     return this.model.populate(report, "definition definition.author reporter");
   }
 
-  async get(definition: Types.ObjectId | string, reporter: Types.ObjectId): Promise<IReportDocument | null> {
+  async get(definition: Types.ObjectId | string): Promise<IReportDocument | null> {
+    const reporter = this.context.user?._id;
     const report = await this.model.findOne({ definition, reporter });
     return this.model.populate(report, "definition definition.author reporter");
   }

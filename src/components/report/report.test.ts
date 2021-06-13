@@ -1,6 +1,8 @@
-import { mockedContext, mockedDefinition, mockedReport, setupMocks } from "@test";
-import { ApolloError, UserInputError } from "apollo-server-express";
+import { DEFINITION } from "@Definition/errors";
+import { expectValidationErrors, mockedContext, mockedDefinition, mockedReport, setupMocks } from "@test";
+import { ApolloError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
+import { MESSAGE, REASON } from "./errors";
 import * as mutations from "./resolvers/mutations";
 import * as queries from "./resolvers/queries";
 import { validate } from "./validation";
@@ -24,8 +26,15 @@ describe("Report", () => {
       it("should resolve", async () => {
         mocked(get).mockResolvedValue(null);
         const report = await queries.report(null, { definition }, mockedContext, null);
-        expect(get).toBeCalledWith(definition, mockedContext.user?._id);
+        expect(get).toBeCalledWith(definition);
         expect(report).toEqual(null);
+      });
+
+      it("should not throw if the id is invalid", async () => {
+        mocked(get).mockResolvedValue(null);
+        await expect(
+          queries.report(null, { definition: "invalid id" }, mockedContext, null),
+        ).resolves.not.toThrow();
       });
     });
 
@@ -45,15 +54,19 @@ describe("Report", () => {
         mocked(create).mockResolvedValue(mockedReport.document);
         mocked(_get).mockResolvedValue(mockedDefinition.document);
         const report = await mutations.report(null, mockedReport.args, mockedContext, null);
-        expect(create).toBeCalledWith(definitionId, mockedContext.user?._id, reason, message);
+        expect(_get).toBeCalledWith(definition);
+        expect(get).toBeCalledWith(definitionId);
+        expect(create).toBeCalledWith(definitionId, reason, message);
         expect(report).toEqual(mockedReport.document);
       });
 
       it("should throw if the definition is not found", async () => {
         mocked(_get).mockResolvedValue(null);
         await expect(mutations.report(null, mockedReport.args, mockedContext, null)).rejects.toThrow(
-          new ApolloError("Definition Not Found"),
+          new ApolloError(DEFINITION.NOT_FOUND),
         );
+        expect(_get).toBeCalledWith(definition);
+        expect(get).not.toBeCalled();
         expect(create).not.toBeCalled();
       });
 
@@ -61,30 +74,24 @@ describe("Report", () => {
         mocked(get).mockResolvedValue(mockedReport.document);
         mocked(_get).mockResolvedValue(mockedDefinition.document);
         await expect(mutations.report(null, mockedReport.args, mockedContext, null)).rejects.toThrow(
-          new ApolloError("Already reported", undefined, { hasReported: mockedReport.document }),
+          new ApolloError(DEFINITION.ALREADY_REPORTED, undefined, { hasReported: mockedReport.document }),
         );
+        expect(_get).toBeCalledWith(definition);
+        expect(get).toBeCalledWith(definitionId);
         expect(create).not.toBeCalled();
       });
     });
   });
 
   describe("validation", () => {
-    it("should throw if the reason is not in [0, 1, 2, 3]", () => {
-      mockedReport.args.reason = -3;
-      expect(() => validate(mockedReport.args)).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "reason", message: "reason is invalid" }],
-        }),
-      );
-    });
+    it("should throw if the reason is not in [0, 1, 2, 3]", () =>
+      expectValidationErrors({ reason: REASON.INVALID }, () =>
+        validate({ ...mockedReport.args, reason: -3 }),
+      ));
 
-    it("should throw if the message greater than 500", () => {
-      mockedReport.args.message = "#".repeat(503);
-      expect(() => validate(mockedReport.args)).toThrow(
-        new UserInputError("Validation Error", {
-          validationErrors: [{ field: "message", message: "message is too long" }],
-        }),
-      );
-    });
+    it("should throw if the message greater than 500", () =>
+      expectValidationErrors({ message: MESSAGE.TOO_LONG }, () =>
+        validate({ ...mockedReport.args, message: "m".repeat(503) }),
+      ));
   });
 });

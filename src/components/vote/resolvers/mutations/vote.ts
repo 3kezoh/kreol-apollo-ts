@@ -1,25 +1,22 @@
-import { DefinitionSubscriptionPayload, MutationVoteArgs as TArgs, AsyncResolver } from "@@components";
+import { AsyncResolver, DefinitionSubscriptionPayload, MutationVoteArgs as TArgs } from "@@components";
+import { DEFINITION } from "@Definition/errors";
 import { pubsub } from "@config/pubsub";
-import { IUserDocument } from "@User";
 import { validate } from "@Vote/validation";
-import { IVoteDocument } from "@Vote/Vote";
+import { IVoteDocument as R } from "@Vote/Vote";
 import { ApolloError } from "apollo-server-express";
 
-export const vote: AsyncResolver<TArgs, IVoteDocument | null> = async (
-  _,
-  { definition: id, action },
-  { user: voter, dataSources },
-) => {
+export const vote: AsyncResolver<TArgs, R | null> = async (_, args, { dataSources }) => {
+  const { definition: id, action } = args;
   validate({ action });
   const definition = await dataSources.definition.get(id);
-  if (!definition) throw new ApolloError("Definition Not Found");
-  const hasVoted = await dataSources.vote.get(definition._id, (voter as IUserDocument)._id);
+  if (!definition) throw new ApolloError(DEFINITION.NOT_FOUND);
+  const hasVoted = await dataSources.vote.get(id);
 
   if (action || hasVoted) {
     const score = hasVoted ? action - hasVoted.action : action;
-    const _definition = await dataSources.definition.updateScore(definition._id, score);
-    if (_definition) {
-      const { score, _id } = _definition;
+    const definition = await dataSources.definition.updateScore(id, score);
+    if (definition) {
+      const { score, _id } = definition;
       const payload: DefinitionSubscriptionPayload = { definition: { score, id: _id.toHexString() } };
       pubsub.publish("SCORE", payload);
     }
@@ -28,9 +25,9 @@ export const vote: AsyncResolver<TArgs, IVoteDocument | null> = async (
   let vote = null;
 
   if (action) {
-    vote = await dataSources.vote.upsert(definition._id, (voter as IUserDocument)._id, action);
+    vote = await dataSources.vote.upsert(id, action);
   } else if (hasVoted) {
-    vote = await dataSources.vote.remove(definition._id, (voter as IUserDocument)._id);
+    vote = await dataSources.vote.remove(id);
   }
 
   if (vote && !action && hasVoted) vote.action = 0;

@@ -41,6 +41,14 @@ describe("Definition", () => {
         );
         expect(get).toBeCalledWith(id, 30);
       });
+
+      it("should not throw because the id is invalid", async () => {
+        mocked(get).mockResolvedValue(null);
+        await expect(queries.definition(null, { id: "invalid id" }, mockedContext, null)).rejects.toThrow(
+          new ApolloError(DEFINITION.NOT_FOUND),
+        );
+        expect(get).toBeCalledWith("invalid id", 30);
+      });
     });
 
     describe("definitions", () => {
@@ -49,6 +57,13 @@ describe("Definition", () => {
         const definitions = await queries.definitions(null, {}, mockedContext, null);
         expect(list).toBeCalledWith({});
         expect(definitions).toEqual([]);
+      });
+
+      it("should not throw if the author id in the filter is invalid", async () => {
+        mocked(get).mockResolvedValue(null);
+        await expect(
+          queries.definitions(null, { filter: { author: "invalid id" } }, mockedContext, null),
+        ).resolves.not.toThrow();
       });
     });
 
@@ -85,7 +100,7 @@ describe("Definition", () => {
       it("should resolve", async () => {
         mocked(remove).mockResolvedValue(mockedDefinition.document);
         const definition = await mutations.deleteDefinition(null, { id }, mockedContext, null);
-        expect(remove).toBeCalledWith(id, mockedContext.user?._id);
+        expect(remove).toBeCalledWith(id);
         expect(definition).toEqual(mockedDefinition.document);
       });
 
@@ -94,7 +109,15 @@ describe("Definition", () => {
         await expect(mutations.deleteDefinition(null, { id }, mockedContext, null)).rejects.toThrow(
           new ApolloError(DEFINITION.NOT_FOUND),
         );
-        expect(remove).toBeCalledWith(id, mockedContext.user?._id);
+        expect(remove).toBeCalledWith(id);
+      });
+
+      it("should not throw because the id is invalid", async () => {
+        mocked(get).mockResolvedValue(null);
+        await expect(
+          mutations.deleteDefinition(null, { id: "invalid id" }, mockedContext, null),
+        ).rejects.toThrow(new ApolloError(DEFINITION.NOT_FOUND));
+        expect(remove).toBeCalledWith("invalid id");
       });
     });
 
@@ -104,6 +127,13 @@ describe("Definition", () => {
         const definition = await mutations.review(null, { id }, mockedContext, null);
         expect(review).toBeCalledWith(id);
         expect(definition).toEqual(mockedDefinition.document);
+      });
+
+      it("should not throw if the id is invalid", async () => {
+        mocked(get).mockResolvedValue(null);
+        await expect(
+          mutations.review(null, { id: "invalid id" }, mockedContext, null),
+        ).resolves.not.toThrow();
       });
     });
   });

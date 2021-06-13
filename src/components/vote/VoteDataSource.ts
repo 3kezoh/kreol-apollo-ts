@@ -21,18 +21,23 @@ export class VoteDataSource extends DataSource<UserContext> {
     return this.model.populate(vote, { path: "definition voter" });
   }
 
-  async get(definition: Types.ObjectId | string, voter: Types.ObjectId) {
+  async get(definition: Types.ObjectId | string) {
     if (!isValidObjectId(definition)) return null;
+    const voter = this.context.user?._id;
     const vote = await this.model.findOne({ definition, voter });
     return this.populate(vote);
   }
 
-  async remove(definition: Types.ObjectId, voter: Types.ObjectId) {
+  async remove(definition: Types.ObjectId | string) {
+    if (!isValidObjectId(definition)) return null;
+    const voter = this.context.user?._id;
     const vote = await this.model.findOneAndDelete({ definition, voter });
     return this.populate(vote);
   }
 
-  async upsert(definition: Types.ObjectId | string, voter: Types.ObjectId, action: number) {
+  async upsert(definition: Types.ObjectId | string, action: number) {
+    if (!isValidObjectId(definition)) return null;
+    const voter = this.context.user?._id;
     const vote = await this.model.findOneAndUpdate(
       { definition, voter },
       { action },

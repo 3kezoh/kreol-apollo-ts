@@ -146,8 +146,9 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     return this.model.populate(definitions, { path: "author" });
   }
 
-  async remove(_id: string, author: Types.ObjectId | undefined): Promise<IDefinitionDocument | null> {
+  async remove(_id: string) {
     if (!isValidObjectId(_id)) return null;
+    const author = this.context.user?._id;
     return this.model.findOneAndDelete({ _id, author }).populate("author");
   }
 
@@ -158,7 +159,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
       .populate("author");
   }
 
-  async updateScore(id: Types.ObjectId, score: number): Promise<IDefinitionDocument | null> {
+  async updateScore(id: Types.ObjectId | string, score: number) {
+    if (!isValidObjectId(id)) return null;
     if (!isValidObjectId) return null;
     return this.model.findByIdAndUpdate(id, { $inc: { score } }, { new: true }).populate("author");
   }
