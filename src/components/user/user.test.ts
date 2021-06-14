@@ -112,6 +112,12 @@ describe("User", () => {
           validators.createUser({ ...mockedUser.args, ...args }),
         );
       });
+
+      it.each(["##", "sion?", "@sion"])("should throw if the name is not alphanumeric", (name) => {
+        expectValidationErrors({ name: [NAME.NOT_ALPHANUMERIC] }, () =>
+          validators.createUser({ ...mockedUser.args, name }),
+        );
+      });
     });
 
     describe("updateUser", () => {
