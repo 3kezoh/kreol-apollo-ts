@@ -134,6 +134,12 @@ describe("User", () => {
           validators.updateUser({ ...mockedUser.update, name: "u".repeat(131) }),
         );
       });
+
+      it.each(["##", "sion?", "@sion"])("should throw if the name is not alphanumeric", (name) => {
+        expectValidationErrors({ name: [NAME.NOT_ALPHANUMERIC] }, () =>
+          validators.updateUser({ ...mockedUser.update, name }),
+        );
+      });
     });
   });
 });

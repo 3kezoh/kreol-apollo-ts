@@ -12,7 +12,7 @@ export const createUser: Validator<TArgs> = ({ email, password, name }) => {
   if (!isEmail(email)) validationErrors.email = EMAIL.INVALID;
   if (!isLength(password, { min: 8 })) validationErrors.password = PASSWORD.TOO_SHORT;
   if (!isLength(password, { max: 128 })) validationErrors.password = PASSWORD.TOO_LONG;
-  if (!isAlphanumeric(name)) validationErrors.name = [NAME.NOT__ALPHANUMERIC];
+  if (!isAlphanumeric(name)) validationErrors.name = [NAME.NOT_ALPHANUMERIC];
   if (!isLength(name, { min: 2 })) validationErrors.name?.push(NAME.TOO_SHORT);
   if (!isLength(name, { max: 128 })) validationErrors.name?.push(NAME.TOO_LONG);
   if (!validationErrors.name?.length) delete validationErrors.name;
