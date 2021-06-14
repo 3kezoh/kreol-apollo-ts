@@ -97,7 +97,7 @@ describe("User", () => {
 
       it.each([
         ["password", 8, { password: PASSWORD.TOO_SHORT }, { password: "p".repeat(7) }],
-        ["name", 2, { name: NAME.TOO_SHORT }, { name: "u" }],
+        ["name", 2, { name: [NAME.TOO_SHORT] }, { name: "u" }],
       ])("should throw if the %s length is shorter than %d", (_, __, validationErrors, args) => {
         expectValidationErrors(validationErrors, () =>
           validators.createUser({ ...mockedUser.args, ...args }),
@@ -106,7 +106,7 @@ describe("User", () => {
 
       it.each([
         ["password", 128, { password: PASSWORD.TOO_LONG }, { password: "p".repeat(131) }],
-        ["name", 128, { name: NAME.TOO_LONG }, { name: "u".repeat(131) }],
+        ["name", 128, { name: [NAME.TOO_LONG] }, { name: "u".repeat(131) }],
       ])("should throw if the %s length is longer than %d", (_, __, validationErrors, args) => {
         expectValidationErrors(validationErrors, () =>
           validators.createUser({ ...mockedUser.args, ...args }),
@@ -124,14 +124,14 @@ describe("User", () => {
       );
 
       it("should throw if the name length is shorter than 2", () => {
-        expectValidationErrors({ name: NAME.TOO_SHORT }, () =>
-          validators.updateUser({ ...mockedUser.update, name: "#" }),
+        expectValidationErrors({ name: [NAME.TOO_SHORT] }, () =>
+          validators.updateUser({ ...mockedUser.update, name: "u" }),
         );
       });
 
       it("should throw if the name length is longer than 128", () => {
-        expectValidationErrors({ name: NAME.TOO_LONG }, () =>
-          validators.updateUser({ ...mockedUser.update, name: "#".repeat(131) }),
+        expectValidationErrors({ name: [NAME.TOO_LONG] }, () =>
+          validators.updateUser({ ...mockedUser.update, name: "u".repeat(131) }),
         );
       });
     });

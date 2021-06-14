@@ -1,6 +1,9 @@
 import { UserInputError } from "apollo-server-express";
 
-export const expectValidationErrors = (validationErrors: { [i: string]: string }, cb: () => void) => {
+export const expectValidationErrors = (
+  validationErrors: { [i: string]: string | string[] },
+  cb: () => void,
+) => {
   try {
     cb();
   } catch (error) {
