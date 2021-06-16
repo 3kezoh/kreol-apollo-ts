@@ -4,7 +4,7 @@ import { IUserDocument } from "@User";
 import { ApolloServer } from "apollo-server-express";
 import { createTestClient } from "apollo-server-testing";
 
-export const setupApolloServer = async (user: IUserDocument) => {
+export const setupApolloServer = async (user?: IUserDocument) => {
   const context: UserContext = { user };
   const apolloServer = new ApolloServer({
     schema,

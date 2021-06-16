@@ -47,12 +47,12 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     return this.model.countDocuments(match);
   }
 
-  async get(id: string, ttl?: number) {
-    if (!isValidObjectId(id)) return null;
-    const cachedDefinition = await this.cache.get(id);
+  async get(_id: string, ttl?: number) {
+    if (!isValidObjectId(_id)) return null;
+    const cachedDefinition = await this.cache.get(_id);
     if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
-    const definition = await this.model.findOne({ id, reviewed: true }).populate("author").lean();
-    if (ttl) this.cache.set(id, JSON.stringify(definition), { ttl });
+    const definition = await this.model.findOne({ _id, reviewed: true }).populate("author").lean();
+    if (ttl) this.cache.set(_id, JSON.stringify(definition), { ttl });
     return definition;
   }
 
