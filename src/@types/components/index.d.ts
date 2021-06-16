@@ -47,6 +47,10 @@ export type Match = {
   reviewed: boolean;
 };
 
+export type Sort = {
+  [i: string]: number;
+};
+
 export type AggregationArgs = {
   page?: Maybe<number>;
   limit?: Maybe<number>;

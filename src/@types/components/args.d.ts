@@ -35,6 +35,7 @@ export type Definition = {
   score: Scalars["Int"];
   createdAt: Scalars["Date"];
   action?: Maybe<Scalars["Int"]>;
+  reviewed: Scalars["Boolean"];
 };
 
 export type DefinitionSubscription = {
@@ -144,6 +145,7 @@ export type QueryDefinitionsArgs = {
   filter?: Maybe<Filter>;
   page?: Maybe<Scalars["Int"]>;
   limit?: Maybe<Scalars["Int"]>;
+  sortBy?: Maybe<SortBy>;
 };
 
 export type QueryCountArgs = {
@@ -185,6 +187,11 @@ export type Report = {
   message?: Maybe<Scalars["String"]>;
 };
 
+export enum Role {
+  Admin = "ADMIN",
+  User = "USER",
+}
+
 export type Subscription = {
   __typename?: "Subscription";
   definition: DefinitionSubscription;
@@ -197,6 +204,7 @@ export type SubscriptionDefinitionArgs = {
 export type User = {
   __typename?: "User";
   id: Scalars["ID"];
+  email: Scalars["String"];
   name: Scalars["String"];
 };
 
@@ -205,4 +213,9 @@ export type Vote = {
   voter?: Maybe<User>;
   definition?: Maybe<Definition>;
   action?: Maybe<Scalars["Int"]>;
+};
+
+export type SortBy = {
+  score: Scalars["Int"];
+  createdAt: Scalars["Int"];
 };

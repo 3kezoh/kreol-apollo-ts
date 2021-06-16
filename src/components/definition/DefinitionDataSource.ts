@@ -5,6 +5,7 @@ import {
   QueryDefinitionsArgs,
   QueryPopularArgs,
   QuerySearchArgs,
+  Sort,
   UserContext,
 } from "@@components";
 import { escapeRegExp } from "@utils";
@@ -55,7 +56,7 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     return definition;
   }
 
-  async list({ filter, page, limit }: QueryDefinitionsArgs) {
+  async list({ filter, page, limit, sortBy }: QueryDefinitionsArgs) {
     if (!isValidObjectId(filter?.author)) return [];
 
     const match: Match = { reviewed: true };
@@ -64,9 +65,18 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     if (!page || page < 1) page = 1;
     if (!limit || limit < 1 || limit > 100) limit = 5;
 
+    const sort: Sort = BY_DATE;
+    if (sortBy) {
+      const { createdAt, score } = sortBy;
+      if ([1, -1].includes(createdAt)) sort.createdAt = createdAt;
+      if ([1, -1].includes(score)) sort.score = score;
+    }
+
+    // match?.word ? BY_SCORE : BY_DATE
+
     const aggregate = this.model.aggregate([
       { $match: match },
-      { $sort: match?.word ? BY_SCORE : BY_DATE },
+      { $sort: sort },
       { $skip: (page - 1) * limit },
       { $limit: limit },
       { $lookup: { from: "users", localField: "author", foreignField: "_id", as: "author" } },
