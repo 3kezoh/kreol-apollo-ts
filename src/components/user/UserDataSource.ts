@@ -1,4 +1,4 @@
-import { UserContext, MutationSignupArgs, MutationUpdateUserArgs } from "@@components";
+import { UserContext, MutationUpdateUserArgs, MutationCreateUserArgs } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
 import { FilterQuery, Model } from "mongoose";
@@ -29,15 +29,15 @@ export class UserDataSource extends DataSource<UserContext> {
     return this.model.findOne(filter);
   }
 
-  async create({ email, password, name }: Omit<MutationSignupArgs, "confirmPassword">) {
+  async create({ email, password, name }: MutationCreateUserArgs) {
     return this.model.create({ email, password, name });
   }
 
-  async remove(_id: string): Promise<IUserDocument | null> {
+  async remove(_id: string) {
     return this.model.findByIdAndDelete(_id).populate("author");
   }
 
-  async update({ id, email, name }: MutationUpdateUserArgs): Promise<IUserDocument | null> {
+  async update({ id, email, name }: MutationUpdateUserArgs) {
     return this.model.findByIdAndUpdate(id, { email, name }, { new: true }).populate("author");
   }
 }
