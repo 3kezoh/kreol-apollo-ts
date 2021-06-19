@@ -1,7 +1,7 @@
 import { UserContext, MutationUpdateUserArgs, MutationCreateUserArgs } from "@@components";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { InMemoryLRUCache, KeyValueCache } from "apollo-server-caching";
-import { FilterQuery, Model } from "mongoose";
+import { FilterQuery, Model, Types } from "mongoose";
 import { IUserDocument } from "./User";
 
 export class UserDataSource extends DataSource<UserContext> {
@@ -21,7 +21,7 @@ export class UserDataSource extends DataSource<UserContext> {
     this.cache = cache || new InMemoryLRUCache();
   }
 
-  async get(id: string) {
+  async get(id: string | Types.ObjectId) {
     return this.model.findById(id);
   }
 

@@ -1,4 +1,7 @@
+import { jwrt } from "@config/globals";
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import ms from "ms";
 import passport from "passport";
 
 export const authenticate = passport.authenticate("google", {
@@ -9,7 +12,11 @@ export const authenticate = passport.authenticate("google", {
 
 export const callback = passport.authenticate("google", { session: false });
 
-export const success = (req: Request, res: Response): void => {
-  const token = req.user.token();
-  res.status(201).cookie("token", token).redirect("http://localhost:3000");
+export const success = async (req: Request, res: Response): Promise<void> => {
+  const { accessToken, refreshToken } = await req.user.token();
+  res
+    .status(StatusCodes.CREATED)
+    .json(accessToken)
+    .cookie("refreshToken", refreshToken, { maxAge: ms(jwrt.expiration), httpOnly: true })
+    .redirect("http://localhost:3000");
 };

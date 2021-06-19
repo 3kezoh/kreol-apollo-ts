@@ -1,8 +1,10 @@
-import { jwtExpiration, jwtSecret } from "@config/globals";
+import { jwtPayload, jwrtPayload } from "@@components";
+import { jwrt, jwt } from "@config/globals";
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
+import { v4 } from "uuid";
 
 export interface IUser {
   email: string;
@@ -14,13 +16,15 @@ export interface IUser {
       token: string;
     };
   };
+  blacklist?: { jti: string; exp: number }[];
 }
 
 export interface IUserDocument extends IUser, Document {
   _id: Types.ObjectId;
   id: string;
-  token(): string;
+  token(): Promise<{ accessToken: string; refreshToken: string }>;
   passwordMatches(password: string): Promise<boolean>;
+  refreshTokenMatches(refreshToken: string): Promise<boolean>;
 }
 
 export interface IUserPopulated extends IUser {
@@ -61,6 +65,7 @@ const userSchema = new Schema<IUserDocument>(
       enum: ["USER", "ADMIN"],
       default: "USER",
     },
+    refreshToken: String,
   },
   { timestamps: true },
 );
@@ -70,19 +75,19 @@ userSchema.set("toObject", { versionKey: false });
 
 userSchema.pre<IUserDocument>("save", async function save(next) {
   try {
-    if (!this.isModified("password")) return next();
-    const hashedPassword = await hash(this.password, 10);
-    this.password = hashedPassword;
+    if (this.isModified("password")) this.password = await hash(this.password, 10);
     return next();
   } catch (err) {
     return next(err);
   }
 });
 
-userSchema.methods.token = function token() {
-  const payload = { sub: this._id, name: this.name };
-  const jwtOptions = { expiresIn: jwtExpiration };
-  return sign(payload, jwtSecret, jwtOptions);
+userSchema.methods.token = async function token() {
+  const jwtPayload: jwtPayload = { sub: this._id, name: this.name };
+  const jwrtPayload: jwrtPayload = { sub: this._id };
+  const accessToken = sign(jwtPayload, jwt.secret, { expiresIn: jwt.expiration });
+  const refreshToken = sign(jwrtPayload, jwrt.secret, { expiresIn: jwrt.expiration, jwtid: v4() });
+  return { accessToken, refreshToken };
 };
 
 userSchema.methods.passwordMatches = async function passwordMatches(candidatePassword) {

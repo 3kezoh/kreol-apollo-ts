@@ -35,3 +35,9 @@ export const NAME = {
   TOO_LONG: "NAME_TOO_LONG",
   ALREADY_TAKEN: "NAME_ALREADY_TAKEN",
 } as const;
+
+/**
+ * REFRESH_TOKEN
+ */
+
+export const REFRESH_TOKEN = { INVALID: "REFRESH_TOKEN_INVALID" } as const;

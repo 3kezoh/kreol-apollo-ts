@@ -1,11 +1,10 @@
-import { jwtSecret } from "@config/globals";
-import { isValidObjectId, model } from "mongoose";
+import { jwt } from "@config/globals";
+import { User } from "@User";
+import { isValidObjectId } from "mongoose";
 import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions, VerifyCallback } from "passport-jwt";
 
-const User = model("User");
-
 const options: StrategyOptions = {
-  secretOrKey: jwtSecret,
+  secretOrKey: jwt.secret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 

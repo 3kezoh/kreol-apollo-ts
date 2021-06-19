@@ -1,6 +1,6 @@
 import { mockedContext } from "./mockedContext";
 
 export const mockedAuth = {
-  token: "token",
+  accessToken: "accessToken",
   user: mockedContext.user,
 };

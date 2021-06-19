@@ -1,4 +1,4 @@
-import { jwtSecret } from "@config/globals";
+import { jwt } from "@config/globals";
 import { getUser, mockedDefinition, mockedUser, setupApolloServer, setupMongoose } from "@test";
 import {
   CREATE_DEFINITION,
@@ -70,20 +70,20 @@ describe("The ApolloServer", () => {
     expect(data.report.reason).toEqual(1);
   });
 
-  it("should return a token when signing up", async () => {
+  it("should return an accessToken when signing up", async () => {
     const { mutate } = await setupApolloServer();
     const { data, errors } = await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     expect(errors).toBeUndefined();
     expect(data.signup.user.name).toEqual(mockedUser.args.name);
-    expect(() => verify(data.signup.token, jwtSecret)).not.toThrow();
+    expect(() => verify(data.signup.accessToken, jwt.secret)).not.toThrow();
   });
 
-  it("should return a token when login in", async () => {
+  it("should return an accessToken when login in", async () => {
     const { mutate } = await setupApolloServer();
     await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     const { data, errors } = await mutate({ mutation: LOGIN, variables: mockedUser.args });
     expect(errors).toBeUndefined();
     expect(data.login.user.name).toEqual(mockedUser.args.name);
-    expect(() => verify(data.login.token, jwtSecret)).not.toThrow();
+    expect(() => verify(data.login.accessToken, jwt.secret)).not.toThrow();
   });
 });

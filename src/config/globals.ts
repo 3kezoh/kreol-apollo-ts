@@ -19,13 +19,19 @@ export const google = {
   clientSecret: env.GOOGLE_CLIENT_SECRET ?? "",
 };
 
-export const jwtSecret = env.JWT_SECRET ?? "";
+export const jwt = {
+  secret: env.JWT_SECRET ?? "",
+  expiration: env.JWT_EXPIRATION ?? "1m",
+};
+
+export const jwrt = {
+  secret: env.JWRT_SECRET ?? "",
+  expiration: env.JWRT_EXPIRATION ?? "7d",
+};
 
 export const port = env.PORT;
 
-export const jwtExpiration = parseInt(env.JWT_EXPIRATION ?? "3600000", 10);
-
-export const rateLimit = {
+export const rateLimitOptions = {
   windowMs: parseInt(env.RATE_LIMIT_WINDOW_MS ?? "900000", 10),
   max: parseInt(env.RATE_LIMIT_MAX ?? "9000", 10),
 };

@@ -9,7 +9,7 @@ const args = {
   confirmPassword: "password",
 } as const;
 
-const token = () => "token";
+const token = () => ({ accessToken: "accessToken", refreshToken: "refreshToken" });
 const passwordMatches = (password: string) => password === "password";
 
 const _id = new ObjectId();

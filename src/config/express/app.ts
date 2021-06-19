@@ -1,8 +1,9 @@
 import { apolloServer } from "@config/apollo";
-import { rateLimit as rL } from "@config/globals";
+import { rateLimitOptions } from "@config/globals";
 import strategies from "@config/strategies";
 import { google, jwt } from "@middlewares/auth";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import errorHandler from "errorhandler";
 import express from "express";
@@ -18,10 +19,9 @@ const corsOptions: cors.CorsOptions = {
   optionsSuccessStatus: 200,
 };
 
-const { windowMs, max } = rL;
-
+app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(rateLimit({ windowMs, max }));
+app.use(rateLimit(rateLimitOptions));
 app.use(compression());
 app.use(passport.initialize());
 passport.use(strategies.jwt);

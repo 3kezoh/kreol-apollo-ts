@@ -68,8 +68,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     const sort: Sort = BY_DATE;
     if (sortBy) {
       const { createdAt, score } = sortBy;
-      if ([1, -1].includes(createdAt)) sort.createdAt = createdAt;
-      if ([1, -1].includes(score)) sort.score = score;
+      if (createdAt && [1, -1].includes(createdAt)) sort.createdAt = createdAt;
+      if (score && [1, -1].includes(score)) sort.score = score;
     }
 
     // match?.word ? BY_SCORE : BY_DATE

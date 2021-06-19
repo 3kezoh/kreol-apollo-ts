@@ -15,7 +15,7 @@ export type Scalars = {
 
 export type AuthResponse = {
   __typename?: "AuthResponse";
-  token?: Maybe<Scalars["String"]>;
+  accessToken?: Maybe<Scalars["String"]>;
   user?: Maybe<User>;
 };
 
@@ -53,6 +53,7 @@ export type Mutation = {
   __typename?: "Mutation";
   login?: Maybe<AuthResponse>;
   signup?: Maybe<AuthResponse>;
+  refresh?: Maybe<AuthResponse>;
   createDefinition?: Maybe<Definition>;
   deleteDefinition?: Maybe<Definition>;
   review?: Maybe<Definition>;
@@ -134,7 +135,7 @@ export type Query = {
 };
 
 export type QueryVerifyArgs = {
-  token: Scalars["String"];
+  accessToken: Scalars["String"];
 };
 
 export type QueryDefinitionArgs = {
@@ -216,6 +217,6 @@ export type Vote = {
 };
 
 export type SortBy = {
-  score: Scalars["Int"];
-  createdAt: Scalars["Int"];
+  score?: Maybe<Scalars["Int"]>;
+  createdAt?: Maybe<Scalars["Int"]>;
 };

@@ -3,16 +3,17 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
   extend type Query {
     me: User
-    verify(token: String!): Boolean!
+    verify(accessToken: String!): Boolean!
   }
 
   type AuthResponse {
-    token: String
+    accessToken: String
     user: User
   }
 
   extend type Mutation {
     login(email: String!, password: String!): AuthResponse
     signup(email: String!, password: String!, confirmPassword: String!, name: String!): AuthResponse
+    refresh: AuthResponse
   }
 `;

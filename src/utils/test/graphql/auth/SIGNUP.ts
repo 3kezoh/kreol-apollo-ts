@@ -7,7 +7,7 @@ export const SIGNUP = gql`
         id
         name
       }
-      token
+      accessToken
     }
   }
 `;

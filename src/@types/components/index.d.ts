@@ -2,27 +2,23 @@ import { IResolvers, SchemaDirectiveVisitor } from "apollo-server-express";
 import { DocumentNode } from "graphql";
 import { Types } from "mongoose";
 import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
-import { DataSourcesContext, UserContext } from "./context";
+import { Context } from "./context";
 
 export * from "./args";
 export * from "./context";
 export * from "./dataSources";
+export * from "./jwt";
 
 type Maybe<T> = T | undefined;
 
 export type AsyncResolver<TArgs, R> = (
   source: unknown,
   args: TArgs,
-  context: UserContext & DataSourcesContext,
+  context: Context,
   info: unknown,
 ) => Promise<R>;
 
-export type Resolver<TArgs, R> = (
-  source: unknown,
-  args: TArgs,
-  context: UserContext & DataSourcesContext,
-  info: unknown,
-) => R;
+export type Resolver<TArgs, R> = (source: unknown, args: TArgs, context: Context, info: unknown) => R;
 
 export type Component = {
   typeDefs: DocumentNode;
