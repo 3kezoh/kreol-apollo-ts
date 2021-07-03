@@ -46,5 +46,8 @@
       "@test/*": ["utils/test/*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }

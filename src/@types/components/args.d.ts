@@ -13,12 +13,6 @@ export type Scalars = {
   ObjectId: any;
 };
 
-export type AuthResponse = {
-  __typename?: "AuthResponse";
-  accessToken?: Maybe<Scalars["String"]>;
-  user?: Maybe<User>;
-};
-
 export enum CacheControlScope {
   Public = "PUBLIC",
   Private = "PRIVATE",
@@ -38,8 +32,8 @@ export type Definition = {
   reviewed: Scalars["Boolean"];
 };
 
-export type DefinitionSubscription = {
-  __typename?: "DefinitionSubscription";
+export type DefinitionSubscriptionPayload = {
+  __typename?: "DefinitionSubscriptionPayload";
   id: Scalars["ID"];
   score: Scalars["Int"];
 };
@@ -51,9 +45,6 @@ export type Filter = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  login?: Maybe<AuthResponse>;
-  signup?: Maybe<AuthResponse>;
-  refresh?: Maybe<AuthResponse>;
   createDefinition?: Maybe<Definition>;
   deleteDefinition?: Maybe<Definition>;
   review?: Maybe<Definition>;
@@ -62,18 +53,6 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   deleteUser?: Maybe<User>;
   vote?: Maybe<Vote>;
-};
-
-export type MutationLoginArgs = {
-  email: Scalars["String"];
-  password: Scalars["String"];
-};
-
-export type MutationSignupArgs = {
-  email: Scalars["String"];
-  password: Scalars["String"];
-  confirmPassword: Scalars["String"];
-  name: Scalars["String"];
 };
 
 export type MutationCreateDefinitionArgs = {
@@ -134,10 +113,6 @@ export type Query = {
   vote?: Maybe<Vote>;
 };
 
-export type QueryVerifyArgs = {
-  accessToken: Scalars["String"];
-};
-
 export type QueryDefinitionArgs = {
   id: Scalars["ID"];
 };
@@ -195,7 +170,7 @@ export enum Role {
 
 export type Subscription = {
   __typename?: "Subscription";
-  definition: DefinitionSubscription;
+  definition: DefinitionSubscriptionPayload;
 };
 
 export type SubscriptionDefinitionArgs = {
@@ -211,9 +186,9 @@ export type User = {
 
 export type Vote = {
   __typename?: "Vote";
-  voter?: Maybe<User>;
-  definition?: Maybe<Definition>;
-  action?: Maybe<Scalars["Int"]>;
+  voter: User;
+  definition: Definition;
+  action: Scalars["Int"];
 };
 
 export type SortBy = {

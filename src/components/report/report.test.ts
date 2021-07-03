@@ -88,8 +88,13 @@ describe("Report", () => {
         validate({ ...mockedReport.args, reason: -3 }),
       ));
 
+    it("should throw if the reason is 3 and message is empty", () =>
+      expectValidationErrors({ message: [MESSAGE.EMPTY] }, () =>
+        validate({ ...mockedReport.args, reason: 3, message: "" }),
+      ));
+
     it("should throw if the message greater than 500", () =>
-      expectValidationErrors({ message: MESSAGE.TOO_LONG }, () =>
+      expectValidationErrors({ message: [MESSAGE.TOO_LONG] }, () =>
         validate({ ...mockedReport.args, message: "m".repeat(503) }),
       ));
   });

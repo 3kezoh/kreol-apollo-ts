@@ -1,9 +1,8 @@
 import { IUserDocument } from "@User";
-import { ExpressContext } from "apollo-server-express";
 import { LeanDocument } from "mongoose";
 import { DataSources } from "./dataSources";
 
-export type Context = UserContext & DataSourcesContext & ExpressContext;
+export type Context = UserContext & DataSourcesContext;
 
 export type UserContext = {
   user?: LeanDocument<IUserDocument>;

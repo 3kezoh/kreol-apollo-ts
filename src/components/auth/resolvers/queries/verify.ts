@@ -1,10 +1,8 @@
-import { QueryVerifyArgs, Resolver } from "@@components";
-import { jwt as _jwt } from "@config/globals";
-import jwt from "jsonwebtoken";
+import { Resolver } from "@@components";
 
-export const verify: Resolver<QueryVerifyArgs, boolean> = (_parent, { accessToken }) => {
+export const verify: Resolver<null, boolean> = (_parent, _args, { user }) => {
   try {
-    return !!jwt.verify(accessToken, _jwt.secret);
+    return !!user;
   } catch (error) {
     return false;
   }

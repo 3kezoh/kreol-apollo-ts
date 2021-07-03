@@ -13,10 +13,8 @@ export interface IUser {
   social?: {
     google?: {
       id: string;
-      token: string;
     };
   };
-  blacklist?: { jti: string; exp: number }[];
 }
 
 export interface IUserDocument extends IUser, Document {
@@ -57,7 +55,6 @@ const userSchema = new Schema<IUserDocument>(
     social: {
       google: {
         id: String,
-        token: String,
       },
     },
     role: {
@@ -65,7 +62,12 @@ const userSchema = new Schema<IUserDocument>(
       enum: ["USER", "ADMIN"],
       default: "USER",
     },
-    refreshToken: String,
+    blacklist: [
+      {
+        jti: String,
+        exp: Number,
+      },
+    ],
   },
   { timestamps: true },
 );

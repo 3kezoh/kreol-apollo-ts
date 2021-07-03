@@ -15,6 +15,7 @@ interface IDefinition {
 }
 
 export interface IDefinitionDocument extends IDefinition, Document {
+  id: string;
   _id: Types.ObjectId;
 }
 

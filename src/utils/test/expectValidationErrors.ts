@@ -5,7 +5,7 @@ export const expectValidationErrors = (
   cb: () => void,
 ) => {
   try {
-    cb();
+    expect(cb()).toThrow();
   } catch (error) {
     expect(error).toBeInstanceOf(UserInputError);
     expect(error.extensions).toHaveProperty("validationErrors", validationErrors);

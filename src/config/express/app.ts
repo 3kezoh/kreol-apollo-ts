@@ -1,7 +1,7 @@
 import { apolloServer } from "@config/apollo";
+import { cookieSession } from "@config/cookie";
 import { rateLimitOptions } from "@config/globals";
-import strategies from "@config/strategies";
-import { google, jwt } from "@middlewares/auth";
+import { google, logout } from "@middlewares/auth";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -9,25 +9,24 @@ import errorHandler from "errorhandler";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import passport from "passport";
+import "@config/passport";
 
 export const app = express();
 
-const whitelist = ["http://localhost:3000, https://studio.apollographql.com"];
-
 const corsOptions: cors.CorsOptions = {
-  origin: (origin, cb) => cb(null, whitelist.indexOf(origin ?? "") !== -1),
-  optionsSuccessStatus: 200,
+  origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+  credentials: true,
 };
 
-app.use(cookieParser());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(rateLimit(rateLimitOptions));
 app.use(compression());
+app.use(cookieSession);
 app.use(passport.initialize());
-passport.use(strategies.jwt);
-passport.use(strategies.google);
+app.use(passport.session());
 app.get("/auth/google", google.authenticate);
-app.get("/auth/google/callback", google.callback, google.success);
-app.use("/graphql", jwt.authenticate);
+app.get("/auth/google/callback", google.callback);
+app.get("/auth/logout", logout);
 app.use(errorHandler({ log: (err) => console.error(err) }));
-apolloServer.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app, cors: corsOptions });

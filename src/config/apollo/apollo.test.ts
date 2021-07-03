@@ -70,7 +70,7 @@ describe("The ApolloServer", () => {
     expect(data.report.reason).toEqual(1);
   });
 
-  it("should return an accessToken when signing up", async () => {
+  it.skip("should return an accessToken when signing up", async () => {
     const { mutate } = await setupApolloServer();
     const { data, errors } = await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     expect(errors).toBeUndefined();
@@ -78,7 +78,7 @@ describe("The ApolloServer", () => {
     expect(() => verify(data.signup.accessToken, jwt.secret)).not.toThrow();
   });
 
-  it("should return an accessToken when login in", async () => {
+  it.skip("should return an accessToken when login in", async () => {
     const { mutate } = await setupApolloServer();
     await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     const { data, errors } = await mutate({ mutation: LOGIN, variables: mockedUser.args });

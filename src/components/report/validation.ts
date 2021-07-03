@@ -5,10 +5,14 @@ import { MESSAGE, REASON } from "./errors";
 
 const { isLength } = validator;
 
+type validationErrors = { message?: string[]; reason?: string };
+
 export const validate: Validator<TArgs> = ({ reason, message }): void => {
-  const validationErrors: { [i: string]: string } = {};
+  const validationErrors: validationErrors = { message: [] };
   if (![0, 1, 2, 3].includes(reason)) validationErrors.reason = REASON.INVALID;
-  if (message && !isLength(message, { max: 500 })) validationErrors.message = MESSAGE.TOO_LONG;
+  if (!message && reason === 3) validationErrors.message = [MESSAGE.EMPTY];
+  if (message && !isLength(message, { max: 500 })) validationErrors.message?.push(MESSAGE.TOO_LONG);
+  if (!validationErrors.message?.length) delete validationErrors.message;
   if (Object.keys(validationErrors).length)
     throw new UserInputError("Validation Error", { validationErrors });
 };

@@ -14,13 +14,13 @@ export const typeDefs = gql`
     reviewed: Boolean! @isAuth(role: ADMIN)
   }
 
-  type DefinitionSubscription {
+  type DefinitionSubscriptionPayload {
     id: ID!
     score: Int!
   }
 
   extend type Subscription {
-    definition(id: ID!): DefinitionSubscription!
+    definition(id: ID!): DefinitionSubscriptionPayload!
   }
 
   input Filter {
@@ -35,10 +35,10 @@ export const typeDefs = gql`
 
   extend type Query {
     definition(id: ID!): Definition
-    definitions(filter: Filter, page: Int, limit: Int, sortBy: sortBy): [Definition]
-    count(filter: Filter): Int
-    search(match: String, page: Int, limit: Int): [Definition]
-    popular(letter: String, limit: Int): [Definition]
+    definitions(filter: Filter, page: Int, limit: Int, sortBy: sortBy): [Definition]!
+    count(filter: Filter): Int!
+    search(match: String, page: Int, limit: Int): [Definition]!
+    popular(letter: String, limit: Int): [Definition]!
   }
 
   extend type Mutation {

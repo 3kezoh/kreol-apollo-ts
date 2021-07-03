@@ -1,7 +1,7 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
-  type User @cacheControl(maxAge: 3600) {
+  type User {
     id: ID!
     email: String! @isAuth(role: ADMIN)
     name: String!
