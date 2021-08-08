@@ -7,6 +7,16 @@ const { isEmail, isLength, isAlphanumeric } = validator;
 
 type validationErrors = { name?: string[] } & Partial<Omit<TArgs, "name">>;
 
+/**
+ * Validates inputs for creating a user
+ * @param args an object containing the user's arguments to validate
+ * - The email must be valid
+ * - The password length must be between 8 and 128
+ * - The name must be alphanumeric
+ * - The name length must be between 2 and 128
+ * @throws if any validation fails
+ */
+
 export const createUser: Validator<TArgs> = ({ email, password, name }) => {
   const validationErrors: validationErrors = { name: [] };
   if (!isEmail(email)) validationErrors.email = EMAIL.INVALID;

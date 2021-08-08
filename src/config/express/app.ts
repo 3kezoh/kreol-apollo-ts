@@ -25,6 +25,10 @@ app.use(compression());
 app.use(cookieSession);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
 app.get("/auth/google", google.authenticate);
 app.get("/auth/google/callback", google.callback);
 app.get("/auth/logout", logout);

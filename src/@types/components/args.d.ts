@@ -102,10 +102,10 @@ export type Query = {
   me?: Maybe<User>;
   verify: Scalars["Boolean"];
   definition?: Maybe<Definition>;
-  definitions?: Maybe<Array<Maybe<Definition>>>;
-  count?: Maybe<Scalars["Int"]>;
-  search?: Maybe<Array<Maybe<Definition>>>;
-  popular?: Maybe<Array<Maybe<Definition>>>;
+  definitions: Array<Maybe<Definition>>;
+  count: Scalars["Int"];
+  search: Array<Maybe<Definition>>;
+  popular: Array<Maybe<Definition>>;
   report?: Maybe<Report>;
   reports?: Maybe<Array<Maybe<Report>>>;
   user?: Maybe<User>;
@@ -157,9 +157,9 @@ export type QueryVoteArgs = {
 
 export type Report = {
   __typename?: "Report";
-  reporter?: Maybe<User>;
-  definition?: Maybe<Definition>;
-  reason?: Maybe<Scalars["Int"]>;
+  reporter: User;
+  definition: Definition;
+  reason: Scalars["Int"];
   message?: Maybe<Scalars["String"]>;
 };
 

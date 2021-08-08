@@ -2,9 +2,9 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type Report {
-    reporter: User
-    definition: Definition
-    reason: Int
+    reporter: User!
+    definition: Definition!
+    reason: Int!
     message: String
   }
 

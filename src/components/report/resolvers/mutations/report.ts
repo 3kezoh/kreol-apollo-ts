@@ -4,6 +4,12 @@ import { IReportDocument as R } from "@Report/Report";
 import { validate } from "@Report/validation";
 import { ApolloError } from "apollo-server-express";
 
+/**
+ * @resolver
+ * @throws if the definition is not found
+ * @throws if the definition has already been reported
+ */
+
 export const report: AsyncResolver<TArgs, R | null> = async (_, args, { dataSources }) => {
   const { definition: id, reason, message } = args;
   validate(args);

@@ -79,6 +79,6 @@ describe("Vote", () => {
 
   describe("validation", () =>
     it.each([-3, 3])("should throw if the action is not in [-1, 0, 1]", (action) =>
-      expectValidationErrors({ action: ACTION.INVALID }, () => validate({ action })),
+      expectValidationErrors({ action: ACTION.INVALID }, () => validate(action)),
     ));
 });

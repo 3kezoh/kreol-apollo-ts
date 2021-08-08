@@ -1,3 +1,9 @@
+/**
+ * This file is the entry point of the project, after setting up the app port
+ * and database connection, it creates an HTTP server which is then attached
+ * to a WebSocket server
+ */
+
 import "module-alias/register";
 import { app, logger, mongoose, subscriptionServer } from "@config";
 import { mongo, port } from "@config/globals";
@@ -10,9 +16,13 @@ mongoose.connect(mongo.uri);
 
 const server = http.createServer(app);
 
+/**
+ * express-generator
+ * throw if the port is already in use or requires elevated privileges
+ */
+
 const onError = (error: NodeJS.ErrnoException) => {
   if (error.syscall !== "listen") throw error;
-
   const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
   switch (error.code) {
     case "EACCES":
@@ -27,6 +37,11 @@ const onError = (error: NodeJS.ErrnoException) => {
       throw error;
   }
 };
+
+/**
+ * express-generator
+ * Log the port and environment (production, development or test)
+ */
 
 const onListening = () => {
   const addr = server.address();
