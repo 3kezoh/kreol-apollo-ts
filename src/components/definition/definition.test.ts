@@ -24,6 +24,14 @@ describe("Definition", () => {
         expect(count).toBeCalledWith({});
         expect(c).toEqual(0);
       });
+
+      it("should resolve with filters", async () => {
+        mocked(count).mockResolvedValue(0);
+        const filter = { author: "author", word: "word" };
+        const c = await queries.count(null, { filter }, mockedContext, null);
+        expect(count).toBeCalledWith({ filter });
+        expect(c).toEqual(0);
+      });
     });
 
     describe("definition", () => {

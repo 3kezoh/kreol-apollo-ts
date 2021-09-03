@@ -22,7 +22,7 @@ export class UserDataSource extends DataSource<UserContext> {
   }
 
   /**
-   * Finds a user by its `id`
+   * Finds a user by his `id`
    * @param {string} id the user's id
    * @returns the user document
    */
@@ -52,7 +52,7 @@ export class UserDataSource extends DataSource<UserContext> {
   }
 
   /**
-   *  Removes a user by its `id`
+   *  Removes a user by his `id`
    * @param id the user's id
    * @returns the deleted user document
    */
@@ -62,7 +62,7 @@ export class UserDataSource extends DataSource<UserContext> {
   }
 
   /**
-   * Updates a user by its id
+   * Updates a user by his id
    * @param update an object containing the user's arguments to update
    * @returns the updated user document
    */

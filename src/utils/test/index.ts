@@ -1,4 +1,5 @@
 export * from "./expectValidationErrors";
+export * from "./getAdmin";
 export * from "./getUser";
 export * from "./mockedAuth";
 export * from "./mockedContext";

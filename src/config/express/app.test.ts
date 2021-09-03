@@ -14,7 +14,7 @@ setupMongoose();
 
 describe("The express app", () => {
   /**
-   * TODO: passport-google-oauth2 mock
+   * TODO passport-google-oauth2 mock
    */
 
   describe.skip("POST /graphql", () => {

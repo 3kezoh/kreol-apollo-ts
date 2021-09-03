@@ -1,6 +1,12 @@
+/**
+ * ? Refactoring tests
+ */
+
+import { IUserDocument } from "@components/user";
 import { jwt } from "@config/globals";
-import { getUser, mockedDefinition, mockedUser, setupApolloServer, setupMongoose } from "@test";
+import { getAdmin, getUser, mockedDefinition, mockedUser, setupApolloServer, setupMongoose } from "@test";
 import {
+  COUNT,
   CREATE_DEFINITION,
   GET_DEFINITIONS,
   LOGIN,
@@ -13,46 +19,107 @@ import { verify } from "jsonwebtoken";
 
 setupMongoose();
 
-const createDefinition = async () => {
-  const { user, admin } = await getUser();
-  const _user = await setupApolloServer(user);
-  const { data } = await _user.mutate({ mutation: CREATE_DEFINITION, variables: mockedDefinition.args });
-  const _admin = await setupApolloServer(admin);
-  await _admin.mutate({ mutation: REVIEW_DEFINITION, variables: { id: data.createDefinition.id } });
-  const definition = data.createDefinition.id;
-  return { user, admin, definition };
+/**
+ * @returns the definition id
+ */
+
+const createDefinition = async (author: IUserDocument) => {
+  const { mutate } = setupApolloServer(author);
+  const { data } = await mutate({ mutation: CREATE_DEFINITION, variables: mockedDefinition.args });
+  const admin = await getAdmin();
+  const apolloServerAdmin = setupApolloServer(admin);
+  await apolloServerAdmin.mutate({
+    mutation: REVIEW_DEFINITION,
+    variables: { id: data.createDefinition.id },
+  });
+  return data.createDefinition.id;
 };
 
 describe("The ApolloServer", () => {
-  it("should return an empty array", async () => {
-    const { user } = await getUser();
-    const { query } = await setupApolloServer(user);
-    const { data, errors } = await query({ query: GET_DEFINITIONS });
-    expect(errors).toBeUndefined();
-    expect(data.definitions).toEqual([]);
-  });
+  describe("Definition", () => {
+    describe("queries", () => {
+      describe("definitions", () => {
+        it("should return an empty array", async () => {
+          const user = await getUser();
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: GET_DEFINITIONS });
+          expect(errors).toBeUndefined();
+          expect(data.definitions).toEqual([]);
+        });
 
-  it("should return a definition id", async () => {
-    const { user } = await getUser();
-    const { mutate } = await setupApolloServer(user);
-    const { data, errors } = await mutate({ mutation: CREATE_DEFINITION, variables: mockedDefinition.args });
-    expect(errors).toBeUndefined();
-    expect(data.createDefinition.id).not.toBeUndefined();
-  });
+        it("should return an array with a definition", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: GET_DEFINITIONS });
+          expect(errors).toBeUndefined();
+          expect(data.definitions).toBeInstanceOf(Array);
+          expect(data.definitions).toHaveLength(1);
+          expect(data.definitions[0].author).toEqual({ id: user.id, name: user.name });
+        });
+      });
 
-  it("should return an array with a definition", async () => {
-    const { user } = await createDefinition();
-    const { query } = await setupApolloServer(user);
-    const { data, errors } = await query({ query: GET_DEFINITIONS });
-    expect(errors).toBeUndefined();
-    expect(data.definitions).toBeInstanceOf(Array);
-    expect(data.definitions).toHaveLength(1);
-    expect(data.definitions[0].author).toEqual({ id: user.id, name: user.name });
+      describe("count", () => {
+        it("should return 0", async () => {
+          const user = await getUser();
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: COUNT });
+          expect(errors).toBeUndefined();
+          expect(data.count).toEqual(0);
+        });
+
+        it("should return 1", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: COUNT });
+          expect(errors).toBeUndefined();
+          expect(data.count).toEqual(1);
+        });
+
+        it("should return 1 with filters", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { query } = setupApolloServer(user);
+          const variables = { author: user.id, word: "word" };
+          const { data, errors } = await query({ query: COUNT, variables });
+          expect(errors).toBeUndefined();
+          expect(data.count).toEqual(1);
+        });
+
+        it("should return 0 if the id is invalid", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { query } = setupApolloServer(user);
+          const variables = { author: "invalid id" };
+          const { data, errors } = await query({ query: COUNT, variables });
+          expect(errors).toBeUndefined();
+          expect(data.count).toEqual(0);
+        });
+      });
+    });
+
+    describe("mutations", () => {
+      describe("create", () => {
+        it("should return a definition id", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { mutate } = setupApolloServer(user);
+          const { data, errors } = await mutate({
+            mutation: CREATE_DEFINITION,
+            variables: mockedDefinition.args,
+          });
+          expect(errors).toBeUndefined();
+          expect(data.createDefinition.id).not.toBeUndefined();
+        });
+      });
+    });
   });
 
   it("should return a vote", async () => {
-    const { definition, user } = await createDefinition();
-    const { mutate } = await setupApolloServer(user);
+    const user = await getUser();
+    const definition = await createDefinition(user);
+    const { mutate } = setupApolloServer(user);
     const { data, errors } = await mutate({ mutation: VOTE, variables: { definition, action: 1 } });
     expect(errors).toBeUndefined();
     expect(data.vote.voter).toEqual({ id: user.id, name: user.name });
@@ -61,8 +128,9 @@ describe("The ApolloServer", () => {
   });
 
   it("should return a report", async () => {
-    const { definition, user } = await createDefinition();
-    const { mutate } = await setupApolloServer(user);
+    const user = await getUser();
+    const definition = await createDefinition(user);
+    const { mutate } = setupApolloServer(user);
     const { data, errors } = await mutate({ mutation: REPORT, variables: { definition, reason: 1 } });
     expect(errors).toBeUndefined();
     expect(data.report.reporter).toEqual({ id: user.id, name: user.name });
@@ -70,8 +138,12 @@ describe("The ApolloServer", () => {
     expect(data.report.reason).toEqual(1);
   });
 
+  /**
+   * * Google OAuth2 only for now
+   */
+
   it.skip("should return an accessToken when signing up", async () => {
-    const { mutate } = await setupApolloServer();
+    const { mutate } = setupApolloServer();
     const { data, errors } = await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     expect(errors).toBeUndefined();
     expect(data.signup.user.name).toEqual(mockedUser.args.name);
@@ -79,7 +151,7 @@ describe("The ApolloServer", () => {
   });
 
   it.skip("should return an accessToken when login in", async () => {
-    const { mutate } = await setupApolloServer();
+    const { mutate } = setupApolloServer();
     await mutate({ mutation: SIGNUP, variables: mockedUser.args });
     const { data, errors } = await mutate({ mutation: LOGIN, variables: mockedUser.args });
     expect(errors).toBeUndefined();

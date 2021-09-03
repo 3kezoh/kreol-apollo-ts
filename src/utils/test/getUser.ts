@@ -1,18 +1,8 @@
 import { User } from "@User";
 
-export const getUser = async () => {
-  const user = await User.create({
+export const getUser = async () =>
+  User.create({
     email: "user@gmail.com",
     name: "sion",
     password: "password",
   });
-
-  const admin = await User.create({
-    email: "admin@gmail.com",
-    name: "admin",
-    password: "password",
-    role: "ADMIN",
-  });
-
-  return { user, admin };
-};

@@ -13,3 +13,6 @@ dist
 
 #doc
 docs
+
+# code coverage
+coverage

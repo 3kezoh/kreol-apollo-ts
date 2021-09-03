@@ -59,7 +59,7 @@ export class DefinitionDataSource extends DataSource<UserContext> {
   }
 
   /**
-   *  Finds a definition by its id, if `ttl` is specified, the definition is cached
+   *  Finds a definition by his id, if `ttl` is specified, the definition is cached
    * @param _id the definition's id
    * @param ttl Specified in **seconds**
    * @returns the definition document
@@ -195,7 +195,7 @@ export class DefinitionDataSource extends DataSource<UserContext> {
   }
 
   /**
-   * Deletes a definition by its id
+   * Deletes a definition by his id
    * @param _id the definition's id to delete
    * @returns
    */
