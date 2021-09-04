@@ -1,3 +1,7 @@
+/**
+ * TODO passport-google-oauth2 test
+ */
+
 import { jwrt, jwt } from "@config/globals";
 import { LOGIN, REFRESH, SIGNUP } from "@test/graphql";
 import { mockedUser, setupMongoose } from "@utils/test";
@@ -12,9 +16,19 @@ const agent = request.agent(app);
 
 setupMongoose();
 
-describe("The express app", () => {
+describe("Express app", () => {
+  describe("GET /auth/logout", () => {
+    it("should return expired authentication cookies", async () => {
+      const { headers } = await agent.get("/auth/logout");
+      const parsedCookies = (headers["set-cookie"] as string[]).map((cookie) => parse(cookie));
+      parsedCookies.forEach((parsedCookie) => {
+        expect(Date.parse(parsedCookie.expires)).toBeLessThan(Date.now());
+      });
+    });
+  });
+
   /**
-   * TODO passport-google-oauth2 mock
+   * ! Google OAuth 2 for now
    */
 
   describe.skip("POST /graphql", () => {

@@ -10,8 +10,8 @@
     "doc": "typedoc",
     "graph": "madge -i graph.svg src",
     "populate": "ts-node src/database/populate.ts",
-    "test": "jest --runInBand --coverage",
-    "test:watch": "jest --watch --runInBand --coverage",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage",
     "tsc:watch": "tsc -w"
   },
   "keywords": [],

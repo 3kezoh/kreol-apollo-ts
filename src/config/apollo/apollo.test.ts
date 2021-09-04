@@ -14,6 +14,7 @@ import {
   REVIEW_DEFINITION,
   SIGNUP,
   VOTE,
+  GET_POPULAR,
 } from "@test/graphql";
 import { verify } from "jsonwebtoken";
 
@@ -35,30 +36,9 @@ const createDefinition = async (author: IUserDocument) => {
   return data.createDefinition.id;
 };
 
-describe("The ApolloServer", () => {
+describe("Apollo Server", () => {
   describe("Definition", () => {
     describe("queries", () => {
-      describe("definitions", () => {
-        it("should return an empty array", async () => {
-          const user = await getUser();
-          const { query } = setupApolloServer(user);
-          const { data, errors } = await query({ query: GET_DEFINITIONS });
-          expect(errors).toBeUndefined();
-          expect(data.definitions).toEqual([]);
-        });
-
-        it("should return an array with a definition", async () => {
-          const user = await getUser();
-          await createDefinition(user);
-          const { query } = setupApolloServer(user);
-          const { data, errors } = await query({ query: GET_DEFINITIONS });
-          expect(errors).toBeUndefined();
-          expect(data.definitions).toBeInstanceOf(Array);
-          expect(data.definitions).toHaveLength(1);
-          expect(data.definitions[0].author).toEqual({ id: user.id, name: user.name });
-        });
-      });
-
       describe("count", () => {
         it("should return 0", async () => {
           const user = await getUser();
@@ -95,6 +75,37 @@ describe("The ApolloServer", () => {
           const { data, errors } = await query({ query: COUNT, variables });
           expect(errors).toBeUndefined();
           expect(data.count).toEqual(0);
+        });
+      });
+
+      describe("definitions", () => {
+        it("should return an empty array", async () => {
+          const user = await getUser();
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: GET_DEFINITIONS });
+          expect(errors).toBeUndefined();
+          expect(data.definitions).toEqual([]);
+        });
+
+        it("should return an array with a definition", async () => {
+          const user = await getUser();
+          await createDefinition(user);
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: GET_DEFINITIONS });
+          expect(errors).toBeUndefined();
+          expect(data.definitions).toBeInstanceOf(Array);
+          expect(data.definitions).toHaveLength(1);
+          expect(data.definitions[0].author).toEqual({ id: user.id, name: user.name });
+        });
+      });
+
+      describe("popular", () => {
+        it("should return an empty array", async () => {
+          const user = await getUser();
+          const { query } = setupApolloServer(user);
+          const { data, errors } = await query({ query: GET_POPULAR });
+          expect(errors).toBeUndefined();
+          expect(data.popular).toEqual([]);
         });
       });
     });
