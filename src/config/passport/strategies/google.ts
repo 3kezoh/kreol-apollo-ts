@@ -1,4 +1,4 @@
-import { google } from "@config/globals";
+import { google } from "@config/env";
 import { User } from "@User";
 import { Strategy as GoogleStrategy, StrategyOptions } from "passport-google-oauth20";
 

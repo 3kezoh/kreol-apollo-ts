@@ -4,9 +4,8 @@
  * to a WebSocket server
  */
 
-import "module-alias/register";
 import { app, logger, mongoose, subscriptionServer } from "@config";
-import { mongo, port } from "@config/globals";
+import { mongo, port } from "@config/env";
 import chalk from "chalk";
 import { createServer } from "http";
 

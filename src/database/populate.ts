@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import "module-alias/register";
 import { logger, mongoose } from "@config";
-import { mongo } from "@config/globals";
+import { mongo } from "@config/env";
 import { Definition, IDefinitionDocument } from "@Definition";
 import { Report } from "@Report";
 import { User } from "@User";

@@ -2,6 +2,6 @@
   "watch": ["src"],
   "ext": "ts,json",
   "ignore": ["src/database", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "exec": "ts-node ./src/bin/www.ts",
+  "exec": "ts-node src",
   "env": { "NODE_ENV": "development" }
 }

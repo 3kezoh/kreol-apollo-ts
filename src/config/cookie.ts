@@ -1,4 +1,4 @@
-import { cookie } from "@config/globals";
+import { cookie } from "@config/env";
 import _cookieSession from "cookie-session";
 
 const { key, maxAge, name } = cookie;

@@ -1,6 +1,6 @@
 import { apolloServer } from "@config/apollo";
 import { cookieSession } from "@config/cookie";
-import { rateLimitOptions } from "@config/globals";
+import { rateLimitOptions } from "@config/env";
 import "@config/passport";
 import { google, logout } from "@middlewares/auth";
 import compression from "compression";

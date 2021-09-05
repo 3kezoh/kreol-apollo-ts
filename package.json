@@ -1,18 +1,20 @@
 {
   "name": "kreol-apollo-ts",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "bin/www.ts",
   "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
     "codegen:watch": "graphql-codegen --config codegen.yml",
     "circular": "madge -c -i circular.svg src",
     "dev": "nodemon",
     "doc": "typedoc",
     "graph": "madge -i graph.svg src",
     "populate": "ts-node src/database/populate.ts",
+    "start": "node dist",
     "test": "jest --coverage",
-    "test:watch": "jest --watch --coverage --detectOpenHandles",
-    "tsc:watch": "tsc -w"
+    "test:watch": "jest --watch --coverage --detectOpenHandles"
   },
   "keywords": [],
   "author": "Stanley CRICO",
@@ -96,20 +98,5 @@
     "ts-node": "^9.1.1",
     "typedoc": "^0.20.36",
     "typescript": "^4.2.4"
-  },
-  "_moduleAliases": {
-    "@components": "src/components",
-    "@Auth": "src/components/auth",
-    "@Definition": "src/components/definition",
-    "@Report": "src/components/report",
-    "@User": "src/components/user",
-    "@Vote": "src/components/vote",
-    "@bin": "src/bin",
-    "@config": "src/config",
-    "@directives": "src/directives",
-    "@middlewares": "src/middlewares",
-    "@scalars": "src/scalars",
-    "@utils": "src/utils",
-    "@test": "src/utils/test"
   }
 }

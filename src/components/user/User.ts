@@ -1,5 +1,5 @@
 import { jwtPayload, jwrtPayload } from "@@components";
-import { jwrt, jwt } from "@config/globals";
+import { jwrt, jwt } from "@config/env";
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema, Types } from "mongoose";

@@ -1,4 +1,4 @@
-import { google } from "@config/globals";
+import { google } from "@config/env";
 import passport from "passport";
 
 const { successRedirect } = google;

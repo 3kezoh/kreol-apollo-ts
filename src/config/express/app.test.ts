@@ -2,7 +2,7 @@
  * TODO passport-google-oauth2 test
  */
 
-import { jwrt, jwt } from "@config/globals";
+import { jwrt, jwt } from "@config/env";
 import { LOGIN, REFRESH, SIGNUP } from "@test/graphql";
 import { mockedUser, setupMongoose } from "@utils/test";
 import { parse } from "cookie";

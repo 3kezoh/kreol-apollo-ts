@@ -4,7 +4,7 @@
  */
 
 import type { IUserDocument } from "@components/user";
-import { jwt } from "@config/globals";
+import { jwt } from "@config/env";
 import { getAdmin, getUser, mockedDefinition, mockedUser, setupApolloServer, setupMongoose } from "@test";
 import { REPORT, USER, USERS, VOTE } from "@test/graphql";
 import { LOGIN, ME, SIGNUP, VERIFY } from "@test/graphql/auth";
