@@ -89,9 +89,11 @@ userSchema.pre<IUserDocument>("save", async function save(next) {
 });
 
 /**
+ * ! Google OAuth 2 for now
  * Generates a JWT
  */
 
+/* istanbul ignore next */
 userSchema.methods.token = async function token() {
   const jwtPayload: jwtPayload = { sub: this._id, name: this.name };
   const jwrtPayload: jwrtPayload = { sub: this._id };
@@ -101,11 +103,13 @@ userSchema.methods.token = async function token() {
 };
 
 /**
+ * ! Google OAuth 2 for now
  * Compares a password to the user's password
  * @param password the password to compare
  * @returns true if it matches, false otherwise
  */
 
+/* istanbul ignore next */
 userSchema.methods.passwordMatches = async function passwordMatches(password) {
   return compare(password, this.password);
 };

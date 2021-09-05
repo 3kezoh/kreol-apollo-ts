@@ -6,19 +6,15 @@
 import type { IUserDocument } from "@components/user";
 import { jwt } from "@config/globals";
 import { getAdmin, getUser, mockedDefinition, mockedUser, setupApolloServer, setupMongoose } from "@test";
+import { REPORT, USER, USERS, VOTE } from "@test/graphql";
+import { LOGIN, ME, SIGNUP, VERIFY } from "@test/graphql/auth";
 import {
   COUNT,
   CREATE_DEFINITION,
   GET_DEFINITIONS,
   GET_POPULAR,
-  LOGIN,
-  ME,
-  REPORT,
   REVIEW_DEFINITION,
-  SIGNUP,
-  VERIFY,
-  VOTE,
-} from "@test/graphql";
+} from "@test/graphql/definition";
 import type { DocumentNode } from "graphql";
 import { verify } from "jsonwebtoken";
 
@@ -65,14 +61,14 @@ describe("Apollo Server", () => {
     describe("queries", () => {
       describe("count", () => {
         it("should return 0", async () => {
-          const { data, errors } = await executeOperation({ query: COUNT, user });
+          const { data, errors } = await executeOperation({ query: COUNT });
           expect(errors).toBeUndefined();
           expect(data?.count).toEqual(0);
         });
 
         it("should return 1", async () => {
           await createDefinition();
-          const { data, errors } = await executeOperation({ query: COUNT, user });
+          const { data, errors } = await executeOperation({ query: COUNT });
           expect(errors).toBeUndefined();
           expect(data?.count).toEqual(1);
         });
@@ -155,8 +151,7 @@ describe("Apollo Server", () => {
         it("should return the user info", async () => {
           const { data, errors } = await executeOperation({ query: ME, user });
           expect(errors).toBeUndefined();
-          expect(data?.me.id).toBe(user.id);
-          expect(data?.me.name).toBe(user.name);
+          expect(data?.me).toEqual({ id: user.id, name: user.name });
         });
       });
 
@@ -171,6 +166,28 @@ describe("Apollo Server", () => {
           const { data, errors } = await executeOperation({ query: VERIFY, user });
           expect(errors).toBeUndefined();
           expect(data?.verify).toBe(true);
+        });
+      });
+    });
+  });
+
+  describe("User", () => {
+    describe("queries", () => {
+      describe("user", () => {
+        it("should return a user", async () => {
+          const { data, errors } = await executeOperation({ query: USER, variables: { id: user.id } });
+          expect(errors).toBeUndefined();
+          expect(data?.user).toEqual({ id: user.id, name: user.name });
+        });
+      });
+
+      describe("users", () => {
+        it("should return an array of users", async () => {
+          const { data, errors } = await executeOperation({ query: USERS });
+          expect(errors).toBeUndefined();
+          expect(data?.users).toBeInstanceOf(Array);
+          expect(data?.users).toHaveLength(1);
+          expect(data?.users[0]).toEqual({ id: user.id, name: user.name });
         });
       });
     });

@@ -19,7 +19,9 @@ const dropCollections = async () => {
       collections.map(async (collection) => mongoose.connection.collections[collection].drop()),
     );
   } catch (error) {
+    /* istanbul ignore next */
     if (error.message === "ns not found") return;
+    /* istanbul ignore next */
     if (error.message.includes("a background operation is currently running")) return;
     console.error(error);
   }

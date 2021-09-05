@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { DefinitionSubscriptionFilter } from "@@components";
 import { pubsub } from "@config/pubsub";
 import { withFilter } from "graphql-subscriptions";

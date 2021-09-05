@@ -1,3 +1,9 @@
+/* istanbul ignore file */
+
+/**
+ * ! Google OAuth for now
+ */
+
 import { IUserDocument } from "@User";
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
