@@ -1,6 +1,6 @@
-import { IUserDocument } from "@User";
-import { LeanDocument } from "mongoose";
-import { DataSources } from "./dataSources";
+import type { IUserDocument } from "@User";
+import type { LeanDocument } from "mongoose";
+import type { DataSources } from "./dataSources";
 
 export type Context = UserContext & DataSourcesContext;
 

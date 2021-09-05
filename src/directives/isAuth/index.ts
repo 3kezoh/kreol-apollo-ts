@@ -1,4 +1,4 @@
-import { IsAuthDirective as isAuth } from "./schema";
+import { isAuthDirectiveTransformer as transformer } from "./transformer";
 import { typeDefs } from "./typeDefs";
 
-export default { schema: { isAuth }, typeDefs };
+export default { transformer, typeDefs };

@@ -1,8 +1,8 @@
-import { IResolvers, SchemaDirectiveVisitor } from "apollo-server-express";
-import { DocumentNode } from "graphql";
-import { Types } from "mongoose";
-import { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
-import { Context } from "./context";
+import type { IResolvers } from "apollo-server-express";
+import type { GraphQLSchema, DocumentNode } from "graphql";
+import type { Types } from "mongoose";
+import type { DefinitionSubscription, SubscriptionDefinitionArgs } from "./args";
+import type { Context } from "./context";
 
 export * from "./args";
 export * from "./context";
@@ -32,7 +32,7 @@ export type Scalars = {
 
 export type Directive = {
   typeDefs: DocumentNode;
-  schema?: SchemaDirectiveVisitor;
+  transformer?: (schema: GraphQLSchema) => GraphQLSchema;
 };
 
 export type Validator<TArgs> = (args: TArgs) => void;

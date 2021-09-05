@@ -1,4 +1,4 @@
-import { ObjectID } from "mongodb";
+import type { ObjectID } from "mongodb";
 
 export type jwtPayload = { sub: ObjectID; name: string };
 export type jwrtPayload = { sub: ObjectID };

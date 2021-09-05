@@ -1,22 +1,16 @@
+/* eslint-disable import/no-mutable-exports */
 import components from "@components";
 import directives from "@directives";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import scalars from "@scalars";
-import { gql, makeExecutableSchema } from "apollo-server-express";
 import merge from "deepmerge";
-
-const globalTypeDefs = gql`
-  type Query
-  type Mutation
-  type Subscription
-`;
+import { globalTypeDefs } from "./globalTypeDefs";
 
 const typeDefs = [globalTypeDefs];
 let resolvers = {};
-let schemaDirectives = {};
 
 directives.forEach((directive) => {
   typeDefs.push(directive.typeDefs);
-  schemaDirectives = Object.assign(schemaDirectives, directive.schema);
 });
 
 scalars.forEach((scalar) => {
@@ -29,4 +23,10 @@ components.forEach((component) => {
   resolvers = merge(resolvers, component.resolvers);
 });
 
-export const schema = makeExecutableSchema({ typeDefs, resolvers, schemaDirectives });
+export let schema = makeExecutableSchema({ typeDefs, resolvers });
+
+directives.forEach(({ transformer }) => {
+  if (transformer) {
+    schema = transformer(schema);
+  }
+});

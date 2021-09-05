@@ -1,7 +1,7 @@
-import { DefinitionDataSource } from "@Definition";
-import { ReportDataSource } from "@Report";
-import { UserDataSource } from "@User";
-import { VoteDataSource } from "@Vote";
+import type { DefinitionDataSource } from "@Definition";
+import type { ReportDataSource } from "@Report";
+import type { UserDataSource } from "@User";
+import type { VoteDataSource } from "@Vote";
 
 export type DataSources = {
   definition: DefinitionDataSource;

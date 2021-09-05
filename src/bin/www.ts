@@ -8,13 +8,13 @@ import "module-alias/register";
 import { app, logger, mongoose, subscriptionServer } from "@config";
 import { mongo, port } from "@config/globals";
 import chalk from "chalk";
-import http from "http";
+import { createServer } from "http";
 
 app.set("port", port);
 
 mongoose.connect(mongo.uri);
 
-const server = http.createServer(app);
+const server = createServer(app);
 
 /**
  * express-generator

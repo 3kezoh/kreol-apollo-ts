@@ -1,6 +1,6 @@
 import { DefinitionSubscriptionFilter } from "@@components";
 import { pubsub } from "@config/pubsub";
-import { withFilter } from "apollo-server-express";
+import { withFilter } from "graphql-subscriptions";
 
 // https://www.apollographql.com/docs/apollo-server/data/subscriptions/
 

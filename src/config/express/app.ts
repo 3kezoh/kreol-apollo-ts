@@ -29,4 +29,10 @@ app.get("/auth/google", google.authenticate);
 app.get("/auth/google/callback", google.callback);
 app.get("/auth/logout", logout);
 app.use(errorHandler({ log: (err) => console.error(err) }));
-apolloServer.applyMiddleware({ app, cors: corsOptions });
+
+const startApolloServer = async () => {
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app, cors: corsOptions });
+};
+
+startApolloServer();

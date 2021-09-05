@@ -3,12 +3,12 @@ import { ApolloServerPlugin } from "apollo-server-plugin-base";
 import chalk from "chalk";
 
 export const log: ApolloServerPlugin = {
-  serverWillStart() {
+  async serverWillStart() {
     logger.info(`${chalk.hex("#3F20BA")("Apollo")} server starting`);
   },
-  requestDidStart() {
+  async requestDidStart() {
     return {
-      didEncounterErrors({ errors }) {
+      async didEncounterErrors({ errors }) {
         errors.forEach(({ stack, originalError }) => {
           if (originalError && ![""].includes(originalError.name)) console.error(stack);
         });
