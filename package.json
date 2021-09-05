@@ -11,7 +11,7 @@
     "graph": "madge -i graph.svg src",
     "populate": "ts-node src/database/populate.ts",
     "test": "jest --coverage",
-    "test:watch": "jest --watch --coverage",
+    "test:watch": "jest --watch --coverage --detectOpenHandles",
     "tsc:watch": "tsc -w"
   },
   "keywords": [],

@@ -4,8 +4,8 @@ import { execute, subscribe } from "graphql";
 import http from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
-const onConnect = () => logger.info("Client connected");
-const onDisconnect = () => logger.info("Client disconnected");
+const onConnect = () => logger.info("Subscription Client connected");
+const onDisconnect = () => logger.info("Subscription Client disconnected");
 
 export const subscriptionServer = (server: http.Server): void => {
   SubscriptionServer.create(
