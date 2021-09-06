@@ -14,7 +14,7 @@ import passport from "passport";
 export const app = express();
 
 const corsOptions: cors.CorsOptions = {
-  origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+  origin: ["http://localhost:3000", "https://ekezoh-kreol-front-end.herokuapp.com"],
   credentials: true,
 };
 
