@@ -12,7 +12,7 @@ export const VOTE = gql`
         word
         meaning
         example
-        language
+        translation
       }
       action
     }

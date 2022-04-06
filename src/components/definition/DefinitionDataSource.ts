@@ -52,7 +52,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
 
   async count({ filter }: QueryCountArgs) {
     if (!isValidObjectId(filter?.author)) return 0;
-    const match: Match = { reviewed: true };
+    // TODO reviewed true
+    const match: Match = { reviewed: false };
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = new Types.ObjectId(filter.author);
     return this.model.countDocuments(match);
@@ -69,7 +70,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     if (!isValidObjectId(_id)) return null;
     const cachedDefinition = await this.cache.get(_id);
     if (cachedDefinition) return JSON.parse(cachedDefinition) as IDefinitionDocument;
-    const definition = await this.model.findOne({ _id, reviewed: true }).populate("author").lean();
+    // TODO reviewed true
+    const definition = await this.model.findOne({ _id, reviewed: false }).populate("author").lean();
     if (ttl) this.cache.set(_id, JSON.stringify(definition), { ttl });
     return definition;
   }
@@ -85,13 +87,14 @@ export class DefinitionDataSource extends DataSource<UserContext> {
   async list({ filter, page, limit, sortBy }: QueryDefinitionsArgs) {
     if (!isValidObjectId(filter?.author)) return [];
 
-    const match: Match = { reviewed: true };
+    // TODO reviewed true
+    const match: Match = { reviewed: false };
     if (filter?.word) match.word = escapeRegExp(filter.word);
     if (filter?.author) match.author = new Types.ObjectId(filter.author);
     if (!page || page < 1) page = 1;
     if (!limit || limit < 1 || limit > 100) limit = 5;
 
-    const sort: Sort = BY_DATE;
+    const sort: Sort = BY_SCORE;
     if (sortBy) {
       const { createdAt, score } = sortBy;
       if (createdAt && [1, -1].includes(createdAt)) sort.createdAt = createdAt;
@@ -150,7 +153,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     if (!limit || limit < 1 || limit > 100) limit = 50;
     if (!letter || ![..."abcdefghijklmnopqrstuvwxyz"].includes(letter)) letter = "a";
 
-    const match: Match = { reviewed: true };
+    // TODO reviewed true
+    const match: Match = { reviewed: false };
     match.word = new RegExp(`^${letter}`, "i");
 
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
@@ -178,7 +182,8 @@ export class DefinitionDataSource extends DataSource<UserContext> {
     if (!page || page < 1) page = 1;
     if (!limit || limit < 1 || limit > 100) limit = 5;
 
-    const _match: Match = { reviewed: true };
+    // TODO reviewed true
+    const _match: Match = { reviewed: false };
     _match.word = new RegExp(`^${match?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
 
     const definitions: IDefinitionDocument[] = await this.model.aggregate([
@@ -215,8 +220,9 @@ export class DefinitionDataSource extends DataSource<UserContext> {
 
   async review(_id: string) {
     if (!isValidObjectId) return null;
+    // TODO reviewed true
     return this.model
-      .findByIdAndUpdate(_id, { reviewed: true }, { new: true, lean: true })
+      .findByIdAndUpdate(_id, { reviewed: false }, { new: true, lean: true })
       .populate("author");
   }
 

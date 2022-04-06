@@ -23,7 +23,7 @@ const reportSchema = new Schema<IReportDocument>(
     reporter: { type: Schema.Types.ObjectId, ref: "User", required: true },
     definition: { type: Schema.Types.ObjectId, ref: "Definition", required: true },
     reason: { type: Number, enum: [0, 1, 2, 3], required: true },
-    message: { type: String, maxlength: 500 },
+    message: { type: String, maxlength: 300 },
   },
   { timestamps: true },
 );

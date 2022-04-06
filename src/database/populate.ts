@@ -15,15 +15,12 @@ import ran from "./ran";
 const users = randomUsers(100);
 const definitions = randomDefinitions(1000);
 
-const populate = async () => {
+export const populate = async () => {
   try {
     console.time("populate");
     await mongoose.connect(mongo.uri);
 
-    await Definition.deleteMany();
-    await Report.deleteMany();
-    await User.deleteMany();
-    await Vote.deleteMany();
+    await Promise.all([Definition.deleteMany(), Report.deleteMany(), User.deleteMany(), Vote.deleteMany()]);
 
     await Promise.all(admins.map((admin) => User.create({ ...admin, role: "ADMIN" })));
 
@@ -62,10 +59,7 @@ const populate = async () => {
 
     logger.info("Database population is done");
     console.timeEnd("populate");
-    process.exit(1);
   } catch (error) {
     console.error(error);
   }
 };
-
-populate();

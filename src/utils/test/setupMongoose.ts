@@ -18,7 +18,7 @@ const dropCollections = async () => {
     await Promise.all(
       collections.map(async (collection) => mongoose.connection.collections[collection].drop()),
     );
-  } catch (error) {
+  } catch (error: any) {
     /* istanbul ignore next */
     if (error.message === "ns not found") return;
     /* istanbul ignore next */

@@ -6,13 +6,13 @@ export const log: ApolloServerPlugin = {
   async serverWillStart() {
     logger.info(`${chalk.hex("#3F20BA")("Apollo")} server starting`);
   },
-  async requestDidStart() {
-    return {
-      async didEncounterErrors({ errors }) {
-        errors.forEach(({ stack, originalError }) => {
-          if (originalError && ![""].includes(originalError.name)) console.error(stack);
-        });
-      },
-    };
-  },
+  // async requestDidStart() {
+  //   return {
+  //     async didEncounterErrors({ errors }) {
+  //       errors.forEach(({ stack, originalError }) => {
+  //         if (originalError && ![""].includes(originalError.name)) console.error(stack);
+  //       });
+  //     },
+  //   };
+  // },
 };

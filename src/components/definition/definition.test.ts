@@ -1,7 +1,7 @@
 import { expectValidationErrors, mockedContext, mockedDefinition, setupMocks } from "@test";
 import { ApolloError } from "apollo-server-express";
 import { mocked } from "ts-jest/utils";
-import { DEFINITION, EXAMPLE, LANGUAGE, MEANING, WORD } from "./errors";
+import { DEFINITION, EXAMPLE, TRANSLATION, MEANING, WORD } from "./errors";
 import * as mutations from "./resolvers/mutations";
 import * as queries from "./resolvers/queries";
 import { validate } from "./validation";
@@ -155,15 +155,15 @@ describe("Definition", () => {
     );
 
     it.each([
-      ["meaning", { meaning: MEANING.TOO_LONG }, { meaning: "#".repeat(1503) }],
-      ["example", { example: EXAMPLE.TOO_LONG }, { example: "#".repeat(1503) }],
-    ])("should throw if %s greater than 1500", (_, validationErrors, args) =>
+      ["meaning", { meaning: MEANING.TOO_LONG }, { meaning: "#".repeat(303) }],
+      ["example", { example: EXAMPLE.TOO_LONG }, { example: "#".repeat(103) }],
+    ])("should throw if %s greater than their max", (_, validationErrors, args) =>
       expectValidationErrors(validationErrors, () => validate({ ...mockedDefinition.args, ...args })),
     );
 
-    it("should throw if the language is neither fr or gf", () =>
-      expectValidationErrors({ language: LANGUAGE.FR_GF }, () =>
-        validate({ ...mockedDefinition.args, language: "en" }),
+    it("should throw if the translation is neither fr or gf", () =>
+      expectValidationErrors({ translation: TRANSLATION.FR_GF }, () =>
+        validate({ ...mockedDefinition.args, translation: "en" }),
       ));
   });
 });

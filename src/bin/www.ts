@@ -5,11 +5,11 @@
  */
 
 import { app, logger, mongoose, subscriptionServer } from "@config";
-import { mongo, port } from "@config/env";
+import { mongo, PORT } from "@config/env";
 import chalk from "chalk";
 import { createServer } from "http";
 
-app.set("port", port);
+app.set("port", PORT);
 
 mongoose.connect(mongo.uri);
 
@@ -22,7 +22,7 @@ const server = createServer(app);
 
 const onError = (error: NodeJS.ErrnoException) => {
   if (error.syscall !== "listen") throw error;
-  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
+  const bind = typeof PORT === "string" ? `Pipe ${PORT}` : `Port ${PORT}`;
   switch (error.code) {
     case "EACCES":
       console.error(`${bind} requires elevated privileges`);
@@ -48,7 +48,7 @@ const onListening = () => {
   logger.info(`Listening on ${bind} in ${chalk.magenta(app.get("env"))} mode`);
 };
 
-server.listen(port);
+server.listen(PORT);
 server.on("error", onError);
 server.on("listening", onListening);
 

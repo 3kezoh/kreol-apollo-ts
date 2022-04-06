@@ -93,9 +93,9 @@ describe("Report", () => {
         validate({ ...mockedReport.args, reason: 3, message: "" }),
       ));
 
-    it("should throw if the message greater than 500", () =>
+    it("should throw if the message greater than 300", () =>
       expectValidationErrors({ message: [MESSAGE.TOO_LONG] }, () =>
-        validate({ ...mockedReport.args, message: "m".repeat(503) }),
+        validate({ ...mockedReport.args, message: "m".repeat(303) }),
       ));
   });
 });

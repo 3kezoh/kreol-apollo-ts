@@ -6,7 +6,6 @@ node_modules
 
 # secrets
 .env
-.env.example
 
 # typescript
 dist
@@ -16,3 +15,6 @@ docs
 
 # code coverage
 coverage
+
+# db data
+docker/db/data

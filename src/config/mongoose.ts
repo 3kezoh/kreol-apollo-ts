@@ -13,6 +13,10 @@ mongoose.set("useUnifiedTopology", true);
 
 mongoose.set("debug", process.env.NODE_ENV === "development");
 
+mongoose.connection.on("connecting", () => {
+  logger.info(`${chalk.hex("#13AA52")("MongoDB")} connecting`);
+});
+
 mongoose.connection.on("error", (err) => {
   console.error(`MongoDB connection error. Please make sur MongoDB is running. ${err}`);
   process.exit(-1);

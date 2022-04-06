@@ -12,7 +12,7 @@ export const REPORT = gql`
         word
         meaning
         example
-        language
+        translation
       }
       reason
       message
