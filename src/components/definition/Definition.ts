@@ -6,7 +6,7 @@ interface IDefinition {
   word: string;
   meaning: string;
   example?: string;
-  language: "fr" | "gf";
+  translation: "fr" | "gf";
   author: Types.ObjectId;
   score: number;
   createdAt: Date;
@@ -36,14 +36,14 @@ const definitionSchema = new Schema<IDefinitionDocument>(
       type: String,
       required: true,
       trim: true,
-      maxlength: 1500,
+      maxlength: 300,
     },
     example: {
       type: String,
       trim: true,
-      maxlength: 500,
+      maxlength: 100,
     },
-    language: {
+    translation: {
       type: String,
       default: "fr",
       enum: ["fr", "gf"],

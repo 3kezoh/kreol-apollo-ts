@@ -2,14 +2,18 @@ import { logger } from "@config/winston";
 import dotenv from "dotenv";
 import { existsSync } from "fs";
 
-const PATH = ".env.example";
+const { env } = process;
+
+export const { NODE_ENV } = env;
+
+const PATH = process.env.NODE_ENV === "development" ? ".env.local" : ".env.test";
 
 if (existsSync(PATH)) {
   dotenv.config({ path: PATH });
   logger.info(`Using ${PATH} file to supply environment variables`);
 }
 
-const { env } = process;
+export const { PORT } = env;
 
 export const cookie = {
   name: env.COOKIE_NAME,
@@ -33,8 +37,6 @@ export const jwrt = {
   secret: env.JWRT_SECRET,
   expiration: env.JWRT_EXPIRATION ?? "7d",
 } as const;
-
-export const port = env.PORT;
 
 export const rateLimitOptions = {
   windowMs: env.RATE_LIMIT_WINDOW_MS,

@@ -24,7 +24,7 @@ export type Definition = {
   word: Scalars["String"];
   meaning: Scalars["String"];
   example?: Maybe<Scalars["String"]>;
-  language: Scalars["String"];
+  translation: Scalars["String"];
   author: User;
   score: Scalars["Int"];
   createdAt: Scalars["Date"];
@@ -59,7 +59,7 @@ export type MutationCreateDefinitionArgs = {
   word: Scalars["String"];
   meaning: Scalars["String"];
   example?: Maybe<Scalars["String"]>;
-  language: Scalars["String"];
+  translation: Scalars["String"];
 };
 
 export type MutationDeleteDefinitionArgs = {

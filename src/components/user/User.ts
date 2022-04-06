@@ -2,7 +2,7 @@ import { jwtPayload, jwrtPayload } from "@@components";
 import { jwrt, jwt } from "@config/env";
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { Document, model, Model, Schema, Types } from "mongoose";
+import { Document, model, Model, NativeError, Schema, Types } from "mongoose";
 import mongooseLeanId from "mongoose-lean-id";
 import { v4 } from "uuid";
 
@@ -83,8 +83,11 @@ userSchema.pre<IUserDocument>("save", async function save(next) {
   try {
     if (this.isModified("password")) this.password = await hash(this.password, 10);
     return next();
-  } catch (err) {
-    return next(err);
+  } catch (error) {
+    if (error instanceof NativeError) {
+      return next(error);
+    }
+    throw error;
   }
 });
 

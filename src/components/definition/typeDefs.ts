@@ -6,7 +6,7 @@ export const typeDefs = gql`
     word: String!
     meaning: String!
     example: String
-    language: String!
+    translation: String!
     author: User!
     score: Int!
     createdAt: Date!
@@ -42,7 +42,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    createDefinition(word: String!, meaning: String!, example: String, language: String!): Definition
+    createDefinition(word: String!, meaning: String!, example: String, translation: String!): Definition
       @isAuth(role: USER)
     deleteDefinition(id: ID!): Definition @isAuth(role: USER)
     review(id: ID!): Definition @isAuth(role: ADMIN)

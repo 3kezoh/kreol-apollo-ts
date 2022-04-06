@@ -18,4 +18,10 @@ addAliases({
   "@test": join(__dirname, "utils", "test"),
 });
 
+import { populate } from "./database/populate";
+
+if (process.env.NODE_ENV === "test") {
+  populate();
+}
+
 import "@bin/www";

@@ -7,7 +7,7 @@ export const GET_DEFINITIONS = gql`
       word
       meaning
       example
-      language
+      translation
       score
       action
       createdAt

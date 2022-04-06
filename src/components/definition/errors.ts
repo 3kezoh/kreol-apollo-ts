@@ -26,7 +26,7 @@ export const MEANING = { EMPTY: "MEANING_EMPTY", TOO_LONG: "MEANING_TOO_LONG" } 
 export const EXAMPLE = { TOO_LONG: "EXAMPLE_TOO_LONG" } as const;
 
 /**
- * LANGUAGE
+ * TRANSLATION
  */
 
-export const LANGUAGE = { FR_GF: "LANGUAGE_FR_GF" } as const;
+export const TRANSLATION = { FR_GF: "TRANSLATION_FR_GF" } as const;
